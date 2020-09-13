@@ -32,16 +32,16 @@
       <div class="icon">
          <mat-form-field class="form__group form__group-icon">
             <mat-label>Иконка</mat-label>
-            <input matInput />
+            <input matInput formControlName="icon" />
          </mat-form-field>
          <button mat-raised-button type="button" (click)="file.click()">
             Выбрать
          </button>
          <input
-            formControlName="icon"
             type="file"
             [style.display]="'none'"
             #file
+            (change)="onChangeFile($event.target.files)"
          />
       </div>
    </div>
