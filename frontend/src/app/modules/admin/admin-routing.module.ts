@@ -1,3 +1,4 @@
+import { OrdersShowComponent } from './components/orders-show/orders-show.component';
 import { ExchangesShowComponent } from './components/exchanges-show/exchanges-show.component';
 import { CurrenciesShowComponent } from './components/currencies-show/currencies-show.component';
 import { AdminComponent } from './components/admin/admin.component';
@@ -21,6 +22,10 @@ const routes: Routes = [
          {
             path: 'exchanges-show',
             component: ExchangesShowComponent,
+         },
+         {
+            path: 'orders-show',
+            component: OrdersShowComponent,
          },
       ],
    },

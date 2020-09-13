@@ -6,9 +6,10 @@ import { AdminComponent } from './components/admin/admin.component';
 import { AdminSideMenuComponent } from './components/admin-side-menu/admin-side-menu.component';
 import { CurrenciesShowComponent } from './components/currencies-show/currencies-show.component';
 import { ExchangesShowComponent } from './components/exchanges-show/exchanges-show.component';
+import { OrdersShowComponent } from './components/orders-show/orders-show.component';
 
 @NgModule({
-  declarations: [AdminComponent, AdminSideMenuComponent, CurrenciesShowComponent, ExchangesShowComponent],
+  declarations: [AdminComponent, AdminSideMenuComponent, CurrenciesShowComponent, ExchangesShowComponent, OrdersShowComponent],
   imports: [AdminRoutingModule, SharedModule],
 })
 export class AdminModule {}
