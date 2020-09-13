@@ -7,9 +7,10 @@ import { AdminSideMenuComponent } from './components/admin-side-menu/admin-side-
 import { CurrenciesShowComponent } from './components/currencies-show/currencies-show.component';
 import { ExchangesShowComponent } from './components/exchanges-show/exchanges-show.component';
 import { OrdersShowComponent } from './components/orders-show/orders-show.component';
+import { AdminPageHeaderComponent } from './components/admin-page-header/admin-page-header.component';
 
 @NgModule({
-  declarations: [AdminComponent, AdminSideMenuComponent, CurrenciesShowComponent, ExchangesShowComponent, OrdersShowComponent],
+  declarations: [AdminComponent, AdminSideMenuComponent, CurrenciesShowComponent, ExchangesShowComponent, OrdersShowComponent, AdminPageHeaderComponent],
   imports: [AdminRoutingModule, SharedModule],
 })
 export class AdminModule {}
