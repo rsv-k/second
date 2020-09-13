@@ -22,6 +22,12 @@ export class AdminComponent implements OnInit {
       'orders-show': {
          title: 'Заявки на обмен',
       },
+      'currencies-create': {
+         title: 'Добавить валюту',
+      },
+      'exchanges-create': {
+         title: 'Добавить направление обмена',
+      },
    };
 
    constructor(private router: Router) {}

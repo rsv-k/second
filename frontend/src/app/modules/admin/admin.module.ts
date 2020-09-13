@@ -8,9 +8,11 @@ import { CurrenciesShowComponent } from './components/currencies-show/currencies
 import { ExchangesShowComponent } from './components/exchanges-show/exchanges-show.component';
 import { OrdersShowComponent } from './components/orders-show/orders-show.component';
 import { AdminPageHeaderComponent } from './components/admin-page-header/admin-page-header.component';
+import { CurrenciesCreateComponent } from './components/currencies-create/currencies-create.component';
+import { ExchangesCreateComponent } from './components/exchanges-create/exchanges-create.component';
 
 @NgModule({
-  declarations: [AdminComponent, AdminSideMenuComponent, CurrenciesShowComponent, ExchangesShowComponent, OrdersShowComponent, AdminPageHeaderComponent],
+  declarations: [AdminComponent, AdminSideMenuComponent, CurrenciesShowComponent, ExchangesShowComponent, OrdersShowComponent, AdminPageHeaderComponent, CurrenciesCreateComponent, ExchangesCreateComponent],
   imports: [AdminRoutingModule, SharedModule],
 })
 export class AdminModule {}

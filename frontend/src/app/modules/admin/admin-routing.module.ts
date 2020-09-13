@@ -4,6 +4,8 @@ import { CurrenciesShowComponent } from './components/currencies-show/currencies
 import { AdminComponent } from './components/admin/admin.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ExchangesCreateComponent } from './components/exchanges-create/exchanges-create.component';
+import { CurrenciesCreateComponent } from './components/currencies-create/currencies-create.component';
 
 const routes: Routes = [
    {
@@ -20,8 +22,16 @@ const routes: Routes = [
             component: CurrenciesShowComponent,
          },
          {
+            path: 'currencies-create',
+            component: CurrenciesCreateComponent,
+         },
+         {
             path: 'exchanges-show',
             component: ExchangesShowComponent,
+         },
+         {
+            path: 'exchanges-create',
+            component: ExchangesCreateComponent,
          },
          {
             path: 'orders-show',

@@ -2,7 +2,12 @@
    <nav class="admin-page-header__nav">
       <h2 class="admin-page-header__title">{{ title }}</h2>
 
-      <button *ngIf="linkTo" mat-button class="admin-page-header__button">
+      <button
+         *ngIf="linkTo"
+         mat-button
+         class="admin-page-header__button"
+         [routerLink]="['./', linkTo]"
+      >
          <mat-icon>add</mat-icon>
          <span class="admin-page-header__text">Добавить</span>
       </button>
