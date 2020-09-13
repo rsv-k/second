@@ -10,9 +10,19 @@ import { OrdersShowComponent } from './components/orders-show/orders-show.compon
 import { AdminPageHeaderComponent } from './components/admin-page-header/admin-page-header.component';
 import { CurrenciesCreateComponent } from './components/currencies-create/currencies-create.component';
 import { ExchangesCreateComponent } from './components/exchanges-create/exchanges-create.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AdminComponent, AdminSideMenuComponent, CurrenciesShowComponent, ExchangesShowComponent, OrdersShowComponent, AdminPageHeaderComponent, CurrenciesCreateComponent, ExchangesCreateComponent],
-  imports: [AdminRoutingModule, SharedModule],
+   declarations: [
+      AdminComponent,
+      AdminSideMenuComponent,
+      CurrenciesShowComponent,
+      ExchangesShowComponent,
+      OrdersShowComponent,
+      AdminPageHeaderComponent,
+      CurrenciesCreateComponent,
+      ExchangesCreateComponent,
+   ],
+   imports: [AdminRoutingModule, SharedModule, ReactiveFormsModule],
 })
 export class AdminModule {}

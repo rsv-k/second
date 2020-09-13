@@ -1,1 +1,50 @@
-<p>currencies-create works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Строка индетификатор</mat-label>
+         <input matInput formControlName="stringId" />
+      </mat-form-field>
+
+      <mat-form-field class="form__group">
+         <mat-label>Код валюты по стандарту ISO 4217</mat-label>
+         <input matInput formControlName="currencyCode" />
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Резерв</mat-label>
+         <input matInput formControlName="reserve" />
+      </mat-form-field>
+
+      <mat-form-field class="form__group">
+         <mat-label>Платежные Реквизиты</mat-label>
+         <input matInput formControlName="card" />
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Название</mat-label>
+         <input matInput formControlName="name" />
+      </mat-form-field>
+
+      <div class="icon">
+         <mat-form-field class="form__group form__group-icon">
+            <mat-label>Иконка</mat-label>
+            <input matInput />
+         </mat-form-field>
+         <button mat-raised-button type="button" (click)="file.click()">
+            Выбрать
+         </button>
+         <input
+            formControlName="icon"
+            type="file"
+            [style.display]="'none'"
+            #file
+         />
+      </div>
+   </div>
+
+   <button mat-raised-button color="accent">Сохранить</button>
+</form>
