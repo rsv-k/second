@@ -13,7 +13,8 @@ const initialState: State = {
          stringId: 'Advanced Cash RUB',
          card: '1234123412341234',
          reserve: 25000,
-         icon: 'test',
+         icon:
+            'https://images.unsplash.com/photo-1600493504591-aa1849716b36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
          currencyCode: 'RUB',
       },
    ],
