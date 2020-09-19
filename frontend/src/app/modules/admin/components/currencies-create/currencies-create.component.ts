@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import * as CurrencyActions from '../../store/actions/currency.actions';
 
 @Component({
    selector: 'app-currencies-create',
@@ -12,7 +14,7 @@ export class CurrenciesCreateComponent implements OnInit {
 
    private icon: ArrayBuffer;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
-   constructor() {}
+   constructor(private store: Store) {}
 
    ngOnInit(): void {
       this.form = new FormGroup({
@@ -30,6 +32,8 @@ export class CurrenciesCreateComponent implements OnInit {
    onSubmit(): void {
       const formData = new FormData();
       formData.append('image', this.file);
+
+      this.store.dispatch(new CurrencyActions.AddCurrency(this.form.value));
 
       this.formGroupDirective.reset();
    }
