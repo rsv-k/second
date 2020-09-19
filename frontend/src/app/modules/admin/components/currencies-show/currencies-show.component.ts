@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
 import * as CurrencyActions from '../../store/actions/currency.actions';
+import * as fromCurrency from '../../store/reducers/currency.reducer';
 
 @Component({
    selector: 'app-currencies-show',
@@ -14,9 +15,7 @@ export class CurrenciesShowComponent implements OnInit {
    currencies$: Observable<Currency[]>;
    displayedColumns = ['name', 'reserve', 'card', 'edit', 'delete'];
 
-   constructor(
-      private store: Store<{ currency: { currencies: Currency[] } }>
-   ) {}
+   constructor(private store: Store<fromCurrency.AppState>) {}
 
    ngOnInit(): void {
       this.currencies$ = this.store

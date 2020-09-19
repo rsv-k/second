@@ -5,6 +5,10 @@ export interface State {
    currencies: Currency[];
 }
 
+export interface AppState {
+   currency: State;
+}
+
 const initialState: State = {
    currencies: [
       {
