@@ -1,3 +1,4 @@
+import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -33,7 +34,12 @@ export class CurrenciesCreateComponent implements OnInit {
       const formData = new FormData();
       formData.append('image', this.file);
 
-      this.store.dispatch(new CurrencyActions.AddCurrency(this.form.value));
+      const currency: Currency = {
+         ...this.form.value,
+         icon:
+            'https://images.unsplash.com/photo-1600195076446-435ebd85d816?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
+      };
+      this.store.dispatch(new CurrencyActions.AddCurrency(currency));
 
       this.formGroupDirective.reset();
    }
