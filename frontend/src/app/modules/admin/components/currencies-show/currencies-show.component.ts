@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
+import * as CurrencyActions from '../../store/actions/currency.actions';
 
 @Component({
    selector: 'app-currencies-show',
@@ -21,5 +22,9 @@ export class CurrenciesShowComponent implements OnInit {
       this.currencies$ = this.store
          .select('currency')
          .pipe(pluck('currencies'));
+   }
+
+   onDeleteCurrency(id: string): void {
+      this.store.dispatch(new CurrencyActions.DeleteCurrency(id));
    }
 }
