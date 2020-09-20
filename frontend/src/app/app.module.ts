@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-import { currencyReducer } from './modules/admin/store/reducers/currency.reducer';
+import * as fromApp from './store/index';
 
 @NgModule({
    declarations: [AppComponent],
@@ -14,7 +14,7 @@ import { currencyReducer } from './modules/admin/store/reducers/currency.reducer
       BrowserModule,
       AppRoutingModule,
       BrowserAnimationsModule,
-      StoreModule.forRoot({ currency: currencyReducer }),
+      StoreModule.forRoot(fromApp.appReducers),
       CoreModule,
    ],
    providers: [],
