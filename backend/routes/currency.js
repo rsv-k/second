@@ -5,5 +5,6 @@ const multerMiddleware = require('../middlewares/multer');
 
 router.post('', multerMiddleware, currencyController.createCurrency);
 router.get('', currencyController.getCurrencies);
+router.delete('/:id', currencyController.deleteCurrency);
 
 module.exports = router;
