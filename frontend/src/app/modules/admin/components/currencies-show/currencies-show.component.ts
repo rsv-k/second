@@ -32,6 +32,6 @@ export class CurrenciesShowComponent implements OnInit {
    }
 
    onDeleteCurrency(id: string): void {
-      this.store.dispatch(new CurrencyActions.DeleteCurrency(id));
+      this.store.dispatch(new CurrencyActions.DeleteCurrencyStart(id));
    }
 }

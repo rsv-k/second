@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const ENDPOINT_URL = 'currency';
+const ENDPOINT_URL = 'currency/';
 
 @Injectable({
    providedIn: 'root',
@@ -14,7 +14,7 @@ export class CurrencyService {
 
    getCurrencies(): Observable<Currency[]> {
       return this.http
-         .get<{ msg: string; currencies: any[] }>('/api/currency')
+         .get<{ msg: string; currencies: any[] }>('/api/' + ENDPOINT_URL)
          .pipe(
             map((response) => {
                return response.currencies.map((c) => {
@@ -37,6 +37,20 @@ export class CurrencyService {
 
       return this.http
          .post<{ msg: string; currency: any }>('/api/' + ENDPOINT_URL, formData)
+         .pipe(
+            map((response) => {
+               const currency = response.currency;
+               currency.id = currency._id;
+               delete currency._id;
+
+               return currency;
+            })
+         );
+   }
+
+   deleteCurrency(id: string): Observable<Currency> {
+      return this.http
+         .delete<{ msg: string; currency: any }>('/api/' + ENDPOINT_URL + id)
          .pipe(
             map((response) => {
                const currency = response.currency;

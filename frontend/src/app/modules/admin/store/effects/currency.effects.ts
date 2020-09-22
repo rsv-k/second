@@ -42,6 +42,23 @@ export class CurrencyEffects {
       )
    );
 
+   deleteCurrency$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(CurrencyActions.DELETE_CURRENCY_START),
+         mergeMap((data: CurrencyActions.DeleteCurrencyStart) =>
+            this.currencyService.deleteCurrency(data.payload).pipe(
+               map(
+                  (currency: Currency) =>
+                     new CurrencyActions.DeleteCurrencySuccess(currency.id)
+               ),
+               catchError((error) =>
+                  of(new CurrencyActions.DeleteCurrencyFail(error.message))
+               )
+            )
+         )
+      )
+   );
+
    constructor(
       private actions$: Actions,
       private currencyService: CurrencyService
