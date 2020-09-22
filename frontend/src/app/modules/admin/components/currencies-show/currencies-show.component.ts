@@ -2,7 +2,7 @@ import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { pluck, tap } from 'rxjs/operators';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as fromApp from '../../../../store/index';
 
@@ -14,16 +14,21 @@ import * as fromApp from '../../../../store/index';
 export class CurrenciesShowComponent implements OnInit {
    currencies$: Observable<Currency[]>;
    displayedColumns = ['name', 'reserve', 'card', 'edit', 'delete'];
+   errorMessage: string;
 
    constructor(private store: Store<fromApp.AppState>) {}
 
    ngOnInit(): void {
-      this.store.select('currency').subscribe((data) => console.log(data));
       this.store.dispatch(new CurrencyActions.LoadCurrencies());
 
-      // this.currencies$ = this.store
-      //    .select('currency')
-      //    .pipe(pluck('currencies'));
+      this.currencies$ = this.store.select('currency').pipe(
+         tap((data) => {
+            if (data.currenciesFetchError) {
+               this.errorMessage = 'Валюты пока отсутствуют';
+            }
+         }),
+         pluck('currencies')
+      );
    }
 
    onDeleteCurrency(id: string): void {
