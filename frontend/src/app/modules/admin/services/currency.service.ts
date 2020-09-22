@@ -12,8 +12,18 @@ const ENDPOINT_URL = 'currency';
 export class CurrencyService {
    constructor(private http: HttpClient) {}
 
-   getCurrencies() {
-      return this.http.get('https://api.github.com/users');
+   getCurrencies(): Observable<Currency[]> {
+      return this.http
+         .get<{ msg: string; currencies: any[] }>('/api/currency')
+         .pipe(
+            map((response) => {
+               return response.currencies.map((c) => {
+                  c.id = c._id;
+                  delete c._id;
+                  return c;
+               });
+            })
+         );
    }
 
    createCurrency(currency: Currency): Observable<Currency> {
@@ -29,11 +39,11 @@ export class CurrencyService {
          .post<{ msg: string; currency: any }>('/api/' + ENDPOINT_URL, formData)
          .pipe(
             map((response) => {
-               return response.currency.map((c) => {
-                  c.id = c._id;
-                  delete c._id;
-                  return c;
-               });
+               const currency = response.currency;
+               currency.id = currency._id;
+               delete currency._id;
+
+               return currency;
             })
          );
    }
