@@ -1,4 +1,5 @@
 const Currency = require('../models/currency');
+const fileHelper = require('../utils/file');
 
 exports.createCurrency = async (req, res, next) => {
    try {
@@ -52,6 +53,7 @@ exports.deleteCurrency = async (req, res, next) => {
 
       const currency = await Currency.findById(req.params.id);
       await currency.remove();
+      fileHelper.deleteFile(currency.icon);
 
       res.status(200).json({ msg: 'Currency successfully deleted', currency });
    } catch (err) {
