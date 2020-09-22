@@ -38,7 +38,9 @@ export class LoadCurrencies implements Action {
 export class CurrenciesLoadSuccess implements Action {
    readonly type = CURRENCIES_LOAD_SUCCESS;
 
-   constructor(public payload: Currency[]) {}
+   constructor(
+      public payload: { currencies: Currency[]; currenciesAmount: number }
+   ) {}
 }
 
 export class CurrenciesLoadFail implements Action {

@@ -1,6 +1,11 @@
 <header class="admin-page-header">
    <nav class="admin-page-header__nav">
-      <h2 class="admin-page-header__title">{{ title }}</h2>
+      <h2
+         class="admin-page-header__title"
+         matBadge="{{ currenciesAmount$ | async }}"
+      >
+         {{ title }}
+      </h2>
 
       <button
          *ngIf="linkTo"

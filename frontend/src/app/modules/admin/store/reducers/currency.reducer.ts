@@ -6,6 +6,7 @@ export interface State {
    currenciesFetchError: string;
    currencyCreateError: string;
    currencyDeleteError: string;
+   currenciesAmount: number;
 }
 
 const initialState: State = {
@@ -13,6 +14,7 @@ const initialState: State = {
    currenciesFetchError: null,
    currencyCreateError: null,
    currencyDeleteError: null,
+   currenciesAmount: 0,
 };
 
 export function currencyReducer(
@@ -29,6 +31,7 @@ export function currencyReducer(
          return {
             ...state,
             currencies: [...state.currencies, action.payload],
+            currenciesAmount: state.currenciesAmount + 1,
          };
       case CurrencyActions.ADD_CURRENCY_FAIL:
          return {
@@ -40,7 +43,8 @@ export function currencyReducer(
          return {
             ...state,
             currenciesFetchError: null,
-            currencies: [...action.payload],
+            currencies: [...action.payload.currencies],
+            currenciesAmount: action.payload.currenciesAmount,
          };
       case CurrencyActions.LOAD_CURRENCIES:
          return {
@@ -66,6 +70,7 @@ export function currencyReducer(
             currencies: state.currencies.filter(
                (currency) => currency.id !== action.payload
             ),
+            currenciesAmount: state.currenciesAmount - 1,
          };
       case CurrencyActions.DELETE_CURRENCY_FAIL:
          return {

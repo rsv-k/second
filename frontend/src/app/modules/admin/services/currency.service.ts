@@ -12,16 +12,24 @@ const ENDPOINT_URL = 'currency/';
 export class CurrencyService {
    constructor(private http: HttpClient) {}
 
-   getCurrencies(): Observable<Currency[]> {
+   getCurrencies(): Observable<{
+      currencies: Currency[];
+      currenciesAmount: number;
+   }> {
       return this.http
-         .get<{ msg: string; currencies: any[] }>('/api/' + ENDPOINT_URL)
+         .get<{ msg: string; currencies: any[]; currenciesAmount: number }>(
+            '/api/' + ENDPOINT_URL
+         )
          .pipe(
             map((response) => {
-               return response.currencies.map((c) => {
-                  c.id = c._id;
-                  delete c._id;
-                  return c;
-               });
+               return {
+                  currencies: response.currencies.map((c) => {
+                     c.id = c._id;
+                     delete c._id;
+                     return c;
+                  }),
+                  currenciesAmount: response.currenciesAmount,
+               };
             })
          );
    }
