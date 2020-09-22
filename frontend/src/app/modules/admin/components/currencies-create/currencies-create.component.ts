@@ -40,7 +40,7 @@ export class CurrenciesCreateComponent implements OnInit {
          icon:
             'https://images.unsplash.com/photo-1600195076446-435ebd85d816?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
       };
-      this.store.dispatch(new CurrencyActions.AddCurrency(currency));
+      this.store.dispatch(new CurrencyActions.AddCurrencyStart(currency));
 
       this.formGroupDirective.reset();
    }

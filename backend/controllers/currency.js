@@ -14,7 +14,7 @@ exports.createCurrency = async (req, res, next) => {
       // })
 
       res.status(201).json({ msg: "currency created successfully" });
-   } catch (error) {
+   } catch (err) {
       const error = new Error("Internal server error");
 
       next(error);

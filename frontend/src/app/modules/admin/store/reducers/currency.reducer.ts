@@ -4,11 +4,13 @@ import * as CurrencyActions from '../actions/currency.actions';
 export interface State {
    currencies: Currency[];
    currenciesFetchError: string;
+   currencyCreateError: string;
 }
 
 const initialState: State = {
    currencies: [],
    currenciesFetchError: null,
+   currencyCreateError: null,
 };
 
 export function currencyReducer(
@@ -16,10 +18,20 @@ export function currencyReducer(
    action: CurrencyActions.Actions
 ): State {
    switch (action.type) {
-      case CurrencyActions.ADD_CURRENCY:
+      case CurrencyActions.ADD_CURRENCY_START:
+         return {
+            ...state,
+            currencyCreateError: null,
+         };
+      case CurrencyActions.ADD_CURRENCY_SUCCESS:
          return {
             ...state,
             currencies: [...state.currencies, action.payload],
+         };
+      case CurrencyActions.ADD_CURRENCY_FAIL:
+         return {
+            ...state,
+            currencyCreateError: action.payload,
          };
       case CurrencyActions.DELETE_CURRENCY:
          return {
