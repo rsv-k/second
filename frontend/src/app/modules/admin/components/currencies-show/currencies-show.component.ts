@@ -18,9 +18,12 @@ export class CurrenciesShowComponent implements OnInit {
    constructor(private store: Store<fromApp.AppState>) {}
 
    ngOnInit(): void {
-      this.currencies$ = this.store
-         .select('currency')
-         .pipe(pluck('currencies'));
+      this.store.select('currency').subscribe((data) => console.log(data));
+      this.store.dispatch(new CurrencyActions.LoadCurrencies());
+
+      // this.currencies$ = this.store
+      //    .select('currency')
+      //    .pipe(pluck('currencies'));
    }
 
    onDeleteCurrency(id: string): void {

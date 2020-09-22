@@ -3,31 +3,12 @@ import * as CurrencyActions from '../actions/currency.actions';
 
 export interface State {
    currencies: Currency[];
+   currenciesFetchError: string;
 }
 
 const initialState: State = {
-   currencies: [
-      {
-         id: '1',
-         name: 'ADV-RUB',
-         stringId: 'Advanced Cash RUB',
-         card: '1234123412341234',
-         reserve: 25000,
-         icon:
-            'https://images.unsplash.com/photo-1600493504591-aa1849716b36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-         currencyCode: 'RUB',
-      },
-      {
-         id: '2',
-         name: 'ADV-EUR',
-         stringId: 'Advanced Cash EUR',
-         card: '1234123412341234',
-         reserve: 1000,
-         icon:
-            'https://images.unsplash.com/photo-1600493504591-aa1849716b36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-         currencyCode: 'EUR',
-      },
-   ],
+   currencies: [],
+   currenciesFetchError: null,
 };
 
 export function currencyReducer(
@@ -44,6 +25,23 @@ export function currencyReducer(
          return {
             ...state,
             currencies: state.currencies.filter((c) => c.id !== action.payload),
+         };
+      case CurrencyActions.CURRENCIES_LOAD_SUCCESS:
+         return {
+            ...state,
+            currenciesFetchError: null,
+            currencies: [...action.payload],
+         };
+      case CurrencyActions.LOAD_CURRENCIES:
+         return {
+            ...state,
+            currenciesFetchError: null,
+         };
+      case CurrencyActions.CURRENCIES_LOAD_FAIL:
+         return {
+            ...state,
+            currencies: [],
+            currenciesFetchError: action.payload,
          };
       default:
          return state;

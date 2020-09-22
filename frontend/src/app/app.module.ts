@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import * as fromApp from './store/index';
+import { EffectsModule } from '@ngrx/effects';
+import { CurrencyEffects } from './modules/admin/store/effects/currency.effects';
 
 @NgModule({
    declarations: [AppComponent],
@@ -15,6 +17,7 @@ import * as fromApp from './store/index';
       AppRoutingModule,
       BrowserAnimationsModule,
       StoreModule.forRoot(fromApp.appReducers),
+      EffectsModule.forRoot([CurrencyEffects]),
       CoreModule,
    ],
    providers: [],

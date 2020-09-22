@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class CurrencyService {
    constructor(private http: HttpClient) {}
 
-   test() {
-      return this.http.get('https://api.github.com/users');
+   getCurrencies() {
+      return this.http.get('https://api.github.com/userss');
    }
 }
