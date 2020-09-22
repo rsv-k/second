@@ -2,21 +2,23 @@ const Currency = require("../models/currency");
 
 exports.createCurrency = async (req, res, next) => {
    try {
-      if (!req.body) {
+      const body = JSON.parse(req.body.data);
+      if (Object.keys(body).length === 0) {
          const error = new Error("Incomplete data");
          error.statusCode = 422;
-         return next(500);
+         return next(error);
       }
 
-      console.log(req.body);
-      // const currency = new Currency({
-      //    ...req.body
-      // })
+      const currency = new Currency({
+         ...body,
+         icon: req.file.path,
+      });
 
-      res.status(201).json({ msg: "currency created successfully" });
+      await currency.save();
+
+      res.status(201).json({ msg: "currency created successfully", currency });
    } catch (err) {
       const error = new Error("Internal server error");
-
       next(error);
    }
 };
