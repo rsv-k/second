@@ -1,17 +1,19 @@
 const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 
-app.get("/api/test", (req, res) => {
-   res.status(200).json({
-      data: [
-         {
-            name: "hello",
-         },
-      ],
-   });
-});
+if (!process.env.production) {
+   require("dotenv").config();
+}
 
 app.listen(PORT, () => {
    console.log("server is running");
 });
+
+mongoose
+   .connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+   })
+   .then(() => console.log("db connected"));
