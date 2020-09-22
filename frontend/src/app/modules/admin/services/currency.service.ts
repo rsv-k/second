@@ -1,6 +1,8 @@
+import { map } from 'rxjs/operators';
 import { Currency } from './../../../core/models/currency.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const ENDPOINT_URL = 'currency';
 
@@ -14,7 +16,25 @@ export class CurrencyService {
       return this.http.get('https://api.github.com/users');
    }
 
-   createCurrency(currency: Currency) {
-      return this.http.post('/api/' + ENDPOINT_URL, currency);
+   createCurrency(currency: Currency): Observable<Currency> {
+      const data = {
+         ...currency,
+      };
+      delete data.icon;
+      const formData = new FormData();
+      formData.append('icon', currency.icon);
+      formData.append('data', JSON.stringify(data));
+
+      return this.http
+         .post<{ msg: string; currency: any }>('/api/' + ENDPOINT_URL, formData)
+         .pipe(
+            map((response) => {
+               return response.currency.map((c) => {
+                  c.id = c._id;
+                  delete c._id;
+                  return c;
+               });
+            })
+         );
    }
 }

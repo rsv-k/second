@@ -14,7 +14,6 @@ export class CurrenciesCreateComponent implements OnInit {
    form: FormGroup;
    file: File;
 
-   private icon: ArrayBuffer;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
    constructor(private store: Store<fromApp.AppState>) {}
 
@@ -32,14 +31,11 @@ export class CurrenciesCreateComponent implements OnInit {
    }
 
    onSubmit(): void {
-      const formData = new FormData();
-      formData.append('image', this.file);
-
       const currency: Currency = {
          ...this.form.value,
-         icon:
-            'https://images.unsplash.com/photo-1600195076446-435ebd85d816?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
+         icon: this.file,
       };
+
       this.store.dispatch(new CurrencyActions.AddCurrencyStart(currency));
 
       this.formGroupDirective.reset();

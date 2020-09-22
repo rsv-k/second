@@ -4,6 +4,6 @@ export interface Currency {
    currencyCode: string;
    reserve: number;
    card: string;
-   icon: string;
+   icon: string | File;
    name: string;
 }
