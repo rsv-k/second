@@ -6,5 +6,5 @@ export interface AppState {
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
-   currency: fromCurrency.currencyReducer,
+   currency: fromCurrency.reducer,
 };

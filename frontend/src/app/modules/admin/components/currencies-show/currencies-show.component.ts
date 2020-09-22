@@ -19,7 +19,7 @@ export class CurrenciesShowComponent implements OnInit {
    constructor(private store: Store<fromApp.AppState>) {}
 
    ngOnInit(): void {
-      this.store.dispatch(new CurrencyActions.LoadCurrencies());
+      this.store.dispatch(CurrencyActions.currenciesLoadStart());
 
       this.currencies$ = this.store.select('currency').pipe(
          tap((data) => {
@@ -32,6 +32,6 @@ export class CurrenciesShowComponent implements OnInit {
    }
 
    onDeleteCurrency(id: string): void {
-      this.store.dispatch(new CurrencyActions.DeleteCurrencyStart(id));
+      this.store.dispatch(CurrencyActions.deleteCurrencyStart({ payload: id }));
    }
 }

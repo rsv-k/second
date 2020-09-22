@@ -36,7 +36,9 @@ export class CurrenciesCreateComponent implements OnInit {
          icon: this.file,
       };
 
-      this.store.dispatch(new CurrencyActions.AddCurrencyStart(currency));
+      this.store.dispatch(
+         CurrencyActions.addCurrencyStart({ payload: currency })
+      );
 
       this.formGroupDirective.reset();
    }

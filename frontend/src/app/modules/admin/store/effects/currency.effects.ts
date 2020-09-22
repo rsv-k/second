@@ -10,17 +10,20 @@ import { of } from 'rxjs';
 export class CurrencyEffects {
    loadCurrencies$ = createEffect(() =>
       this.actions$.pipe(
-         ofType(CurrencyActions.LOAD_CURRENCIES),
-         mergeMap((data) =>
+         ofType(CurrencyActions.currenciesLoadStart),
+         mergeMap((action) =>
             this.currencyService.getCurrencies().pipe(
                map(
                   (currencies: {
                      currencies: Currency[];
                      currenciesAmount: number;
-                  }) => new CurrencyActions.CurrenciesLoadSuccess(currencies)
+                  }) =>
+                     CurrencyActions.currenciesLoadSuccess({
+                        payload: currencies,
+                     })
                ),
                catchError((error) =>
-                  of(new CurrencyActions.CurrenciesLoadFail(error.message))
+                  of(CurrencyActions.currenciesLoadFail(error.message))
                )
             )
          )
@@ -29,15 +32,16 @@ export class CurrencyEffects {
 
    createCurrency$ = createEffect(() =>
       this.actions$.pipe(
-         ofType(CurrencyActions.ADD_CURRENCY_START),
-         mergeMap((data: CurrencyActions.AddCurrencyStart) =>
-            this.currencyService.createCurrency(data.payload).pipe(
-               map(
-                  (currency: Currency) =>
-                     new CurrencyActions.AddCurrencySuccess(currency)
+         ofType(CurrencyActions.addCurrencyStart),
+         mergeMap((action) =>
+            this.currencyService.createCurrency(action.payload).pipe(
+               map((currency: Currency) =>
+                  CurrencyActions.addCurrencySuccess({ payload: currency })
                ),
                catchError((error) =>
-                  of(new CurrencyActions.CurrenciesLoadFail(error.message))
+                  of(
+                     CurrencyActions.addCurrencyFail({ payload: error.message })
+                  )
                )
             )
          )
@@ -46,15 +50,20 @@ export class CurrencyEffects {
 
    deleteCurrency$ = createEffect(() =>
       this.actions$.pipe(
-         ofType(CurrencyActions.DELETE_CURRENCY_START),
-         mergeMap((data: CurrencyActions.DeleteCurrencyStart) =>
-            this.currencyService.deleteCurrency(data.payload).pipe(
-               map(
-                  (currency: Currency) =>
-                     new CurrencyActions.DeleteCurrencySuccess(currency.id)
+         ofType(CurrencyActions.deleteCurrencyStart),
+         mergeMap((action) =>
+            this.currencyService.deleteCurrency(action.payload).pipe(
+               map((currency: Currency) =>
+                  CurrencyActions.deleteCurrencySuccess({
+                     payload: currency.id,
+                  })
                ),
                catchError((error) =>
-                  of(new CurrencyActions.DeleteCurrencyFail(error.message))
+                  of(
+                     CurrencyActions.deleteCurrencyFail({
+                        payload: error.message,
+                     })
+                  )
                )
             )
          )
