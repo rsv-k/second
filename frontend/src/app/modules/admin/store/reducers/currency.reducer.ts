@@ -6,17 +6,13 @@ export const FEATURE_NAME = 'admin';
 
 export interface State {
    currencies: Currency[];
-   currenciesFetchError: string;
-   currencyCreateError: string;
-   currencyDeleteError: string;
+   currencyError: string;
    currenciesAmount: number;
 }
 
 const initialState: State = {
    currencies: [],
-   currenciesFetchError: null,
-   currencyCreateError: null,
-   currencyDeleteError: null,
+   currencyError: null,
    currenciesAmount: 0,
 };
 
@@ -31,10 +27,6 @@ const currencyReducer = createReducer(
       currencies: [...state.currencies, payload],
       currenciesAmount: state.currenciesAmount + 1,
    })),
-   on(CurrencyActions.addCurrencyFail, (state, { payload }) => ({
-      ...state,
-      currencyCreateError: payload,
-   })),
 
    on(CurrencyActions.currenciesLoadStart, (state) => ({
       ...state,
@@ -44,10 +36,6 @@ const currencyReducer = createReducer(
       ...state,
       currencies: [...payload.currencies],
       currenciesAmount: payload.currenciesAmount,
-   })),
-   on(CurrencyActions.currenciesLoadFail, (state, { payload }) => ({
-      ...state,
-      currenciesFetchError: payload,
    })),
 
    on(CurrencyActions.deleteCurrencyStart, (state) => ({
@@ -61,9 +49,10 @@ const currencyReducer = createReducer(
       ),
       currenciesAmount: state.currenciesAmount - 1,
    })),
-   on(CurrencyActions.deleteCurrencyFail, (state, { payload }) => ({
+
+   on(CurrencyActions.currencyError, (state, { payload }) => ({
       ...state,
-      currencyDeleteError: payload,
+      currencyError: payload,
    }))
 );
 

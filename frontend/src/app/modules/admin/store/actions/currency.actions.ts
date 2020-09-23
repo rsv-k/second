@@ -9,10 +9,6 @@ export const addCurrencySuccess = createAction(
    '[CURRENCY] ADD SUCCESS',
    props<{ payload: Currency }>()
 );
-export const addCurrencyFail = createAction(
-   '[CURRENCY] ADD FAIL',
-   props<{ payload: string }>()
-);
 
 export const currenciesLoadStart = createAction(
    '[CURRENCY] LOAD CURRENCIES START'
@@ -20,10 +16,6 @@ export const currenciesLoadStart = createAction(
 export const currenciesLoadSuccess = createAction(
    '[CURRENCY] LOAD SUCCESS',
    props<{ payload: { currencies: Currency[]; currenciesAmount: number } }>()
-);
-export const currenciesLoadFail = createAction(
-   '[CURRENCY] LOAD FAIL',
-   props<{ payload: string }>()
 );
 
 export const deleteCurrencyStart = createAction(
@@ -34,7 +26,8 @@ export const deleteCurrencySuccess = createAction(
    '[CURRENCY] DELETE SUCCESS',
    props<{ payload: string }>()
 );
-export const deleteCurrencyFail = createAction(
-   '[CURRENCY] DELETE FAIL',
+
+export const currencyError = createAction(
+   '[CURRENCY] ERROR',
    props<{ payload: string }>()
 );

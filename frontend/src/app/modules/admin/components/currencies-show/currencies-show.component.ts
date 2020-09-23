@@ -23,7 +23,7 @@ export class CurrenciesShowComponent implements OnInit {
 
       this.currencies$ = this.store.select('admin').pipe(
          tap((data) => {
-            if (data.currenciesFetchError) {
+            if (data.currencyError) {
                this.errorMessage = 'Валюты пока отсутствуют';
             }
          }),

@@ -23,7 +23,7 @@ export class CurrencyEffects {
                      })
                ),
                catchError((error) =>
-                  of(CurrencyActions.currenciesLoadFail(error.message))
+                  of(CurrencyActions.currencyError(error.message))
                )
             )
          )
@@ -39,9 +39,7 @@ export class CurrencyEffects {
                   CurrencyActions.addCurrencySuccess({ payload: currency })
                ),
                catchError((error) =>
-                  of(
-                     CurrencyActions.addCurrencyFail({ payload: error.message })
-                  )
+                  of(CurrencyActions.currencyError({ payload: error.message }))
                )
             )
          )
@@ -60,7 +58,7 @@ export class CurrencyEffects {
                ),
                catchError((error) =>
                   of(
-                     CurrencyActions.deleteCurrencyFail({
+                     CurrencyActions.currencyError({
                         payload: error.message,
                      })
                   )
