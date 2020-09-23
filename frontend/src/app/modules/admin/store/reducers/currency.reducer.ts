@@ -2,6 +2,8 @@ import { Currency } from './../../../../core/models/currency.model';
 import * as CurrencyActions from '../actions/currency.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 
+export const FEATURE_NAME = 'admin';
+
 export interface State {
    currencies: Currency[];
    currenciesFetchError: string;

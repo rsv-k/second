@@ -17,7 +17,7 @@ export class AdminPageHeaderComponent implements OnInit {
    constructor(private store: Store<fromApp.AppState>) {}
 
    ngOnInit(): void {
-      this.currenciesAmount$ = this.store.select('currency').pipe(
+      this.currenciesAmount$ = this.store.select('admin').pipe(
          pluck('currenciesAmount'),
          map((num) => {
             return num > 0 && this.title === 'Валюты' ? num : null;

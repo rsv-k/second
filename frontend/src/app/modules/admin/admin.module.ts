@@ -11,6 +11,10 @@ import { AdminPageHeaderComponent } from './components/admin-page-header/admin-p
 import { CurrenciesCreateComponent } from './components/currencies-create/currencies-create.component';
 import { ExchangesCreateComponent } from './components/exchanges-create/exchanges-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import * as fromCurrency from './store/reducers/currency.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CurrencyEffects } from './store/effects/currency.effects';
 
 @NgModule({
    declarations: [
@@ -23,6 +27,12 @@ import { ReactiveFormsModule } from '@angular/forms';
       CurrenciesCreateComponent,
       ExchangesCreateComponent,
    ],
-   imports: [AdminRoutingModule, SharedModule, ReactiveFormsModule],
+   imports: [
+      AdminRoutingModule,
+      SharedModule,
+      ReactiveFormsModule,
+      StoreModule.forFeature(fromCurrency.FEATURE_NAME, fromCurrency.reducer),
+      EffectsModule.forFeature([CurrencyEffects]),
+   ],
 })
 export class AdminModule {}

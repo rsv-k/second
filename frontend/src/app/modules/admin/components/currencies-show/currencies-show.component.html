@@ -1,5 +1,5 @@
 <table
-   *ngIf="!errorMessage; else message"
+   *ngIf="!errorMessage && (currencies$ | async).length > 0; else message"
    mat-table
    [dataSource]="currencies$ | async"
    class="table"

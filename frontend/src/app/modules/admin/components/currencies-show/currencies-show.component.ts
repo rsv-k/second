@@ -21,7 +21,7 @@ export class CurrenciesShowComponent implements OnInit {
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
 
-      this.currencies$ = this.store.select('currency').pipe(
+      this.currencies$ = this.store.select('admin').pipe(
          tap((data) => {
             if (data.currenciesFetchError) {
                this.errorMessage = 'Валюты пока отсутствуют';
