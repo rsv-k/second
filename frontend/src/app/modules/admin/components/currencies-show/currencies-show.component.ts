@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -16,7 +17,10 @@ export class CurrenciesShowComponent implements OnInit {
    displayedColumns = ['name', 'reserve', 'card', 'edit', 'delete'];
    errorMessage: string;
 
-   constructor(private store: Store<fromApp.AppState>) {}
+   constructor(
+      private store: Store<fromApp.AppState>,
+      private router: Router
+   ) {}
 
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
@@ -33,5 +37,9 @@ export class CurrenciesShowComponent implements OnInit {
 
    onDeleteCurrency(id: string): void {
       this.store.dispatch(CurrencyActions.deleteCurrencyStart({ payload: id }));
+   }
+
+   onEditCurrency(id: string): void {
+      this.router.navigate(['admin-dashboard/currencies-edit', id]);
    }
 }

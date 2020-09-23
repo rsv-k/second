@@ -1,3 +1,4 @@
+import { CurrencyResolver } from './../../core/resolvers/currency-resolver.service';
 import { OrdersShowComponent } from './components/orders-show/orders-show.component';
 import { ExchangesShowComponent } from './components/exchanges-show/exchanges-show.component';
 import { CurrenciesShowComponent } from './components/currencies-show/currencies-show.component';
@@ -24,6 +25,13 @@ const routes: Routes = [
          {
             path: 'currencies-create',
             component: CurrenciesCreateComponent,
+         },
+         {
+            path: 'currencies-edit/:id',
+            component: CurrenciesCreateComponent,
+            resolve: {
+               currency: CurrencyResolver,
+            },
          },
          {
             path: 'exchanges-show',

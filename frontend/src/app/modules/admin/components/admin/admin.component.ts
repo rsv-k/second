@@ -28,6 +28,9 @@ export class AdminComponent implements OnInit {
       'exchanges-create': {
          title: 'Добавить направление обмена',
       },
+      'currencies-edit': {
+         title: 'Редактировать валюту',
+      },
    };
 
    constructor(private router: Router) {}
@@ -41,7 +44,8 @@ export class AdminComponent implements OnInit {
    }
 
    private updatePageData(): void {
-      const page = this.router.url.split('/').pop();
+      const arr = this.router.url.split('/');
+      const page = arr.length === 4 ? arr[2] : arr.pop();
 
       this.title = this.pagesData[page].title;
       this.linkTo = this.pagesData[page].linkTo;
