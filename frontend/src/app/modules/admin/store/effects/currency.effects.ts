@@ -68,6 +68,22 @@ export class CurrencyEffects {
       )
    );
 
+   loadCurrency$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(CurrencyActions.currencyLoadStart),
+         mergeMap((action) =>
+            this.currencyService.getCurrency(action.payload).pipe(
+               map((currency: Currency) =>
+                  CurrencyActions.currencyLoadSuccess({ payload: currency })
+               ),
+               catchError((error) =>
+                  of(CurrencyActions.currencyError({ payload: error.message }))
+               )
+            )
+         )
+      )
+   );
+
    constructor(
       private actions$: Actions,
       private currencyService: CurrencyService

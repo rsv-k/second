@@ -6,4 +6,5 @@ export interface Currency {
    card: string;
    icon: string | File;
    name: string;
+   __v?: number;
 }

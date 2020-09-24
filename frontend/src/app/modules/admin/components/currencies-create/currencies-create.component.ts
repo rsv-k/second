@@ -16,6 +16,7 @@ export class CurrenciesCreateComponent implements OnInit {
    file: File;
 
    private mode = 'create';
+   private currencyToEdit: Currency;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
    constructor(
       private store: Store<fromApp.AppState>,
@@ -23,11 +24,13 @@ export class CurrenciesCreateComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.route.data.subscribe((data) => {
+      this.initiForm();
+      this.route.data.subscribe((data: { currency: Currency }) => {
+         this.currencyToEdit = data.currency;
          this.mode = 'edit';
+         this.setForm(data.currency);
       });
 
-      this.initiForm();
       this.form.get('icon').disable();
    }
 
@@ -41,9 +44,23 @@ export class CurrenciesCreateComponent implements OnInit {
          this.store.dispatch(
             CurrencyActions.addCurrencyStart({ payload: currency })
          );
+      } else if (this.mode === 'edit') {
+         console.log(this.isNecessaryToUpdate());
       }
 
       this.formGroupDirective.reset();
+   }
+
+   private isNecessaryToUpdate(): boolean {
+      const currency = this.form.value;
+
+      for (const key in currency) {
+         if (this.currencyToEdit[key] !== currency[key]) {
+            return true;
+         }
+      }
+
+      return false;
    }
 
    onChangeFile(files: FileList): void {
@@ -62,6 +79,12 @@ export class CurrenciesCreateComponent implements OnInit {
          card: new FormControl(''),
          icon: new FormControl(''),
          name: new FormControl(''),
+      });
+   }
+
+   private setForm(currency: Currency): void {
+      this.form.patchValue({
+         ...currency,
       });
    }
 }

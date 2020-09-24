@@ -8,12 +8,14 @@ export interface State {
    currencies: Currency[];
    currencyError: string;
    currenciesAmount: number;
+   currency: Currency;
 }
 
 const initialState: State = {
    currencies: [],
    currencyError: null,
    currenciesAmount: 0,
+   currency: null,
 };
 
 const currencyReducer = createReducer(
@@ -48,6 +50,14 @@ const currencyReducer = createReducer(
          (currency) => currency.id !== payload
       ),
       currenciesAmount: state.currenciesAmount - 1,
+   })),
+
+   on(CurrencyActions.currencyLoadStart, (state) => ({
+      ...state,
+   })),
+   on(CurrencyActions.currencyLoadSuccess, (state, { payload }) => ({
+      ...state,
+      currency: payload,
    })),
 
    on(CurrencyActions.currencyError, (state, { payload }) => ({

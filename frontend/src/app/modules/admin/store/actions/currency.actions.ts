@@ -27,6 +27,16 @@ export const deleteCurrencySuccess = createAction(
    props<{ payload: string }>()
 );
 
+export const currencyLoadStart = createAction(
+   '[CURRENCY] LOAD CURRENCY START',
+   props<{ payload: string }>()
+);
+
+export const currencyLoadSuccess = createAction(
+   '[CURRENCY] LOAD CURRENCY SUCCESS',
+   props<{ payload: Currency }>()
+);
+
 export const currencyError = createAction(
    '[CURRENCY] ERROR',
    props<{ payload: string }>()

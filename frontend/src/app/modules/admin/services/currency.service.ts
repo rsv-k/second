@@ -34,6 +34,20 @@ export class CurrencyService {
          );
    }
 
+   getCurrency(id: string): Observable<Currency> {
+      return this.http
+         .get<{ msg: string; currency: any }>('/api/currency/' + id)
+         .pipe(
+            map((response) => {
+               const currency = response.currency;
+               currency.id = currency._id;
+               delete currency._id;
+
+               return currency;
+            })
+         );
+   }
+
    createCurrency(currency: Currency): Observable<Currency> {
       const data = {
          ...currency,
