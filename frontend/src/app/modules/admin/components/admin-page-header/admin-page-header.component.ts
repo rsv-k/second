@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
-import { Component, Input, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
 import * as fromApp from '../../../../store/index';
-import { filter, map, pluck } from 'rxjs/operators';
+import { filter, pluck } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -11,9 +11,11 @@ import { NavigationEnd, Router } from '@angular/router';
    styleUrls: ['./admin-page-header.component.scss'],
 })
 export class AdminPageHeaderComponent implements OnInit {
-   @Input() title: string;
-   @Input() linkTo: string;
-   currenciesAmount$: Observable<number>;
+   title: string;
+   linkTo: string;
+   amountsProperty: string;
+
+   amount$: Observable<number>;
 
    private pagesData = {
       'exchanges-show': {
@@ -23,6 +25,7 @@ export class AdminPageHeaderComponent implements OnInit {
       'currencies-show': {
          title: 'Валюты',
          linkTo: 'currencies-create',
+         amountsProperty: 'currenciesAmount',
       },
       'orders-show': {
          title: 'Заявки на обмен',
@@ -44,19 +47,14 @@ export class AdminPageHeaderComponent implements OnInit {
 
    ngOnInit(): void {
       this.updatePageData();
+      this.initAmount();
 
       this.router.events
          .pipe(filter((e) => e instanceof NavigationEnd))
          .subscribe(() => {
             this.updatePageData();
+            this.initAmount();
          });
-
-      this.currenciesAmount$ = this.store.select('admin').pipe(
-         pluck('currenciesAmount'),
-         map((num) => {
-            return num > 0 && this.title === 'Валюты' ? num : null;
-         })
-      );
    }
 
    private updatePageData(): void {
@@ -65,5 +63,14 @@ export class AdminPageHeaderComponent implements OnInit {
 
       this.title = this.pagesData[page].title;
       this.linkTo = this.pagesData[page].linkTo;
+      this.amountsProperty = this.pagesData[page].amountsProperty;
+   }
+
+   private initAmount(): void {
+      this.amount$ = this.store.pipe(
+         select(fromApp.selectAdminAmounts),
+         filter(() => !!this.amountsProperty),
+         pluck(this.amountsProperty)
+      );
    }
 }

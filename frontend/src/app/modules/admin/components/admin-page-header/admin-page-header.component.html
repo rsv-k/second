@@ -2,7 +2,8 @@
    <nav class="admin-page-header__nav">
       <h2
          class="admin-page-header__title"
-         matBadge="{{ currenciesAmount$ | async }}"
+         matBadge="{{ amount$ | async }}"
+         [matBadgeHidden]="!amountsProperty"
       >
          {{ title }}
       </h2>
