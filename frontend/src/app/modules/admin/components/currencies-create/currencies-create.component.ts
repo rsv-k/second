@@ -45,15 +45,21 @@ export class CurrenciesCreateComponent implements OnInit {
             CurrencyActions.addCurrencyStart({ payload: currency })
          );
       } else if (this.mode === 'edit') {
-         console.log(this.isNecessaryToUpdate());
+         if (!this.isNecessaryToUpdate(currency)) {
+            return alert('nothing to update');
+         }
+
+         this.store.dispatch(
+            CurrencyActions.currencyUpdateStart({
+               payload: { id: this.currencyToEdit.id, currency },
+            })
+         );
       }
 
       this.formGroupDirective.reset();
    }
 
-   private isNecessaryToUpdate(): boolean {
-      const currency = this.form.value;
-
+   private isNecessaryToUpdate(currency): boolean {
       for (const key in currency) {
          if (this.currencyToEdit[key] !== currency[key]) {
             return true;

@@ -84,6 +84,30 @@ export class CurrencyEffects {
       )
    );
 
+   updateCurrency$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(CurrencyActions.currencyUpdateStart),
+         mergeMap((action) =>
+            this.currencyService
+               .updateCurrency(action.payload.id, action.payload.currency)
+               .pipe(
+                  map((currency: Currency) =>
+                     CurrencyActions.currencyUpdateSuccess({
+                        payload: currency,
+                     })
+                  ),
+                  catchError((error) =>
+                     of(
+                        CurrencyActions.currencyError({
+                           payload: error.message,
+                        })
+                     )
+                  )
+               )
+         )
+      )
+   );
+
    constructor(
       private actions$: Actions,
       private currencyService: CurrencyService

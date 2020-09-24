@@ -61,11 +61,11 @@ export class CurrencyService {
          .post<{ msg: string; currency: any }>('/api/' + ENDPOINT_URL, formData)
          .pipe(
             map((response) => {
-               const currency = response.currency;
-               currency.id = currency._id;
-               delete currency._id;
+               const c = response.currency;
+               c.id = c._id;
+               delete c._id;
 
-               return currency;
+               return c;
             })
          );
    }
@@ -80,6 +80,31 @@ export class CurrencyService {
                delete currency._id;
 
                return currency;
+            })
+         );
+   }
+
+   updateCurrency(id: string, currency: any): Observable<Currency> {
+      const data = {
+         ...currency,
+      };
+      delete data.icon;
+      const formData = new FormData();
+      formData.append('icon', currency.icon);
+      formData.append('data', JSON.stringify(data));
+
+      return this.http
+         .put<{ msg: string; currency: any }>(
+            '/api/' + ENDPOINT_URL + id,
+            formData
+         )
+         .pipe(
+            map((response) => {
+               const c = response.currency;
+               c.id = c._id;
+               delete c._id;
+
+               return c;
             })
          );
    }

@@ -60,6 +60,17 @@ const currencyReducer = createReducer(
       currency: payload,
    })),
 
+   on(CurrencyActions.currencyUpdateStart, (state) => ({
+      ...state,
+   })),
+
+   on(CurrencyActions.currencyUpdateSuccess, (state, { payload }) => ({
+      ...state,
+      currencies: state.currencies.map((currency) =>
+         currency.id === payload.id ? payload : currency
+      ),
+   })),
+
    on(CurrencyActions.currencyError, (state, { payload }) => ({
       ...state,
       currencyError: payload,

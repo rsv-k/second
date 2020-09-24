@@ -37,6 +37,16 @@ export const currencyLoadSuccess = createAction(
    props<{ payload: Currency }>()
 );
 
+export const currencyUpdateStart = createAction(
+   '[CURRENCY] UPDATE CURRENCY START',
+   props<{ payload: { id: string; currency: any } }>()
+);
+
+export const currencyUpdateSuccess = createAction(
+   '[CURRENCY] UPDATE CURRENCY SUCCESS',
+   props<{ payload: Currency }>()
+);
+
 export const currencyError = createAction(
    '[CURRENCY] ERROR',
    props<{ payload: string }>()
