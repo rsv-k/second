@@ -1,9 +1,9 @@
-import { SharedModule } from './../../shared/shared.module';
 import { NgModule } from '@angular/core';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './components/admin/admin.component';
 import { AdminSideMenuComponent } from './components/admin-side-menu/admin-side-menu.component';
+import { SharedModule } from './../../shared/shared.module';
 import { CurrenciesShowComponent } from './components/currencies-show/currencies-show.component';
 import { ExchangesShowComponent } from './components/exchanges-show/exchanges-show.component';
 import { OrdersShowComponent } from './components/orders-show/orders-show.component';
@@ -15,6 +15,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromCurrency from './store/reducers/currency.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CurrencyEffects } from './store/effects/currency.effects';
+import { CurrencyService } from './services/currency.service';
 
 @NgModule({
    declarations: [
@@ -34,5 +35,6 @@ import { CurrencyEffects } from './store/effects/currency.effects';
       StoreModule.forFeature(fromCurrency.FEATURE_NAME, fromCurrency.reducer),
       EffectsModule.forFeature([CurrencyEffects]),
    ],
+   providers: [CurrencyService],
 })
 export class AdminModule {}

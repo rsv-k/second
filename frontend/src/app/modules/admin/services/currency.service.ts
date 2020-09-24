@@ -1,14 +1,12 @@
-import { map } from 'rxjs/operators';
-import { Currency } from './../../../core/models/currency.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Currency } from './../../../core/models/currency.model';
 import { Observable } from 'rxjs';
 
 const ENDPOINT_URL = 'currency/';
 
-@Injectable({
-   providedIn: 'root',
-})
+@Injectable()
 export class CurrencyService {
    constructor(private http: HttpClient) {}
 
