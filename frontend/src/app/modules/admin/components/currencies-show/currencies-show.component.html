@@ -1,5 +1,5 @@
 <table
-   *ngIf="!errorMessage && (currencies$ | async).length > 0; else message"
+   *ngIf="(currencies$ | async).length > 0; else message"
    mat-table
    [dataSource]="currencies$ | async"
    class="table"
@@ -62,5 +62,5 @@
 </table>
 
 <ng-template #message>
-   <p>Валюты пока отсутствуют</p>
+   <p class="no-data-message">Валюты пока отсутствуют</p>
 </ng-template>

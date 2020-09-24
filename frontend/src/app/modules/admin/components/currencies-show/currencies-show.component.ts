@@ -15,7 +15,6 @@ import * as fromApp from '../../../../store/index';
 export class CurrenciesShowComponent implements OnInit {
    currencies$: Observable<Currency[]>;
    displayedColumns = ['name', 'reserve', 'card', 'edit', 'delete'];
-   errorMessage: string;
 
    constructor(
       private store: Store<fromApp.AppState>,
@@ -25,14 +24,7 @@ export class CurrenciesShowComponent implements OnInit {
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
 
-      this.currencies$ = this.store.select('admin').pipe(
-         tap((data) => {
-            if (data.currencyError) {
-               this.errorMessage = 'Валюты пока отсутствуют';
-            }
-         }),
-         pluck('currencies')
-      );
+      this.currencies$ = this.store.select('admin').pipe(pluck('currencies'));
    }
 
    onDeleteCurrency(id: string): void {
