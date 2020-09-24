@@ -55,12 +55,40 @@ exports.deleteCurrency = async (req, res, next) => {
       }
 
       const currency = await Currency.findById(req.params.id);
+      if (!currency) {
+         const error = new Error('Not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
       await currency.remove();
       fileHelper.deleteFile(currency.icon);
 
       res.status(200).json({ msg: 'Currency successfully deleted', currency });
    } catch (err) {
       const error = new Error('Internal server error');
+      next(error);
+   }
+};
+
+exports.getCurrency = async (req, res, next) => {
+   try {
+      if (!req.params.id) {
+         const error = new Error('Currency not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const currency = await Currency.findById(req.params.id);
+      if (!currency) {
+         const error = new Error('Not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+      res.status(200).json({ msg: 'Currency fetched successfully', currency });
+   } catch (err) {
+      const error = new Error('Internal server error');
+
       next(error);
    }
 };
