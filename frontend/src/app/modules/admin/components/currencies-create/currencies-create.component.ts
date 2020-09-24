@@ -27,7 +27,10 @@ export class CurrenciesCreateComponent implements OnInit {
       this.initiForm();
       this.route.data.subscribe((data: { currency: Currency }) => {
          this.currencyToEdit = data.currency;
-         this.mode = 'edit';
+         if (this.currencyToEdit) {
+            this.mode = 'edit';
+         }
+
          this.setForm(data.currency);
       });
 
@@ -59,7 +62,7 @@ export class CurrenciesCreateComponent implements OnInit {
       this.formGroupDirective.reset();
    }
 
-   private isNecessaryToUpdate(currency): boolean {
+   private isNecessaryToUpdate(currency: Currency): boolean {
       for (const key in currency) {
          if (this.currencyToEdit[key] !== currency[key]) {
             return true;
