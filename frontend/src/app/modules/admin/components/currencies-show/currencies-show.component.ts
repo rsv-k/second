@@ -1,9 +1,9 @@
 import { Router } from '@angular/router';
 import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck, tap } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as fromApp from '../../../../store/index';
 
@@ -24,7 +24,8 @@ export class CurrenciesShowComponent implements OnInit {
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
 
-      this.currencies$ = this.store.select('admin').pipe(pluck('currencies'));
+      this.currencies$ = this.store.pipe(select(fromApp.selectAdminCurrencies));
+      // this.currencies$ = this.store.select('admin').pipe(pluck('currencies'));
    }
 
    onDeleteCurrency(id: string): void {
