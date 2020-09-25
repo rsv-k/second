@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import * as fromApp from '../../../../store/index';
-import { filter, pluck } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AdminPageHeaderComponent implements OnInit {
    title: string;
    linkTo: string;
-   amountsProperty: string;
+   showAmount: boolean;
 
    amount$: Observable<number>;
 
@@ -25,7 +25,7 @@ export class AdminPageHeaderComponent implements OnInit {
       'currencies-show': {
          title: 'Валюты',
          linkTo: 'currencies-create',
-         amountsProperty: 'currenciesAmount',
+         showAmount: true,
       },
       'orders-show': {
          title: 'Заявки на обмен',
@@ -63,14 +63,13 @@ export class AdminPageHeaderComponent implements OnInit {
 
       this.title = this.pagesData[page].title;
       this.linkTo = this.pagesData[page].linkTo;
-      this.amountsProperty = this.pagesData[page].amountsProperty;
+      this.showAmount = this.pagesData[page].showAmount;
    }
 
    private initAmount(): void {
       this.amount$ = this.store.pipe(
-         select(fromApp.selectAdminAmounts),
-         filter(() => !!this.amountsProperty),
-         pluck(this.amountsProperty)
+         select(fromApp.selectAdminDocumentsAmount),
+         filter(() => this.showAmount)
       );
    }
 }

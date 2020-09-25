@@ -13,9 +13,9 @@ export const selectAdminCurrencies = createSelector(
    selectAdmin,
    (state: fromCurrency.State) => state.currencies
 );
-export const selectAdminAmounts = createSelector(
+export const selectAdminDocumentsAmount = createSelector(
    selectAdmin,
-   (state: fromCurrency.State) => state.amounts
+   (state: fromCurrency.State) => state.currentDocumentsAmount
 );
 
 export const appReducers: ActionReducerMap<AppState> = {
