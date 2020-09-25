@@ -1,1 +1,89 @@
-<p>exchanges-create works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Отдаваемая валюта</mat-label>
+         <input
+            matInput
+            [matAutocomplete]="givenCurrency"
+            formControlName="givenCurrency"
+         />
+
+         <mat-autocomplete
+            #givenCurrency="matAutocomplete"
+            (optionSelected)="onGivenCurrencySelect($event.option.value)"
+         >
+            <mat-option
+               *ngFor="let currency of currencies$ | async"
+               [value]="currency"
+            >
+               {{ currency.name }}
+            </mat-option>
+         </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="form__group">
+         <mat-label>Получаемая валюта</mat-label>
+         <input
+            matInput
+            [matAutocomplete]="takenCurrency"
+            formControlName="takenCurrency"
+         />
+
+         <mat-autocomplete
+            #takenCurrency="matAutocomplete"
+            (optionSelected)="onTakenCurrencySelect($event.option.value)"
+         >
+            <mat-option
+               *ngFor="let currency of currencies$ | async"
+               [value]="currency"
+            >
+               {{ currency.name }}
+            </mat-option>
+         </mat-autocomplete>
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Курс отдаваемой валюты</mat-label>
+         <input matInput formControlName="givenCurrencyCourse" />
+      </mat-form-field>
+
+      <mat-form-field class="form__group">
+         <mat-label>Курс получаемой валюты</mat-label>
+         <input matInput formControlName="takenCurrencyCourse" />
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Макс. сумма отдаваемой валюты</mat-label>
+         <input matInput formControlName="maxGivenCurrency" />
+      </mat-form-field>
+
+      <mat-form-field class="form__group">
+         <mat-label>Макс. сумма получаемой валюты</mat-label>
+         <input matInput formControlName="maxTakenCurrency" />
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Мин. сумма отдаваемой валюты</mat-label>
+         <input matInput formControlName="minGivenCurrency" />
+      </mat-form-field>
+
+      <mat-form-field class="form__group">
+         <mat-label>Мин. сумма получаемой валюты</mat-label>
+         <input matInput formControlName="minTakenCurrency" />
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group form__group--comment">
+         <mat-label>Комментарий</mat-label>
+         <textarea matInput formControlName="comment"></textarea>
+      </mat-form-field>
+   </div>
+   <button mat-raised-button color="accent">Создать</button>
+</form>

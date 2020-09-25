@@ -6,6 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
    exports: [
@@ -16,6 +17,7 @@ import { MatBadgeModule } from '@angular/material/badge';
       MatInputModule,
       MatTableModule,
       MatBadgeModule,
+      MatAutocompleteModule,
    ],
 })
 export class MaterialModule {}
