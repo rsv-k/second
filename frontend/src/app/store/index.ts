@@ -1,9 +1,11 @@
 import { ActionReducerMap, createSelector } from '@ngrx/store';
 import * as fromCurrency from '../modules/admin/store/reducers/currency.reducer';
+import * as fromExchange from '../modules/admin/store/reducers/exchange.reducer';
 import { createFeatureSelector } from '@ngrx/store';
 
 export interface AppState {
-   admin: fromCurrency.State;
+   currency: fromCurrency.State;
+   exchange: fromExchange.State;
 }
 
 export const selectAdmin = createFeatureSelector<AppState, fromCurrency.State>(
@@ -19,5 +21,6 @@ export const selectAdminDocumentsAmount = createSelector(
 );
 
 export const appReducers: ActionReducerMap<AppState> = {
-   admin: fromCurrency.reducer,
+   currency: fromCurrency.reducer,
+   exchange: fromExchange.reducer,
 };

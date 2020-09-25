@@ -2,7 +2,7 @@ import { Currency } from './../../../../core/models/currency.model';
 import * as CurrencyActions from '../actions/currency.actions';
 import { createReducer, on, Action } from '@ngrx/store';
 
-export const FEATURE_NAME = 'admin';
+export const FEATURE_NAME = 'currency';
 
 export interface State {
    currencies: Currency[];
@@ -22,7 +22,7 @@ const currencyReducer = createReducer(
    initialState,
    on(CurrencyActions.addCurrencyStart, (state) => ({
       ...state,
-      currencyCreateError: null,
+      currencyError: null,
    })),
    on(CurrencyActions.addCurrencySuccess, (state, { payload }) => ({
       ...state,
@@ -31,7 +31,7 @@ const currencyReducer = createReducer(
 
    on(CurrencyActions.currenciesLoadStart, (state) => ({
       ...state,
-      currenciesFetchError: null,
+      currencyError: null,
    })),
    on(CurrencyActions.currenciesLoadSuccess, (state, { payload }) => ({
       ...state,
@@ -41,7 +41,7 @@ const currencyReducer = createReducer(
 
    on(CurrencyActions.deleteCurrencyStart, (state) => ({
       ...state,
-      currencyDeleteError: null,
+      currencyError: null,
    })),
    on(CurrencyActions.deleteCurrencySuccess, (state, { payload }) => ({
       ...state,
