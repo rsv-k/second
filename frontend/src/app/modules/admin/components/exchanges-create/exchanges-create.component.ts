@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
 import * as fromApp from '../../../../store/index';
 import * as CurrencyActions from '../../store/actions/currency.actions';
+import * as ExchangeActions from '../../store/actions/exchange.actions';
 
 @Component({
    selector: 'app-exchanges-create',
@@ -38,7 +39,9 @@ export class ExchangesCreateComponent implements OnInit {
          takenCurrency: this.takenCurrencyId,
       };
 
-      console.log(exchange);
+      this.store.dispatch(
+         ExchangeActions.addExchangeStart({ payload: exchange })
+      );
       this.formGroupDirective.reset();
    }
 
