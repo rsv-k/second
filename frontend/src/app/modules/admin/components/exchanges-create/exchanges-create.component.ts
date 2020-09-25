@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Exchange } from './../../../../core/models/exchange.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
 import * as fromApp from '../../../../store/index';
 import * as CurrencyActions from '../../store/actions/currency.actions';
@@ -19,6 +20,8 @@ export class ExchangesCreateComponent implements OnInit {
    givenCurrencyId: string;
    takenCurrencyId: string;
 
+   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
+
    constructor(private store: Store<fromApp.AppState>) {}
 
    ngOnInit(): void {
@@ -29,7 +32,14 @@ export class ExchangesCreateComponent implements OnInit {
    }
 
    onSubmit(): void {
-      console.log(this.form.value);
+      const exchange: Exchange = {
+         ...this.form.value,
+         givenCurrency: this.givenCurrencyId,
+         takenCurrency: this.takenCurrencyId,
+      };
+
+      console.log(exchange);
+      this.formGroupDirective.reset();
    }
 
    onGivenCurrencySelect(option: Currency): void {
