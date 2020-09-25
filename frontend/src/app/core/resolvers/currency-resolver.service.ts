@@ -16,7 +16,7 @@ export class CurrencyResolver implements Resolve<any> {
       const id = route.paramMap.get('id');
       this.store.dispatch(CurrencyActions.currencyLoadStart({ payload: id }));
 
-      return this.store.select('admin').pipe(
+      return this.store.select('currency').pipe(
          map((data) => data.currency),
          filter((currency) => !!currency),
          take(1)

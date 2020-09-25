@@ -17,7 +17,23 @@ export class ExchangeEffects {
                   ExchangeActions.addExchangeSuccess({ payload: exchange })
                ),
                catchError((error) =>
-                  of(ExchangeActions.exchangeError(error.message))
+                  of(ExchangeActions.exchangeError({ payload: error.message }))
+               )
+            )
+         )
+      )
+   );
+
+   loadExchanges$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(ExchangeActions.loadExchangesStart),
+         mergeMap(() =>
+            this.exchangeService.getExchanges().pipe(
+               map((exchanges: Exchange[]) =>
+                  ExchangeActions.loadExchangesSuccess({ payload: exchanges })
+               ),
+               catchError((error) =>
+                  of(ExchangeActions.exchangeError({ payload: error.message }))
                )
             )
          )

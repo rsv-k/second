@@ -23,6 +23,20 @@ const exchangeReducer = createReducer(
    on(ExchangeActions.addExchangeSuccess, (state, { payload }) => ({
       ...state,
       exchanges: [...state.exchanges, payload],
+   })),
+
+   on(ExchangeActions.loadExchangesStart, (state) => ({
+      ...state,
+      exchangeError: null,
+   })),
+   on(ExchangeActions.loadExchangesSuccess, (state, { payload }) => ({
+      ...state,
+      exchanges: [...payload],
+   })),
+
+   on(ExchangeActions.exchangeError, (state, { payload }) => ({
+      ...state,
+      exchangeError: payload,
    }))
 );
 

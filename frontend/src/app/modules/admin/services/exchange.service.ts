@@ -28,4 +28,19 @@ export class ExchangeService {
             })
          );
    }
+
+   getExchanges(): Observable<Exchange[]> {
+      return this.http
+         .get<{ msg: string; currencies: any[] }>(ENDPOINT_URL)
+         .pipe(
+            pluck('currencies'),
+            map((currencies) => {
+               return currencies.map((currency) => {
+                  currency.id = currency._id;
+                  delete currency._id;
+                  return currency;
+               });
+            })
+         );
+   }
 }

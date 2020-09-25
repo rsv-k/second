@@ -12,6 +12,8 @@ export class ExchangesShowComponent implements OnInit {
    constructor(private store: Store<fromApp.AppState>) {}
 
    ngOnInit(): void {
+      this.store.dispatch(ExchangeActions.loadExchangesStart());
+
       this.store.select('exchange').subscribe((data) => console.log(data));
    }
 }
