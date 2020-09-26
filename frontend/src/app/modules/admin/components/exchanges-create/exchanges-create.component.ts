@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
-import * as fromApp from '../../../../store/index';
+import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 
@@ -23,11 +23,13 @@ export class ExchangesCreateComponent implements OnInit {
 
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-   constructor(private store: Store<fromApp.AppState>) {}
+   constructor(private store: Store<fromCurrency.AppState>) {}
 
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
-      this.currencies$ = this.store.pipe(select(fromApp.selectAdminCurrencies));
+      this.currencies$ = this.store.pipe(
+         select(fromCurrency.selectAdminCurrencies)
+      );
 
       this.initForm();
    }
@@ -49,7 +51,7 @@ export class ExchangesCreateComponent implements OnInit {
       this.givenCurrencyId = option.id;
       this.form.get('givenCurrency').setValue(option.name);
       this.currencies$ = this.store.pipe(
-         select(fromApp.selectAdminCurrencies),
+         select(fromCurrency.selectAdminCurrencies),
          map((currency) =>
             currency.filter((c) => c.id !== this.givenCurrencyId)
          )
@@ -60,7 +62,7 @@ export class ExchangesCreateComponent implements OnInit {
       this.takenCurrencyId = option.id;
       this.form.get('takenCurrency').setValue(option.name);
       this.currencies$ = this.store.pipe(
-         select(fromApp.selectAdminCurrencies),
+         select(fromCurrency.selectAdminCurrencies),
          map((currency) =>
             currency.filter((c) => c.id !== this.takenCurrencyId)
          )

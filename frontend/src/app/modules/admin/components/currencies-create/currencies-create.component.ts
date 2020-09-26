@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CurrencyActions from '../../store/actions/currency.actions';
-import * as fromApp from '../../../../store/index';
+import * as fromCurrency from '../../store/reducers/currency.reducer';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -19,7 +19,7 @@ export class CurrenciesCreateComponent implements OnInit {
    private currencyToEdit: Currency;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
    constructor(
-      private store: Store<fromApp.AppState>,
+      private store: Store<fromCurrency.AppState>,
       private route: ActivatedRoute
    ) {}
 

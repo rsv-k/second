@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
-import * as fromApp from '../../../../store/index';
+import * as fromCurrency from '../../store/reducers/currency.reducer';
 import { filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -41,7 +41,7 @@ export class AdminPageHeaderComponent implements OnInit {
       },
    };
    constructor(
-      private store: Store<fromApp.AppState>,
+      private store: Store<fromCurrency.AppState>,
       private router: Router
    ) {}
 
@@ -68,7 +68,7 @@ export class AdminPageHeaderComponent implements OnInit {
 
    private initAmount(): void {
       this.amount$ = this.store.pipe(
-         select(fromApp.selectAdminDocumentsAmount),
+         select(fromCurrency.selectAdminDocumentsAmount),
          filter(() => this.showAmount)
       );
    }

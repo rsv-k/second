@@ -3,9 +3,8 @@ import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
 import * as CurrencyActions from '../../store/actions/currency.actions';
-import * as fromApp from '../../../../store/index';
+import * as fromCurrency from '../../store/reducers/currency.reducer';
 
 @Component({
    selector: 'app-currencies-show',
@@ -17,15 +16,16 @@ export class CurrenciesShowComponent implements OnInit {
    displayedColumns = ['name', 'reserve', 'card', 'edit', 'delete'];
 
    constructor(
-      private store: Store<fromApp.AppState>,
+      private store: Store<fromCurrency.AppState>,
       private router: Router
    ) {}
 
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
 
-      this.currencies$ = this.store.pipe(select(fromApp.selectAdminCurrencies));
-      // this.currencies$ = this.store.select('admin').pipe(pluck('currencies'));
+      this.currencies$ = this.store.pipe(
+         select(fromCurrency.selectAdminCurrencies)
+      );
    }
 
    onDeleteCurrency(id: string): void {

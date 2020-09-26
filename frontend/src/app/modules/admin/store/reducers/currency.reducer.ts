@@ -1,17 +1,24 @@
 import { Currency } from './../../../../core/models/currency.model';
 import * as CurrencyActions from '../actions/currency.actions';
-import { createReducer, on, Action } from '@ngrx/store';
+import {
+   createReducer,
+   on,
+   Action,
+   createFeatureSelector,
+   createSelector,
+} from '@ngrx/store';
+import * as fromApp from '../../../../store/index';
 
 export const FEATURE_NAME = 'currency';
 
-export interface State {
+export interface CurrencyModuleState {
    currencies: Currency[];
    currencyError: string;
    currentDocumentsAmount: number;
    currency: Currency;
 }
 
-const initialState: State = {
+const initialState: CurrencyModuleState = {
    currencies: [],
    currencyError: null,
    currentDocumentsAmount: 0,
@@ -76,6 +83,25 @@ const currencyReducer = createReducer(
    }))
 );
 
-export function reducer(state: State, action: Action) {
+export function reducer(
+   state: CurrencyModuleState,
+   action: Action
+): CurrencyModuleState {
    return currencyReducer(state, action);
 }
+
+export interface AppState extends fromApp.AppState {
+   currency: CurrencyModuleState;
+}
+
+export const selectAdmin = createFeatureSelector<AppState, CurrencyModuleState>(
+   FEATURE_NAME
+);
+export const selectAdminCurrencies = createSelector(
+   selectAdmin,
+   (state: CurrencyModuleState) => state.currencies
+);
+export const selectAdminDocumentsAmount = createSelector(
+   selectAdmin,
+   (state: CurrencyModuleState) => state.currentDocumentsAmount
+);

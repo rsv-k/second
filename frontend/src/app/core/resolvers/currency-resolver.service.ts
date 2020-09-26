@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import * as fromApp from '../../store/index';
+import * as fromCurrency from '../../modules/admin/store/reducers/currency.reducer';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as CurrencyActions from '../../modules/admin/store/actions/currency.actions';
@@ -10,7 +10,7 @@ import { filter, map, take } from 'rxjs/operators';
    providedIn: 'root',
 })
 export class CurrencyResolver implements Resolve<any> {
-   constructor(private store: Store<fromApp.AppState>) {}
+   constructor(private store: Store<fromCurrency.AppState>) {}
 
    resolve(route: ActivatedRouteSnapshot): Observable<any> {
       const id = route.paramMap.get('id');
