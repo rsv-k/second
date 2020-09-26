@@ -30,6 +30,16 @@ export const deleteExchangeSuccess = createAction(
    props<{ payload: Exchange }>()
 );
 
+export const loadExchangeStart = createAction(
+   '[EXCHANGE] LOAD EXCHANGE START',
+   props<{ payload: string }>()
+);
+
+export const loadExchangeSuccess = createAction(
+   '[EXCHANGE] LOAD EXCHANGE SUCCESS',
+   props<{ payload: Exchange }>()
+);
+
 export const exchangeError = createAction(
    '[EXCHANGE] ERROR',
    props<{ payload: string }>()

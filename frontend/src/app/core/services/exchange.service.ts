@@ -64,4 +64,17 @@ export class ExchangeService {
             })
          );
    }
+
+   getExchange(id: string): Observable<Exchange> {
+      return this.http
+         .get<{ msg: string; exchange: any }>(ENDPOINT_URL + id)
+         .pipe(
+            map((response) => {
+               const exchange = response.exchange;
+               exchange.id = exchange._id;
+               delete exchange._id;
+               return exchange;
+            })
+         );
+   }
 }

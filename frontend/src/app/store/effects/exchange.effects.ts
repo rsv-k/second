@@ -62,6 +62,22 @@ export class ExchangeEffects {
       )
    );
 
+   loadExchange$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(ExchangeActions.loadExchangeStart),
+         mergeMap((action) =>
+            this.exchangeService.getExchange(action.payload).pipe(
+               map((exchange: Exchange) =>
+                  ExchangeActions.loadExchangeSuccess({ payload: exchange })
+               ),
+               catchError((error) =>
+                  of(ExchangeActions.exchangeError({ payload: error.message }))
+               )
+            )
+         )
+      )
+   );
+
    constructor(
       private exchangeService: ExchangeService,
       private actions$: Actions

@@ -6,11 +6,13 @@ export const FEATURE_NAME = 'exchange';
 
 export interface State {
    exchanges: Exchange[];
+   exchange: Exchange;
    exchangeError: string;
 }
 
 export const initialState: State = {
    exchanges: [],
+   exchange: null,
    exchangeError: null,
 };
 
@@ -40,6 +42,14 @@ const exchangeReducer = createReducer(
    on(ExchangeActions.deleteExchangeSuccess, (state, { payload }) => ({
       ...state,
       exchanges: state.exchanges.filter((ex) => ex.id !== payload.id),
+   })),
+
+   on(ExchangeActions.loadExchangeStart, (state) => ({
+      ...state,
+   })),
+   on(ExchangeActions.loadExchangeSuccess, (state, { payload }) => ({
+      ...state,
+      exchange: payload,
    })),
 
    on(ExchangeActions.exchangeError, (state, { payload }) => ({
