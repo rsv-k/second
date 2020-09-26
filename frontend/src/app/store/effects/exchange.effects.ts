@@ -1,5 +1,5 @@
-import { Exchange } from './../../../../core/models/exchange.model';
-import { ExchangeService } from './../../services/exchange.service';
+import { Exchange } from '../../core/models/exchange.model';
+import { ExchangeService } from '../../modules/admin/services/exchange.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';

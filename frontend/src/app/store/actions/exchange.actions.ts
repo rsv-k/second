@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Exchange } from './../../../../core/models/exchange.model';
+import { Exchange } from '../../core/models/exchange.model';
 
 export const addExchangeStart = createAction(
    '[EXCHANGE] ADD EXCHANGE START',

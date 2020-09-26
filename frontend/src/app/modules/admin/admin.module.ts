@@ -1,4 +1,3 @@
-import { ExchangeEffects } from './store/effects/exchange.effects';
 import { NgModule } from '@angular/core';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -35,7 +34,7 @@ import { ExchangeService } from './services/exchange.service';
       SharedModule,
       ReactiveFormsModule,
       StoreModule.forFeature(fromCurrency.FEATURE_NAME, fromCurrency.reducer),
-      EffectsModule.forFeature([CurrencyEffects, ExchangeEffects]),
+      EffectsModule.forFeature([CurrencyEffects]),
    ],
    providers: [CurrencyService, ExchangeService],
 })

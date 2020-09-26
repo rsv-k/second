@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
 import * as fromApp from '../../../../store/index';
 import * as CurrencyActions from '../../store/actions/currency.actions';
-import * as ExchangeActions from '../../store/actions/exchange.actions';
+import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 
 @Component({
    selector: 'app-exchanges-create',

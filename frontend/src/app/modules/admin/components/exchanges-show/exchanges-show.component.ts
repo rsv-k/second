@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../../store/index';
-import * as ExchangeActions from '../../store/actions/exchange.actions';
+import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 
 @Component({
    selector: 'app-exchanges-show',

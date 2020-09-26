@@ -1,4 +1,4 @@
-import { Exchange } from './../../../../core/models/exchange.model';
+import { Exchange } from '../../core/models/exchange.model';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as ExchangeActions from '../actions/exchange.actions';
 

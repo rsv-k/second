@@ -1,6 +1,6 @@
 import { ActionReducerMap, createSelector } from '@ngrx/store';
 import * as fromCurrency from '../modules/admin/store/reducers/currency.reducer';
-import * as fromExchange from '../modules/admin/store/reducers/exchange.reducer';
+import * as fromExchange from './reducers/exchange.reducer';
 import { createFeatureSelector } from '@ngrx/store';
 
 export interface AppState {
