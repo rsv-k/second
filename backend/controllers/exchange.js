@@ -75,3 +75,26 @@ exports.deleteExchange = async (req, res, next) => {
       next(error);
    }
 };
+
+exports.getExchange = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const exchange = await Exchange.findById(id);
+      if (!exchange) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({ msg: 'Exchange successfully fetched', exchange });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
