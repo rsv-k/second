@@ -13,7 +13,15 @@ import { pluck } from 'rxjs/operators';
 })
 export class ExchangesShowComponent implements OnInit {
    exchanges$: Observable<Exchange[]>;
-   displayedColumns: ['givenCurrency'];
+   test = ['1', '2', '3'];
+   displayedColumns = [
+      'givenCurrency',
+      'takenCurrency',
+      'course',
+      'condition',
+      'edit',
+      'delete',
+   ];
 
    constructor(private store: Store<fromCurrency.AppState>) {}
 

@@ -1,0 +1,83 @@
+<table
+   *ngIf="(exchanges$ | async).length > 0; else message"
+   mat-table
+   [dataSource]="exchanges$ | async"
+   class="table"
+>
+   <ng-container matColumnDef="givenCurrency">
+      <th mat-header-cell *matHeaderCellDef>Отдаваемая валюта</th>
+      <td mat-cell *matCellDef="let exchange">
+         <div class="table__cellWithImg">
+            <div class="img-container">
+               <img
+                  src="{{ exchange.givenCurrency.icon }}"
+                  alt="{{ exchange.givenCurrency.stringId }} logo"
+                  class="img"
+               />
+            </div>
+
+            {{ exchange.givenCurrency.name }}
+         </div>
+      </td>
+   </ng-container>
+
+   <ng-container matColumnDef="takenCurrency">
+      <th mat-header-cell *matHeaderCellDef>Получаемая валюта</th>
+      <td mat-cell *matCellDef="let exchange">
+         <div class="table__cellWithImg">
+            <div class="img-container">
+               <img
+                  src="{{ exchange.takenCurrency.icon }}"
+                  alt="{{ exchange.takenCurrency.stringId }} logo"
+                  class="img"
+               />
+            </div>
+
+            {{ exchange.takenCurrency.name }}
+         </div>
+      </td>
+   </ng-container>
+
+   <ng-container matColumnDef="course">
+      <th mat-header-cell *matHeaderCellDef>Курс обмена</th>
+      <td mat-cell *matCellDef="let exchange">
+         <span class="text">
+            {{ exchange.givenCurrencyCourse }}
+            <mat-icon>arrow_right_alt</mat-icon>
+            {{ exchange.takenCurrencyCourse }}
+         </span>
+      </td>
+   </ng-container>
+
+   <ng-container matColumnDef="condition">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let exchange">
+         <mat-slide-toggle [checked]="exchange.isActive"></mat-slide-toggle>
+      </td>
+   </ng-container>
+
+   <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let currency">
+         <button mat-icon-button color="accent">
+            <mat-icon>edit</mat-icon>
+         </button>
+      </td>
+   </ng-container>
+
+   <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let currency">
+         <button mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+         </button>
+      </td>
+   </ng-container>
+
+   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<ng-template #message>
+   <p class="no-data-message">Валюты пока отсутствуют</p>
+</ng-template>
