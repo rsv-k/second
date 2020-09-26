@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
-import { Exchange } from './../../../core/models/exchange.model';
+import { Exchange } from '../models/exchange.model';
 
 const ENDPOINT_URL = '/api/exchange/';
 
-@Injectable()
+@Injectable({
+   providedIn: 'root',
+})
 export class ExchangeService {
    constructor(private http: HttpClient) {}
 

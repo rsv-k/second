@@ -16,7 +16,6 @@ import * as fromCurrency from './store/reducers/currency.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CurrencyEffects } from './store/effects/currency.effects';
 import { CurrencyService } from './services/currency.service';
-import { ExchangeService } from './services/exchange.service';
 
 @NgModule({
    declarations: [
@@ -36,6 +35,6 @@ import { ExchangeService } from './services/exchange.service';
       StoreModule.forFeature(fromCurrency.FEATURE_NAME, fromCurrency.reducer),
       EffectsModule.forFeature([CurrencyEffects]),
    ],
-   providers: [CurrencyService, ExchangeService],
+   providers: [CurrencyService],
 })
 export class AdminModule {}
