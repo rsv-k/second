@@ -51,4 +51,17 @@ export class ExchangeService {
             })
          );
    }
+
+   deleteExchange(id: string): Observable<Exchange> {
+      return this.http
+         .delete<{ msg: string; exchange: any }>(ENDPOINT_URL + id)
+         .pipe(
+            map((response) => {
+               const exchange = response.exchange;
+               exchange.id = exchange._id;
+               delete exchange._id;
+               return exchange;
+            })
+         );
+   }
 }

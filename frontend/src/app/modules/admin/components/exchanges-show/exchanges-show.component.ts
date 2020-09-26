@@ -30,4 +30,8 @@ export class ExchangesShowComponent implements OnInit {
 
       this.exchanges$ = this.store.select('exchange').pipe(pluck('exchanges'));
    }
+
+   onDeleteExchange(id: string): void {
+      this.store.dispatch(ExchangeActions.deleteExchangeStart({ payload: id }));
+   }
 }

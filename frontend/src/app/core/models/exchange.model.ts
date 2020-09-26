@@ -1,5 +1,6 @@
 import { Currency } from './currency.model';
 export interface Exchange {
+   id?: string;
    givenCurrencyId?: string;
    takenCurrencyId?: string;
    givenCurrency?: Currency;

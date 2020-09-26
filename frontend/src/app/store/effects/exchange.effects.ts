@@ -30,7 +30,29 @@ export class ExchangeEffects {
          mergeMap(() =>
             this.exchangeService.getExchanges().pipe(
                map((exchanges: Exchange[]) =>
-                  ExchangeActions.loadExchangesSuccess({ payload: exchanges })
+                  ExchangeActions.loadExchangesSuccess({
+                     payload: exchanges,
+                  })
+               ),
+               catchError((error) =>
+                  of(
+                     ExchangeActions.exchangeError({
+                        payload: error.message,
+                     })
+                  )
+               )
+            )
+         )
+      )
+   );
+
+   deleteExchange$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(ExchangeActions.deleteExchangeStart),
+         mergeMap((action) =>
+            this.exchangeService.deleteExchange(action.payload).pipe(
+               map((exchange: Exchange) =>
+                  ExchangeActions.deleteExchangeSuccess({ payload: exchange })
                ),
                catchError((error) =>
                   of(ExchangeActions.exchangeError({ payload: error.message }))

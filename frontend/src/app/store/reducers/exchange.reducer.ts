@@ -34,12 +34,20 @@ const exchangeReducer = createReducer(
       exchanges: [...payload],
    })),
 
+   on(ExchangeActions.deleteExchangeStart, (state) => ({
+      ...state,
+   })),
+   on(ExchangeActions.deleteExchangeSuccess, (state, { payload }) => ({
+      ...state,
+      exchanges: state.exchanges.filter((ex) => ex.id !== payload.id),
+   })),
+
    on(ExchangeActions.exchangeError, (state, { payload }) => ({
       ...state,
       exchangeError: payload,
    }))
 );
 
-export function reducer(state: State, action: Action) {
+export function reducer(state: State, action: Action): State {
    return exchangeReducer(state, action);
 }
