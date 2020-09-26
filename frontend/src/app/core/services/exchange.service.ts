@@ -37,10 +37,16 @@ export class ExchangeService {
          .pipe(
             pluck('exchanges'),
             map((exchanges) => {
-               return exchanges.map((exchange) => {
-                  exchange.id = exchange._id;
-                  delete exchange._id;
-                  return exchange;
+               return exchanges.map((ex) => {
+                  ex.id = ex._id;
+                  delete ex._id;
+
+                  ex.givenCurrency.id = ex.givenCurrency._id;
+                  delete ex.givenCurrency._id;
+                  ex.takenCurrency.id = ex.takenCurrency._id;
+                  delete ex.takenCurrency._id;
+
+                  return ex;
                });
             })
          );
