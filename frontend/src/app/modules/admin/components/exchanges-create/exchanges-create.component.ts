@@ -37,8 +37,8 @@ export class ExchangesCreateComponent implements OnInit {
    onSubmit(): void {
       const exchange: Exchange = {
          ...this.form.value,
-         givenCurrency: this.givenCurrencyId,
-         takenCurrency: this.takenCurrencyId,
+         givenCurrencyId: this.givenCurrencyId,
+         takenCurrencyId: this.takenCurrencyId,
       };
 
       this.store.dispatch(
