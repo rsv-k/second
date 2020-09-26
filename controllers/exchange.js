@@ -2,7 +2,9 @@ const Exchange = require('../models/exchange');
 
 exports.getExchanges = async (req, res, next) => {
    try {
-      const exchanges = await Exchange.find({});
+      const exchanges = await Exchange.find({})
+         .populate('givenCurrency')
+         .populate('takenCurrency');
       if (exchanges.length === 0) {
          const error = new Error('Exchanges not found');
          error.statusCode = 404;
