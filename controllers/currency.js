@@ -1,6 +1,7 @@
 const Currency = require('../models/currency');
 const fileHelper = require('../utils/file');
 const mongoose = require('mongoose');
+const mongooseHelper = require('../utils/mongoose');
 
 exports.createCurrency = async (req, res, next) => {
    try {
@@ -50,7 +51,7 @@ exports.getCurrencies = async (req, res, next) => {
 exports.deleteCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongoose.Types.ObjectId.isValid(id)) {
+      if (!mongooseHelper.isValidId(id)) {
          const error = new Error('Not found');
          error.statusCode = 404;
          return next(error);
@@ -75,18 +76,20 @@ exports.deleteCurrency = async (req, res, next) => {
 
 exports.getCurrency = async (req, res, next) => {
    try {
-      if (!req.params.id) {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
          const error = new Error('Currency not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      const currency = await Currency.findById(req.params.id);
+      const currency = await Currency.findById(id);
       if (!currency) {
          const error = new Error('Not found');
          error.statusCode = 404;
          return next(error);
       }
+
       res.status(200).json({ msg: 'Currency fetched successfully', currency });
    } catch (err) {
       const error = new Error('Internal server error');
@@ -99,7 +102,7 @@ exports.updateCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;
       const body = JSON.parse(req.body.data);
-      if (!mongoose.Types.ObjectId.isValid(id)) {
+      if (!mongooseHelper.isValidId(id)) {
          const error = new Error('Currency not found');
          error.statusCode = 404;
          return next(error);

@@ -1,4 +1,5 @@
 const Exchange = require('../models/exchange');
+const mongooseHelper = require('../utils/mongoose');
 
 exports.getExchanges = async (req, res, next) => {
    try {
@@ -43,6 +44,32 @@ exports.createExchange = async (req, res, next) => {
          msg: 'exchange created successfully',
          exchange: exchange.populate('givenCurrency').populate('takenCurrency'),
       });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
+
+exports.deleteExchange = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const exchange = await Exchange.findById(id);
+
+      if (!exchange) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      await exchange.remove();
+
+      res.status(200).json({ msg: 'Exchange deleted successfully', exchange });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
