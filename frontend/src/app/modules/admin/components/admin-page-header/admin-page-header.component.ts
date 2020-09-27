@@ -1,7 +1,4 @@
-import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
-import * as fromCurrency from '../../store/reducers/currency.reducer';
 import { filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -13,9 +10,6 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AdminPageHeaderComponent implements OnInit {
    title: string;
    linkTo: string;
-   showAmount: boolean;
-
-   amount$: Observable<number>;
 
    private pagesData = {
       'exchanges-show': {
@@ -43,20 +37,15 @@ export class AdminPageHeaderComponent implements OnInit {
          title: 'Редактировать направление обмена',
       },
    };
-   constructor(
-      private store: Store<fromCurrency.AppState>,
-      private router: Router
-   ) {}
+   constructor(private router: Router) {}
 
    ngOnInit(): void {
       this.updatePageData();
-      this.initAmount();
 
       this.router.events
          .pipe(filter((e) => e instanceof NavigationEnd))
          .subscribe(() => {
             this.updatePageData();
-            this.initAmount();
          });
    }
 
@@ -66,13 +55,5 @@ export class AdminPageHeaderComponent implements OnInit {
 
       this.title = this.pagesData[page].title;
       this.linkTo = this.pagesData[page].linkTo;
-      this.showAmount = this.pagesData[page].showAmount;
-   }
-
-   private initAmount(): void {
-      this.amount$ = this.store.pipe(
-         select(fromCurrency.selectAdminDocumentsAmount),
-         filter(() => this.showAmount)
-      );
    }
 }

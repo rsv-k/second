@@ -13,14 +13,10 @@ export class CurrencyEffects {
          ofType(CurrencyActions.currenciesLoadStart),
          mergeMap((action) =>
             this.currencyService.getCurrencies().pipe(
-               map(
-                  (currencies: {
-                     currencies: Currency[];
-                     currenciesAmount: number;
-                  }) =>
-                     CurrencyActions.currenciesLoadSuccess({
-                        payload: currencies,
-                     })
+               map((currencies: Currency[]) =>
+                  CurrencyActions.currenciesLoadSuccess({
+                     payload: currencies,
+                  })
                ),
                catchError((error) =>
                   of(CurrencyActions.currencyError(error.message))

@@ -14,14 +14,12 @@ export const FEATURE_NAME = 'currency';
 export interface CurrencyModuleState {
    currencies: Currency[];
    currencyError: string;
-   currentDocumentsAmount: number;
    currency: Currency;
 }
 
 const initialState: CurrencyModuleState = {
    currencies: [],
    currencyError: null,
-   currentDocumentsAmount: 0,
    currency: null,
 };
 
@@ -44,8 +42,7 @@ const currencyReducer = createReducer(
    })),
    on(CurrencyActions.currenciesLoadSuccess, (state, { payload }) => ({
       ...state,
-      currencies: [...payload.currencies],
-      currentDocumentsAmount: payload.currenciesAmount,
+      currencies: [...payload],
    })),
 
    on(CurrencyActions.deleteCurrencyStart, (state) => ({
@@ -57,7 +54,6 @@ const currencyReducer = createReducer(
       currencies: state.currencies.filter(
          (currency) => currency.id !== payload
       ),
-      currentDocumentsAmount: state.currentDocumentsAmount - 1,
    })),
 
    on(CurrencyActions.currencyLoadStart, (state) => ({
@@ -103,8 +99,4 @@ export const selectAdmin = createFeatureSelector<AppState, CurrencyModuleState>(
 export const selectAdminCurrencies = createSelector(
    selectAdmin,
    (state: CurrencyModuleState) => state.currencies
-);
-export const selectAdminDocumentsAmount = createSelector(
-   selectAdmin,
-   (state: CurrencyModuleState) => state.currentDocumentsAmount
 );

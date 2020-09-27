@@ -15,7 +15,7 @@ export const currenciesLoadStart = createAction(
 );
 export const currenciesLoadSuccess = createAction(
    '[CURRENCY] LOAD SUCCESS',
-   props<{ payload: { currencies: Currency[]; currenciesAmount: number } }>()
+   props<{ payload: Currency[] }>()
 );
 
 export const deleteCurrencyStart = createAction(
