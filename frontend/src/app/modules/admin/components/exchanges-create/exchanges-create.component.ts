@@ -53,13 +53,30 @@ export class ExchangesCreateComponent implements OnInit {
          takenCurrencyId: this.takenCurrencyId,
       };
 
-      this.store.dispatch(
-         ExchangeActions.addExchangeStart({ payload: exchange })
-      );
+      if (this.mode === 'create') {
+         this.store.dispatch(
+            ExchangeActions.addExchangeStart({ payload: exchange })
+         );
+      } else {
+         delete exchange.givenCurrencyId;
+         delete exchange.takenCurrencyId;
+         delete exchange.givenCurrency;
+         delete exchange.takenCurrency;
+
+         this.store.dispatch(
+            ExchangeActions.editExchangeStart({
+               payload: { id: this.exchangeToEdit.id, exchange },
+            })
+         );
+      }
+
       this.formGroupDirective.reset();
    }
 
    onGivenCurrencySelect(option: Currency): void {
+      if (this.mode === 'edit') {
+         return;
+      }
       this.givenCurrencyId = option.id;
       this.form.get('givenCurrency').setValue(option.name);
       this.currencies$ = this.store.pipe(
@@ -71,6 +88,9 @@ export class ExchangesCreateComponent implements OnInit {
    }
 
    onTakenCurrencySelect(option: Currency): void {
+      if (this.mode === 'edit') {
+         return;
+      }
       this.takenCurrencyId = option.id;
       this.form.get('takenCurrency').setValue(option.name);
       this.currencies$ = this.store.pipe(
@@ -96,7 +116,6 @@ export class ExchangesCreateComponent implements OnInit {
    }
 
    private setForm(exchange: Exchange): void {
-      console.log(exchange);
       this.form.patchValue({
          ...exchange,
          givenCurrency: exchange.givenCurrency.name,

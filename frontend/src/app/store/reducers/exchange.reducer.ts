@@ -21,6 +21,7 @@ const exchangeReducer = createReducer(
    on(ExchangeActions.addExchangeStart, (state) => ({
       ...state,
       exchangeError: null,
+      exchange: null,
    })),
    on(ExchangeActions.addExchangeSuccess, (state, { payload }) => ({
       ...state,
@@ -30,6 +31,7 @@ const exchangeReducer = createReducer(
    on(ExchangeActions.loadExchangesStart, (state) => ({
       ...state,
       exchangeError: null,
+      exchange: null,
    })),
    on(ExchangeActions.loadExchangesSuccess, (state, { payload }) => ({
       ...state,
@@ -50,6 +52,21 @@ const exchangeReducer = createReducer(
    on(ExchangeActions.loadExchangeSuccess, (state, { payload }) => ({
       ...state,
       exchange: payload,
+   })),
+
+   on(ExchangeActions.editExchangeStart, (state) => ({
+      ...state,
+   })),
+   on(ExchangeActions.editExchangeSuccess, (state, { payload }) => ({
+      ...state,
+      exchanges: state.exchanges.map((ex) => {
+         if (ex.id === payload.id) {
+            return payload;
+         }
+
+         return ex;
+      }),
+      exchange: null,
    })),
 
    on(ExchangeActions.exchangeError, (state, { payload }) => ({

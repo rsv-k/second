@@ -77,4 +77,17 @@ export class ExchangeService {
             })
          );
    }
+
+   updateExchange(id: string, exchange: any): Observable<Exchange> {
+      return this.http
+         .put<{ msg: string; exchange: any }>(ENDPOINT_URL + id, exchange)
+         .pipe(
+            map((response) => {
+               const ex = response.exchange;
+               ex.id = ex._id;
+               delete ex._id;
+               return ex;
+            })
+         );
+   }
 }

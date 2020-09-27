@@ -40,6 +40,15 @@ export const loadExchangeSuccess = createAction(
    props<{ payload: Exchange }>()
 );
 
+export const editExchangeStart = createAction(
+   '[EXCHANGE] EDIT EXCHANGE START',
+   props<{ payload: { id: string; exchange: any } }>()
+);
+export const editExchangeSuccess = createAction(
+   '[EXCHANGE] EDIT EXCHANGE SUCCESS',
+   props<{ payload: Exchange }>()
+);
+
 export const exchangeError = createAction(
    '[EXCHANGE] ERROR',
    props<{ payload: string }>()
