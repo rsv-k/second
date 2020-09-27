@@ -30,6 +30,7 @@ const currencyReducer = createReducer(
    on(CurrencyActions.addCurrencyStart, (state) => ({
       ...state,
       currencyError: null,
+      currency: null,
    })),
    on(CurrencyActions.addCurrencySuccess, (state, { payload }) => ({
       ...state,
@@ -39,6 +40,7 @@ const currencyReducer = createReducer(
    on(CurrencyActions.currenciesLoadStart, (state) => ({
       ...state,
       currencyError: null,
+      currency: null,
    })),
    on(CurrencyActions.currenciesLoadSuccess, (state, { payload }) => ({
       ...state,
@@ -75,6 +77,7 @@ const currencyReducer = createReducer(
       currencies: state.currencies.map((currency) =>
          currency.id === payload.id ? payload : currency
       ),
+      currency: null,
    })),
 
    on(CurrencyActions.currencyError, (state, { payload }) => ({

@@ -8,6 +8,7 @@ import { Currency } from 'src/app/core/models/currency.model';
 import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
+import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-exchanges-create',
@@ -25,7 +26,10 @@ export class ExchangesCreateComponent implements OnInit {
    private exchangeToEdit: Exchange = null;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
-   constructor(private store: Store<fromCurrency.AppState>) {}
+   constructor(
+      private store: Store<fromCurrency.AppState>,
+      private router: Router
+   ) {}
 
    ngOnInit(): void {
       this.initForm();
@@ -57,17 +61,20 @@ export class ExchangesCreateComponent implements OnInit {
          this.store.dispatch(
             ExchangeActions.addExchangeStart({ payload: exchange })
          );
-      } else {
+      } else if (this.mode === 'edit') {
          delete exchange.givenCurrencyId;
          delete exchange.takenCurrencyId;
          delete exchange.givenCurrency;
          delete exchange.takenCurrency;
+         if (this.isNecessaryToUpdate(exchange)) {
+            this.store.dispatch(
+               ExchangeActions.editExchangeStart({
+                  payload: { id: this.exchangeToEdit.id, exchange },
+               })
+            );
+         }
 
-         this.store.dispatch(
-            ExchangeActions.editExchangeStart({
-               payload: { id: this.exchangeToEdit.id, exchange },
-            })
-         );
+         this.router.navigate(['admin-dashboard/exchanges-show']);
       }
 
       this.formGroupDirective.reset();
@@ -124,5 +131,15 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.form.get('givenCurrency').disable();
       this.form.get('takenCurrency').disable();
+   }
+
+   private isNecessaryToUpdate(exchange: any): boolean {
+      for (const key in exchange) {
+         if (this.exchangeToEdit[key] !== exchange[key]) {
+            return true;
+         }
+      }
+
+      return false;
    }
 }

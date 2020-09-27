@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as fromCurrency from '../../store/reducers/currency.reducer';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
    selector: 'app-currencies-create',
@@ -20,7 +20,8 @@ export class CurrenciesCreateComponent implements OnInit {
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
    constructor(
       private store: Store<fromCurrency.AppState>,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private router: Router
    ) {}
 
    ngOnInit(): void {
@@ -48,15 +49,14 @@ export class CurrenciesCreateComponent implements OnInit {
             CurrencyActions.addCurrencyStart({ payload: currency })
          );
       } else if (this.mode === 'edit') {
-         if (!this.isNecessaryToUpdate(currency)) {
-            return alert('nothing to update');
+         if (this.isNecessaryToUpdate(currency)) {
+            this.store.dispatch(
+               CurrencyActions.currencyUpdateStart({
+                  payload: { id: this.currencyToEdit.id, currency },
+               })
+            );
          }
-
-         this.store.dispatch(
-            CurrencyActions.currencyUpdateStart({
-               payload: { id: this.currencyToEdit.id, currency },
-            })
-         );
+         this.router.navigate(['admin-dashboard/currencies-show']);
       }
 
       this.formGroupDirective.reset();
