@@ -42,4 +42,14 @@ export class ExchangesShowComponent implements OnInit {
    onEditExchange(id: string): void {
       this.router.navigate(['admin-dashboard/exchanges-edit', id]);
    }
+
+   onToggleAction(id: string, condition: boolean): void {
+      const body = {
+         isActive: !condition,
+      };
+
+      this.store.dispatch(
+         ExchangeActions.editExchangeStart({ payload: { id, exchange: body } })
+      );
+   }
 }
