@@ -39,6 +39,9 @@ export class AdminPageHeaderComponent implements OnInit {
       'currencies-edit': {
          title: 'Редактировать валюту',
       },
+      'exchanges-edit': {
+         title: 'Редактировать направление обмена',
+      },
    };
    constructor(
       private store: Store<fromCurrency.AppState>,

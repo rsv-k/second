@@ -5,6 +5,7 @@ import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from 'src/app/core/models/exchange.model';
 import { pluck } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-exchanges-show',
@@ -23,7 +24,10 @@ export class ExchangesShowComponent implements OnInit {
       'delete',
    ];
 
-   constructor(private store: Store<fromCurrency.AppState>) {}
+   constructor(
+      private store: Store<fromCurrency.AppState>,
+      private router: Router
+   ) {}
 
    ngOnInit(): void {
       this.store.dispatch(ExchangeActions.loadExchangesStart());
@@ -33,5 +37,9 @@ export class ExchangesShowComponent implements OnInit {
 
    onDeleteExchange(id: string): void {
       this.store.dispatch(ExchangeActions.deleteExchangeStart({ payload: id }));
+   }
+
+   onEditExchange(id: string): void {
+      this.router.navigate(['admin-dashboard/exchanges-edit', id]);
    }
 }

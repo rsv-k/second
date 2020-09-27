@@ -1,3 +1,4 @@
+import { ExchangeResolver } from './../../core/resolvers/exchange-resolver.service';
 import { CurrencyResolver } from './../../core/resolvers/currency-resolver.service';
 import { OrdersShowComponent } from './components/orders-show/orders-show.component';
 import { ExchangesShowComponent } from './components/exchanges-show/exchanges-show.component';
@@ -40,6 +41,13 @@ const routes: Routes = [
          {
             path: 'exchanges-create',
             component: ExchangesCreateComponent,
+         },
+         {
+            path: 'exchanges-edit/:id',
+            component: ExchangesCreateComponent,
+            resolve: {
+               exchange: ExchangeResolver,
+            },
          },
          {
             path: 'orders-show',

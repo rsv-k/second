@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
 import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as CurrencyActions from '../../store/actions/currency.actions';
@@ -21,17 +21,29 @@ export class ExchangesCreateComponent implements OnInit {
    givenCurrencyId: string;
    takenCurrencyId: string;
 
+   private mode = 'create';
+   private exchangeToEdit: Exchange = null;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
    constructor(private store: Store<fromCurrency.AppState>) {}
 
    ngOnInit(): void {
+      this.initForm();
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
       this.currencies$ = this.store.pipe(
          select(fromCurrency.selectAdminCurrencies)
       );
 
-      this.initForm();
+      this.store
+         .select('exchange')
+         .pipe(first())
+         .subscribe((data) => {
+            this.exchangeToEdit = data.exchange;
+            if (this.exchangeToEdit) {
+               this.mode = 'edit';
+               this.setForm(this.exchangeToEdit);
+            }
+         });
    }
 
    onSubmit(): void {
@@ -81,5 +93,17 @@ export class ExchangesCreateComponent implements OnInit {
          minTakenCurrency: new FormControl(''),
          comment: new FormControl(''),
       });
+   }
+
+   private setForm(exchange: Exchange): void {
+      console.log(exchange);
+      this.form.patchValue({
+         ...exchange,
+         givenCurrency: exchange.givenCurrency.name,
+         takenCurrency: exchange.takenCurrency.name,
+      });
+
+      this.form.get('givenCurrency').disable();
+      this.form.get('takenCurrency').disable();
    }
 }
