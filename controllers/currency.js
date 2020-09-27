@@ -35,12 +35,9 @@ exports.getCurrencies = async (req, res, next) => {
          return next(error);
       }
 
-      const currenciesAmount = await Currency.countDocuments({});
-
       res.status(200).json({
          msg: 'currencies fetched successfully',
          currencies,
-         currenciesAmount,
       });
    } catch (err) {
       const error = new Error('Internal server error');
