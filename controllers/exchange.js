@@ -85,14 +85,19 @@ exports.getExchange = async (req, res, next) => {
          return next(error);
       }
 
-      const exchange = await Exchange.findById(id);
+      const exchange = await Exchange.findById(id)
+         .populate('takenCurrency')
+         .populate('givenCurrency');
       if (!exchange) {
          const error = new Error('Exchange not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      res.status(200).json({ msg: 'Exchange successfully fetched', exchange });
+      res.status(200).json({
+         msg: 'Exchange successfully fetched',
+         exchange,
+      });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
