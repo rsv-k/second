@@ -1,0 +1,19 @@
+.header {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-start;
+
+   &__siteName {
+      text-transform: uppercase;
+      cursor: pointer;
+   }
+
+   &__span-text {
+      display: block;
+      margin-bottom: 1.5rem;
+   }
+
+   &__icon {
+      margin-right: 1rem;
+   }
+}
