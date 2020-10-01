@@ -1,0 +1,27 @@
+.table {
+   display: flex;
+   justify-content: space-between;
+}
+
+.table__column-title {
+   font-size: 3rem;
+}
+
+.currency {
+   display: flex;
+   align-items: center;
+
+   &__name {
+      margin-left: 1rem;
+   }
+}
+
+.image-container {
+   width: 5rem;
+   height: 4rem;
+}
+
+.img {
+   width: 100%;
+   background-size: cover;
+}
