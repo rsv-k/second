@@ -1,3 +1,5 @@
+@import '../../../../variables.scss';
+
 .table {
    display: flex;
    justify-content: space-between;
@@ -14,6 +16,17 @@
    &__name {
       margin-left: 1rem;
    }
+
+   &:not(:last-child) {
+      margin-bottom: 1rem;
+   }
+
+   cursor: pointer;
+   transition: 0.5s;
+
+   &:hover {
+      background: rgba($color-white, 0.1);
+   }
 }
 
 .image-container {
@@ -23,5 +36,6 @@
 
 .img {
    width: 100%;
+   height: 100%;
    background-size: cover;
 }
