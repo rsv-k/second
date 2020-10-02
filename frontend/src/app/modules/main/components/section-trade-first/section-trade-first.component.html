@@ -2,7 +2,11 @@
    <div class="left">
       <h2 class="table__column-title">Отдаете</h2>
 
-      <div class="currency" *ngFor="let exchange of exchanges$ | async">
+      <div
+         class="currency"
+         *ngFor="let exchange of givenCurrencies"
+         (click)="selectCurrentExchange(exchange)"
+      >
          <div class="image-container">
             <img
                src="{{ exchange.givenCurrency.icon }}"
@@ -16,15 +20,27 @@
    <div class="right">
       <h2 class="table__column-title">Получаете</h2>
 
-      <div class="currency" *ngFor="let exchange of exchanges$ | async">
-         <div class="image-container">
-            <img
-               src="{{ exchange.takenCurrency.icon }}"
-               alt="icon"
-               class="img"
-            />
+      <ng-container *ngIf="currentExchange">
+         <div class="currency" *ngFor="let exchange of takenCurrencies">
+            <div class="image-container">
+               <img
+                  src="{{ exchange.takenCurrency.icon }}"
+                  alt="icon"
+                  class="img"
+               />
+            </div>
+            <div class="currency__info">
+               <p class="currency__name">{{ exchange.takenCurrency.name }}</p>
+               <p class="currency__value">
+                  <span class="course"
+                     >{{ exchange.givenCurrencyCourse }}:{{
+                        exchange.takenCurrencyCourse
+                     }}</span
+                  >
+                  | Резерв {{ exchange.takenCurrency.reserve }}
+               </p>
+            </div>
          </div>
-         <p class="currency__name">{{ exchange.takenCurrency.name }}</p>
-      </div>
+      </ng-container>
    </div>
 </div>

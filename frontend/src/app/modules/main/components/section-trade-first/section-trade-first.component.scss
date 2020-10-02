@@ -12,6 +12,7 @@
 .currency {
    display: flex;
    align-items: center;
+   width: 25rem;
 
    &__name {
       margin-left: 1rem;
@@ -22,11 +23,6 @@
    }
 
    cursor: pointer;
-   transition: 0.5s;
-
-   &:hover {
-      background: rgba($color-white, 0.1);
-   }
 }
 
 .image-container {
