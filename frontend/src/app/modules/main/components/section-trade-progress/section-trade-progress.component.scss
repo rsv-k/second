@@ -5,20 +5,19 @@
       &:not(:last-child) {
          margin-bottom: 4rem;
       }
+
+      text-align: center;
    }
 
    &__level {
       display: inline-block;
-      padding: 4rem;
+      padding: 3rem;
       user-select: none;
       border: 1px solid $color-white;
       border-radius: 50%;
-      font-size: 4rem;
+      font-size: 3rem;
    }
 
    &__text {
-      white-space: pre-line;
-      width: 1px;
-      padding-left: 4rem;
    }
 }
