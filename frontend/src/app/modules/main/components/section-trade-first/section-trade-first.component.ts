@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../../../store/index';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from './../../../../core/models/exchange.model';
-import { pluck } from 'rxjs/operators';
+import { filter, first, pluck, tap } from 'rxjs/operators';
 
 @Component({
    selector: 'app-section-trade-first',
@@ -22,7 +22,11 @@ export class SectionTradeFirstComponent implements OnInit {
       this.store.dispatch(ExchangeActions.loadExchangesStart());
       this.store
          .select('exchange')
-         .pipe(pluck('exchanges'))
+         .pipe(
+            pluck('exchanges'),
+            filter((exchanges) => exchanges.length !== 0),
+            first()
+         )
          .subscribe((data) => {
             this.exchanges = data;
             this.getUniqueExchanges(data);
