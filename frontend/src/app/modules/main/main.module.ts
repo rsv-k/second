@@ -10,9 +10,10 @@ import { SectionTradeComponent } from './components/section-trade/section-trade.
 import { SectionTradeProgressComponent } from './components/section-trade-progress/section-trade-progress.component';
 import { SectionTradeFirstComponent } from './components/section-trade-first/section-trade-first.component';
 import { SectionAboutComponent } from './components/section-about/section-about.component';
+import { SectionTradeSecondComponent } from './components/section-trade-second/section-trade-second.component';
 
 @NgModule({
-   declarations: [MainComponent, HeaderComponent, FooterComponent, NavComponent, SectionTradeComponent, SectionTradeProgressComponent, SectionTradeFirstComponent, SectionAboutComponent],
+   declarations: [MainComponent, HeaderComponent, FooterComponent, NavComponent, SectionTradeComponent, SectionTradeProgressComponent, SectionTradeFirstComponent, SectionAboutComponent, SectionTradeSecondComponent],
    imports: [MainRoutingModule, SharedModule],
 })
 export class MainModule {}

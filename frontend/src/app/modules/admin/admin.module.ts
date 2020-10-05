@@ -10,7 +10,6 @@ import { OrdersShowComponent } from './components/orders-show/orders-show.compon
 import { AdminPageHeaderComponent } from './components/admin-page-header/admin-page-header.component';
 import { CurrenciesCreateComponent } from './components/currencies-create/currencies-create.component';
 import { ExchangesCreateComponent } from './components/exchanges-create/exchanges-create.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import * as fromCurrency from './store/reducers/currency.reducer';
 import { EffectsModule } from '@ngrx/effects';
@@ -31,7 +30,6 @@ import { CurrencyService } from './services/currency.service';
    imports: [
       AdminRoutingModule,
       SharedModule,
-      ReactiveFormsModule,
       StoreModule.forFeature(fromCurrency.FEATURE_NAME, fromCurrency.reducer),
       EffectsModule.forFeature([CurrencyEffects]),
    ],

@@ -22,7 +22,11 @@
       <h2 class="table__column-title">Получаете</h2>
 
       <ng-container *ngIf="currentExchange">
-         <div class="currency" *ngFor="let exchange of takenCurrencies">
+         <div
+            class="currency"
+            *ngFor="let exchange of takenCurrencies"
+            [routerLink]="[exchange.id]"
+         >
             <div class="image-container">
                <img
                   src="{{ exchange.takenCurrency.icon }}"

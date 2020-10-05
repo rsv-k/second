@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './components/main/main.component';
 import { SectionAboutComponent } from './components/section-about/section-about.component';
 import { SectionTradeFirstComponent } from './components/section-trade-first/section-trade-first.component';
+import { SectionTradeSecondComponent } from './components/section-trade-second/section-trade-second.component';
 import { SectionTradeComponent } from './components/section-trade/section-trade.component';
 
 const routes: Routes = [
@@ -13,16 +14,20 @@ const routes: Routes = [
          {
             path: '',
             pathMatch: 'full',
-            redirectTo: 'trade',
+            redirectTo: 'exchanges',
          },
          {
-            path: 'trade',
+            path: 'exchanges',
             component: SectionTradeComponent,
             children: [
                {
                   path: '',
                   pathMatch: 'full',
                   component: SectionTradeFirstComponent,
+               },
+               {
+                  path: ':id',
+                  component: SectionTradeSecondComponent,
                },
             ],
          },
