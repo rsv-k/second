@@ -1,35 +1,39 @@
+<h2 class="title" *ngIf="exchange">
+   Обмен {{ exchange.givenCurrency.name }} на {{ exchange.takenCurrency.name }}
+</h2>
+
 <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
    <div class="row">
-      <mat-form-field>
+      <mat-form-field class="form__group">
          <mat-label>Отдаете в </mat-label>
          <input matInput />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="form__group">
          <mat-label>Отдаете в </mat-label>
          <input matInput />
       </mat-form-field>
    </div>
 
    <div class="row">
-      <mat-form-field>
+      <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
          <input matInput />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
          <input matInput />
       </mat-form-field>
    </div>
 
    <div class="row">
-      <mat-form-field>
+      <mat-form-field class="form__group">
          <mat-label>Номер телефона</mat-label>
          <input matInput />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="form__group">
          <mat-label>Email</mat-label>
          <input matInput />
       </mat-form-field>
