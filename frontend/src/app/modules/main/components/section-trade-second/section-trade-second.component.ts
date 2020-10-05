@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { first, pluck } from 'rxjs/operators';
 import * as fromApp from '../../../../store/index';
+import * as ProgressActions from '../../../../store/actions/progress.actions';
 
 @Component({
    selector: 'app-section-trade-second',
@@ -21,6 +22,7 @@ export class SectionTradeSecondComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
+      this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 2 }));
       this.form = new FormGroup({
          givenCurrency: new FormControl(''),
          takenCurrency: new FormControl(''),

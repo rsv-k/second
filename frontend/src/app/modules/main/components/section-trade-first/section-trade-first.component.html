@@ -25,7 +25,7 @@
          <div
             class="currency"
             *ngFor="let exchange of takenCurrencies"
-            [routerLink]="[exchange.id]"
+            (click)="onExchangeSelect(exchange.id)"
          >
             <div class="image-container">
                <img

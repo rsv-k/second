@@ -1,6 +1,15 @@
 <div class="progress">
    <div class="progress__block">
-      <p class="progress__level">1</p>
+      <p
+         [class]="{
+            progress__level: true,
+            completed: 1 < (progress$ | async),
+            current: 1 === (progress$ | async)
+         }"
+      >
+         <mat-icon *ngIf="1 < (progress$ | async); else first">done</mat-icon>
+         <ng-template #first>1</ng-template>
+      </p>
       <p class="progress__text">
          Выберите
          <br />
@@ -10,7 +19,16 @@
       </p>
    </div>
    <div class="progress__block">
-      <p class="progress__level">2</p>
+      <p
+         [class]="{
+            progress__level: true,
+            completed: 2 < (progress$ | async),
+            current: 2 === (progress$ | async)
+         }"
+      >
+         <mat-icon *ngIf="2 < (progress$ | async); else second">done</mat-icon>
+         <ng-template #second>2</ng-template>
+      </p>
       <p class="progress__text">
          Платежная
          <br />
@@ -18,7 +36,16 @@
       </p>
    </div>
    <div class="progress__block">
-      <p class="progress__level">3</p>
+      <p
+         [class]="{
+            progress__level: true,
+            completed: 3 < (progress$ | async),
+            current: 3 === (progress$ | async)
+         }"
+      >
+         <mat-icon *ngIf="3 < (progress$ | async); else third">done</mat-icon>
+         <ng-template #third>3</ng-template>
+      </p>
       <p class="progress__text">
          Подтверждение,
          <br />

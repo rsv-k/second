@@ -4,6 +4,8 @@ import * as fromApp from '../../../../store/index';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from './../../../../core/models/exchange.model';
 import { filter, first, pluck, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import * as ProgressActions from '../../../../store/actions/progress.actions';
 
 @Component({
    selector: 'app-section-trade-first',
@@ -16,10 +18,15 @@ export class SectionTradeFirstComponent implements OnInit {
    currentExchange: Exchange;
 
    private exchanges: Exchange[];
-   constructor(private store: Store<fromApp.AppState>) {}
+   constructor(
+      private store: Store<fromApp.AppState>,
+      private router: Router
+   ) {}
 
    ngOnInit(): void {
       this.store.dispatch(ExchangeActions.loadExchangesStart());
+      this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 1 }));
+
       this.store
          .select('exchange')
          .pipe(
@@ -37,6 +44,10 @@ export class SectionTradeFirstComponent implements OnInit {
    selectCurrentExchange(exchange: Exchange): void {
       this.currentExchange = exchange;
       this.getTakenCurrencies(exchange);
+   }
+
+   onExchangeSelect(id: string): void {
+      this.router.navigate(['exchanges', id]);
    }
 
    private getUniqueExchanges(exchanges: Exchange[]): void {
