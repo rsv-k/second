@@ -2,42 +2,65 @@
    Обмен {{ exchange.givenCurrency.name }} на {{ exchange.takenCurrency.name }}
 </h2>
 
-<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form *ngIf="form" class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
    <div class="row">
-      <mat-form-field class="form__group">
-         <mat-label>Отдаете в </mat-label>
-         <input matInput />
+      <mat-form-field
+         class="form__group min-max"
+         [attr.min]="[exchange.minGivenCurrency]"
+         [attr.max]="[exchange.maxGivenCurrency]"
+      >
+         <mat-label>Отдаете в {{ givenCurrencyName }}</mat-label>
+         <input
+            matInput
+            required
+            (input)="onGivenCurrencyChange($event.target.value)"
+            formControlName="givenCurrency"
+         />
       </mat-form-field>
 
-      <mat-form-field class="form__group">
-         <mat-label>Отдаете в </mat-label>
-         <input matInput />
+      <mat-form-field
+         class="form__group reserve"
+         [attr.reserve]="[exchange.takenCurrency.reserve]"
+      >
+         <mat-label>Получаете в {{ takenCurrencyName }}</mat-label>
+         <input
+            matInput
+            required
+            (input)="onTakenCurrencyChange($event.target.value)"
+            formControlName="takenCurrency"
+         />
       </mat-form-field>
    </div>
 
    <div class="row">
       <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
-         <input matInput />
+         <input matInput required formControlName="givenCard" />
       </mat-form-field>
+   </div>
 
+   <div class="row">
       <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
-         <input matInput />
+         <input matInput required formControlName="takenCard" />
       </mat-form-field>
    </div>
 
    <div class="row">
       <mat-form-field class="form__group">
          <mat-label>Номер телефона</mat-label>
-         <input matInput />
-      </mat-form-field>
-
-      <mat-form-field class="form__group">
-         <mat-label>Email</mat-label>
-         <input matInput />
+         <input matInput required formControlName="phone" />
       </mat-form-field>
    </div>
 
-   <button mat-raised-button color="accent">Следующий шаг</button>
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Email</mat-label>
+         <input matInput required formControlName="email" />
+      </mat-form-field>
+   </div>
+
+   <button mat-raised-button color="accent" [disabled]="!form.valid">
+      Следующий шаг
+   </button>
 </form>

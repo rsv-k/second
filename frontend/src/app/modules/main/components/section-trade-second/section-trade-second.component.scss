@@ -1,3 +1,5 @@
+@import '../../../../variables.scss';
+
 .form {
    &__group {
       width: 47.5%;
@@ -7,4 +9,42 @@
 .row {
    display: flex;
    justify-content: space-between;
+   &:not(:first) {
+      margin-top: 2rem;
+   }
+}
+
+.reserve {
+   position: relative;
+}
+
+.reserve::after {
+   content: 'резерв: ' attr(reserve);
+   position: absolute;
+   left: 0;
+   bottom: -10px;
+   font-size: 1.2rem;
+   color: rgba($color-white, $alpha: 0.2);
+}
+
+.min-max {
+   position: relative;
+}
+
+.min-max::after {
+   content: 'min: ' attr(min);
+   position: absolute;
+   left: 0;
+   bottom: -1rem;
+   font-size: 1.2rem;
+   color: rgba($color-white, $alpha: 0.2);
+}
+
+.min-max::before {
+   content: 'max: ' attr(max);
+   position: absolute;
+   left: 5rem;
+   bottom: -1rem;
+   font-size: 1.2rem;
+   color: rgba($color-white, $alpha: 0.2);
 }
