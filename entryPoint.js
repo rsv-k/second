@@ -5,6 +5,7 @@ const path = require('path');
 
 const currencyRoutes = require('./routes/currency');
 const exchangeRoutes = require('./routes/exchange');
+const orderRoutes = require('./routes/order');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -13,6 +14,7 @@ app.use('/images', express.static(path.join('images')));
 
 app.use('/api/currency', currencyRoutes);
 app.use('/api/exchange', exchangeRoutes);
+app.use('/api/order', orderRoutes);
 
 app.use(errorHandler);
 
