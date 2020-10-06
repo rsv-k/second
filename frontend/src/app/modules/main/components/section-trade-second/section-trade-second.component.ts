@@ -1,11 +1,18 @@
 import { Exchange } from './../../../../core/models/exchange.model';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+   FormControl,
+   FormGroup,
+   FormGroupDirective,
+   Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { first, pluck } from 'rxjs/operators';
 import * as fromApp from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
+import * as OrderActions from '../../../../store/actions/order.actions';
+import { Order } from 'src/app/core/models/order.model';
 
 @Component({
    selector: 'app-section-trade-second',
@@ -25,6 +32,8 @@ export class SectionTradeSecondComponent implements OnInit {
       USD: 'долларах',
       RUB: 'рублях',
    };
+
+   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
    constructor(
       private store: Store<fromApp.AppState>,
@@ -60,20 +69,20 @@ export class SectionTradeSecondComponent implements OnInit {
 
    onGivenCurrencyChange(value: number): void {
       if (!value || value < 0) {
-         return this.form.get('takenCurrency').patchValue('');
+         return this.form.get('takenCurrencyAmount').patchValue('');
       }
 
       const calculatedCurrency = this.exchange.takenCurrencyCourse * value;
-      this.form.get('takenCurrency').patchValue(calculatedCurrency);
+      this.form.get('takenCurrencyAmount').patchValue(calculatedCurrency);
    }
 
    onTakenCurrencyChange(value: number): void {
       if (!value || value < 0) {
-         return this.form.get('givenCurrency').patchValue('');
+         return this.form.get('givenCurrencyAmount').patchValue('');
       }
 
       const calculatedCurrency = value / this.exchange.takenCurrencyCourse;
-      this.form.get('givenCurrency').patchValue(calculatedCurrency);
+      this.form.get('givenCurrencyAmount').patchValue(calculatedCurrency);
    }
 
    onSubmit(): void {
@@ -81,17 +90,24 @@ export class SectionTradeSecondComponent implements OnInit {
          return;
       }
 
-      console.log('valid');
+      const order: Order = {
+         ...this.form.value,
+         givenCurrencyId: this.exchange.givenCurrency.id,
+         takenCurrencyId: this.exchange.takenCurrency.id,
+      };
+
+      this.store.dispatch(OrderActions.createOrderStart({ payload: order }));
+      this.formGroupDirective.reset();
    }
 
    private initForm(): void {
       this.form = new FormGroup({
-         givenCurrency: new FormControl('', [
+         givenCurrencyAmount: new FormControl('', [
             Validators.required,
             Validators.min(this.exchange.minGivenCurrency),
             Validators.max(this.exchange.maxGivenCurrency),
          ]),
-         takenCurrency: new FormControl('', [
+         takenCurrencyAmount: new FormControl('', [
             Validators.required,
             Validators.min(
                this.exchange.minGivenCurrency *
@@ -99,8 +115,8 @@ export class SectionTradeSecondComponent implements OnInit {
             ),
             Validators.max(this.exchange.takenCurrency.reserve),
          ]),
-         givenCard: new FormControl('', [Validators.required]),
-         takenCard: new FormControl('', [Validators.required]),
+         givenCurrencyCard: new FormControl('', [Validators.required]),
+         takenCurrencyCard: new FormControl('', [Validators.required]),
          phone: new FormControl('', [Validators.required]),
          email: new FormControl('', [Validators.required, Validators.email]),
       });

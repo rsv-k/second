@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { ExchangeEffects } from './store/effects/exchange.effects';
+import { OrderEffects } from './store/effects/order.effects';
 import * as fromApp from './store/index';
 
 @NgModule({
@@ -17,7 +18,7 @@ import * as fromApp from './store/index';
       AppRoutingModule,
       BrowserAnimationsModule,
       StoreModule.forRoot(fromApp.appReducers),
-      EffectsModule.forRoot([ExchangeEffects]),
+      EffectsModule.forRoot([ExchangeEffects, OrderEffects]),
       CoreModule,
    ],
    providers: [],

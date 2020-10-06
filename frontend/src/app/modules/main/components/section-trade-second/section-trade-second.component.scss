@@ -9,8 +9,8 @@
 .row {
    display: flex;
    justify-content: space-between;
-   &:not(:first) {
-      margin-top: 2rem;
+   &:not(:last-child) {
+      margin-bottom: 2rem;
    }
 }
 

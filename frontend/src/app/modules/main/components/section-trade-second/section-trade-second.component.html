@@ -14,7 +14,7 @@
             matInput
             required
             (input)="onGivenCurrencyChange($event.target.value)"
-            formControlName="givenCurrency"
+            formControlName="givenCurrencyAmount"
          />
       </mat-form-field>
 
@@ -27,7 +27,7 @@
             matInput
             required
             (input)="onTakenCurrencyChange($event.target.value)"
-            formControlName="takenCurrency"
+            formControlName="takenCurrencyAmount"
          />
       </mat-form-field>
    </div>
@@ -35,14 +35,14 @@
    <div class="row">
       <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
-         <input matInput required formControlName="givenCard" />
+         <input matInput required formControlName="givenCurrencyCard" />
       </mat-form-field>
    </div>
 
    <div class="row">
       <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
-         <input matInput required formControlName="takenCard" />
+         <input matInput required formControlName="takenCurrencyCard" />
       </mat-form-field>
    </div>
 
