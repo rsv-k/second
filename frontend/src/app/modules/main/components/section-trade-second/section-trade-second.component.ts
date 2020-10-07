@@ -1,11 +1,6 @@
 import { Exchange } from './../../../../core/models/exchange.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-   FormControl,
-   FormGroup,
-   FormGroupDirective,
-   Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { first, pluck } from 'rxjs/operators';
@@ -32,8 +27,6 @@ export class SectionTradeSecondComponent implements OnInit {
       USD: 'долларах',
       RUB: 'рублях',
    };
-
-   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
    constructor(
       private store: Store<fromApp.AppState>,
@@ -97,7 +90,6 @@ export class SectionTradeSecondComponent implements OnInit {
       };
 
       this.store.dispatch(OrderActions.createOrderStart({ payload: order }));
-      this.formGroupDirective.reset();
    }
 
    private initForm(): void {
