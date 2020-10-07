@@ -24,3 +24,21 @@ exports.createOrder = async (req, res, next) => {
       next(error);
    }
 };
+
+exports.getCurrencies = async (req, res, next) => {
+   try {
+      const orders = await Order.find({})
+         .populate('givenCurrency')
+         .populate('takenCurrency');
+      if (!orders.length) {
+         const error = new Error('Orders not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({ msg: 'Orders fetched successfully', orders });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};

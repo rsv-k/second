@@ -22,4 +22,17 @@ export class OrderService {
             })
          );
    }
+
+   getOrders(): Observable<Order[]> {
+      return this.http.get<{ msg: string; orders: any[] }>('/api/order').pipe(
+         pluck('orders'),
+         map((orders) =>
+            orders.map((order) => {
+               order.id = order._id;
+               delete order._id;
+               return order;
+            })
+         )
+      );
+   }
 }

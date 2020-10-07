@@ -24,6 +24,14 @@ const orderReducer = createReducer(
       ...state,
       orders: [...state.orders, payload],
    })),
+   on(OrderActions.getOrdersStart, (state) => ({
+      ...state,
+      error: null,
+   })),
+   on(OrderActions.getOrdersSuccess, (state, { payload }) => ({
+      ...state,
+      orders: [...payload],
+   })),
    on(OrderActions.orderError, (state, { payload }) => ({
       ...state,
       error: payload,

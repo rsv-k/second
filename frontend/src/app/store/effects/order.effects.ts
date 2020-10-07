@@ -10,12 +10,27 @@ import { Order } from '../../core/models/order.model';
 export class OrderEffects {
    createOrder$ = createEffect(() =>
       this.actions$.pipe(
-         tap(() => console.log('sent')),
          ofType(OrderActions.createOrderStart),
          mergeMap((action) =>
             this.orderService.createOrder(action.payload).pipe(
                map((order: Order) =>
                   OrderActions.createOrderSuccess({ payload: order })
+               ),
+               catchError((error) =>
+                  of(OrderActions.orderError({ payload: error.message }))
+               )
+            )
+         )
+      )
+   );
+
+   getOrders$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OrderActions.getOrdersStart),
+         mergeMap((action) =>
+            this.orderService.getOrders().pipe(
+               map((orders: Order[]) =>
+                  OrderActions.getOrdersSuccess({ payload: orders })
                ),
                catchError((error) =>
                   of(OrderActions.orderError({ payload: error.message }))
