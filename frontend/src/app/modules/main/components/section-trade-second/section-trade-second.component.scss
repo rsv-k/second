@@ -48,3 +48,16 @@
    font-size: 1.2rem;
    color: rgba($color-white, $alpha: 0.2);
 }
+
+.terms-of-use {
+   width: 26rem;
+}
+
+.link {
+   color: $color-accent;
+   text-decoration: none;
+}
+
+.submit {
+   align-self: flex-end;
+}

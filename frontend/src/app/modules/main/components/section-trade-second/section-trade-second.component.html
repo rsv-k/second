@@ -60,7 +60,23 @@
       </mat-form-field>
    </div>
 
-   <button mat-raised-button color="accent" [disabled]="!form.valid">
-      Следующий шаг
-   </button>
+   <div class="row">
+      <button
+         mat-raised-button
+         color="accent"
+         [disabled]="!form.valid"
+         class="submit"
+      >
+         Следующий шаг
+      </button>
+      <div class="terms-of-use">
+         <p class="text">
+            Нажимая кнопку «Следующий шаг» вы подтверждаете свое согласие с
+         </p>
+
+         <a target="_blank" routerLink="/terms-of-use" class="link"
+            >Правилами предоставления услуг сервиса EXWM</a
+         >
+      </div>
+   </div>
 </form>
