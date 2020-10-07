@@ -22,7 +22,7 @@ module.exports = mongoose.model(
       email: { type: String, required: true },
       status: {
          type: String,
-         enum: ['canceled', 'pending', 'paid'],
+         enum: ['canceled', 'pending', 'paid', 'done'],
          default: 'pending',
       },
    })

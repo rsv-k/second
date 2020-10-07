@@ -1,0 +1,25 @@
+.orders {
+   width: 100%;
+
+   &__column {
+      padding: 1rem 0;
+   }
+
+   &__amount {
+      margin: 0 5px;
+   }
+
+   &__details,
+   &__card {
+      display: flex;
+      align-items: center;
+   }
+}
+
+.no-margin {
+   margin: 0;
+}
+
+.icon {
+   transform: scale(0.6);
+}
