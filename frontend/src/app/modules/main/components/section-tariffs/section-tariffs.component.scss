@@ -27,3 +27,21 @@
       background: transparent;
    }
 }
+
+.img-container {
+   width: 4rem;
+   height: 3rem;
+   display: inline-block;
+   margin-right: 5px;
+}
+
+.img {
+   background-size: cover;
+   width: 100%;
+   height: 100%;
+}
+
+.vertical-center {
+   display: flex;
+   align-items: center;
+}
