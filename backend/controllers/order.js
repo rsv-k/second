@@ -1,4 +1,5 @@
 const Order = require('../models/order');
+const io = require('../socketio');
 
 exports.createOrder = async (req, res, next) => {
    try {
@@ -14,8 +15,16 @@ exports.createOrder = async (req, res, next) => {
       delete body.givenCurrencyId;
       delete body.takenCurrencyId;
 
-      const order = new Order(body);
+      let order = new Order(body);
       await order.save();
+      order = await Order.findById(order._id)
+         .populate('givenCurrency')
+         .populate('takenCurrency');
+
+      io.getIO().emit('orders', {
+         action: 'create',
+         order,
+      });
 
       res.status(200).json({ msg: 'Order created successfully', order });
    } catch (err) {
