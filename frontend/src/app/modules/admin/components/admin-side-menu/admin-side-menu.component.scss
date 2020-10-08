@@ -1,6 +1,8 @@
 .side-menu {
    max-width: 30rem;
-   height: 100%;
+   top: 0;
+   position: sticky;
+   height: 100vh;
 
    &__text {
       margin-left: 1rem;
