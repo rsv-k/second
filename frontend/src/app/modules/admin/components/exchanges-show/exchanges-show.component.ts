@@ -30,7 +30,9 @@ export class ExchangesShowComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.store.dispatch(ExchangeActions.loadExchangesStart());
+      this.store.dispatch(
+         ExchangeActions.loadExchangesStart({ payload: { isSorted: false } })
+      );
 
       this.exchanges$ = this.store.select('exchange').pipe(pluck('exchanges'));
    }
