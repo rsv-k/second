@@ -1,3 +1,29 @@
+@import '../../../../variables.scss';
+
 .title {
    font-size: 3rem;
+}
+
+.table {
+   width: 100%;
+   background: transparent;
+}
+
+.row {
+   cursor: pointer;
+   position: relative;
+   transition: 0.3s;
+
+   &:hover {
+      background: rgba($color-accent, 0.05);
+   }
+}
+
+.inActive {
+   opacity: 0.5;
+   cursor: default;
+
+   &:hover {
+      background: transparent;
+   }
 }

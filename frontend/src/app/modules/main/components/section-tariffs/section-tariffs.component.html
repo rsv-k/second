@@ -1,1 +1,39 @@
 <h2 class="title">Тарифы на обмен</h2>
+
+<table mat-table [dataSource]="exchanges$ | async" class="table">
+   <ng-container matColumnDef="givenCurrency">
+      <th mat-header-cell *matHeaderCellDef>{{ 'Отдаете' | uppercase }}</th>
+      <td
+         mat-cell
+         *matCellDef="let exchange"
+         [class.inActive]="!exchange.isActive"
+      >
+         {{ exchange.givenCurrencyCourse }} {{ exchange.givenCurrency.name }}
+      </td>
+   </ng-container>
+
+   <ng-container matColumnDef="takenCurrency">
+      <th mat-header-cell *matHeaderCellDef>{{ 'Получаете' | uppercase }}</th>
+      <td mat-cell *matCellDef="let exchange">
+         {{ exchange.takenCurrencyCourse }} {{ exchange.takenCurrency.name }}
+      </td>
+   </ng-container>
+
+   <ng-container matColumnDef="reserve">
+      <th mat-header-cell *matHeaderCellDef>{{ 'Резерв' | uppercase }}</th>
+      <td mat-cell *matCellDef="let exchange">
+         {{ exchange.takenCurrency.reserve }}
+      </td>
+   </ng-container>
+
+   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+   <tr
+      mat-row
+      *matRowDef="let row; columns: columnsToDisplay"
+      [class]="{
+         row: true,
+         inActive: !row.isActive
+      }"
+      (click)="onNavigate(row)"
+   ></tr>
+</table>
