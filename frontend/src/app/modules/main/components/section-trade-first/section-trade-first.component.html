@@ -23,9 +23,13 @@
 
       <ng-container *ngIf="currentExchange">
          <div
-            class="currency"
+            [class]="{
+               currency: true,
+               inActive: !exchange.isActive
+            }"
             *ngFor="let exchange of takenCurrencies"
-            (click)="onExchangeSelect(exchange.id)"
+            disabled="!exchange.isActive"
+            (click)="onExchangeSelect(exchange)"
          >
             <div class="image-container">
                <img

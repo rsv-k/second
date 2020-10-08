@@ -46,8 +46,12 @@ export class SectionTradeFirstComponent implements OnInit {
       this.getTakenCurrencies(exchange);
    }
 
-   onExchangeSelect(id: string): void {
-      this.router.navigate(['exchanges', id]);
+   onExchangeSelect(exchange: Exchange): void {
+      if (!exchange.isActive) {
+         return;
+      }
+
+      this.router.navigate(['exchanges', exchange.id]);
    }
 
    private getUniqueExchanges(exchanges: Exchange[]): void {
