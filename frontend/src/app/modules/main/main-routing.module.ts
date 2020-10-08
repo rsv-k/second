@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './components/main/main.component';
 import { SectionAboutComponent } from './components/section-about/section-about.component';
 import { SectionRulesComponent } from './components/section-rules/section-rules.component';
+import { SectionTariffsComponent } from './components/section-tariffs/section-tariffs.component';
 import { SectionTradeFirstComponent } from './components/section-trade-first/section-trade-first.component';
 import { SectionTradeSecondComponent } from './components/section-trade-second/section-trade-second.component';
 import { SectionTradeComponent } from './components/section-trade/section-trade.component';
@@ -39,6 +40,10 @@ const routes: Routes = [
          {
             path: 'terms-of-use',
             component: SectionRulesComponent,
+         },
+         {
+            path: 'tariffs',
+            component: SectionTariffsComponent,
          },
       ],
    },
