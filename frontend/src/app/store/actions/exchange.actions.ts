@@ -12,7 +12,8 @@ export const addExchangeSuccess = createAction(
 );
 
 export const loadExchangesStart = createAction(
-   '[EXCHANGE] LOAD EXCHANGES START'
+   '[EXCHANGE] LOAD EXCHANGES START',
+   props<{ payload: { isSorted: boolean } }>()
 );
 
 export const loadExchangesSuccess = createAction(

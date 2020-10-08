@@ -2,10 +2,16 @@ const Exchange = require('../models/exchange');
 const mongooseHelper = require('../utils/mongoose');
 
 exports.getExchanges = async (req, res, next) => {
+   const sortOptions = {};
+   if (req.query.isSorted) {
+      sortOptions.givenCurrency = 1;
+   }
+
    try {
       const exchanges = await Exchange.find({})
          .populate('givenCurrency')
-         .populate('takenCurrency');
+         .populate('takenCurrency')
+         .sort(sortOptions);
       if (exchanges.length === 0) {
          const error = new Error('Exchanges not found');
          error.statusCode = 404;

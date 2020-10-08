@@ -24,7 +24,9 @@ export class SectionTradeFirstComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.store.dispatch(ExchangeActions.loadExchangesStart());
+      this.store.dispatch(
+         ExchangeActions.loadExchangesStart({ payload: { isSorted: false } })
+      );
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 1 }));
 
       this.store

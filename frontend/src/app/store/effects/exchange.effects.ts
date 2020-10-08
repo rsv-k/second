@@ -27,8 +27,8 @@ export class ExchangeEffects {
    loadExchanges$ = createEffect(() =>
       this.actions$.pipe(
          ofType(ExchangeActions.loadExchangesStart),
-         mergeMap(() =>
-            this.exchangeService.getExchanges().pipe(
+         mergeMap((action) =>
+            this.exchangeService.getExchanges(action.payload.isSorted).pipe(
                map((exchanges: Exchange[]) =>
                   ExchangeActions.loadExchangesSuccess({
                      payload: exchanges,
