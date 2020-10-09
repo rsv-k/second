@@ -14,7 +14,7 @@ import { SocketioService } from './../../../../core/services/socketio.service';
 })
 export class OrdersShowComponent implements OnInit {
    orders$: Observable<Order[]>;
-   columnsToDisplay = ['date', 'givenCurrency', 'takenCurrency'];
+   columnsToDisplay = ['date', 'course', 'givenCurrency', 'takenCurrency'];
 
    constructor(
       private store: Store<fromApp.AppState>,

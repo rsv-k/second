@@ -14,6 +14,17 @@
       </td>
    </ng-container>
 
+   <ng-container matColumnDef="course">
+      <th mat-header-cell *matHeaderCellDef>Курс</th>
+      <td mat-cell *matCellDef="let order" class="orders__column">
+         <p class="orders__course">
+            1
+            <mat-icon>arrow_right_alt</mat-icon>
+            {{ order.takenCurrencyAmount / order.givenCurrencyAmount }}
+         </p>
+      </td>
+   </ng-container>
+
    <ng-container matColumnDef="givenCurrency">
       <th mat-header-cell *matHeaderCellDef>Отдаваемая валюта</th>
       <td mat-cell *matCellDef="let order" class="orders__column">
