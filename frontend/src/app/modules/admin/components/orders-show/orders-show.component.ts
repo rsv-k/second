@@ -1,20 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, on } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as fromApp from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { filter, first, pluck } from 'rxjs/operators';
+import { filter, pluck } from 'rxjs/operators';
 import { Order } from 'src/app/core/models/order.model';
 import { Observable } from 'rxjs';
 import { SocketioService } from './../../../../core/services/socketio.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
    selector: 'app-orders-show',
    templateUrl: './orders-show.component.html',
    styleUrls: ['./orders-show.component.scss'],
+   animations: [
+      trigger(
+         'slideInAnimation',
+         [
+            transition(
+               ':enter',
+               [
+                  style({transform: 'translateX(-100%)'}),
+                  animate('.5s ease-in', style({transform: 'translateX(0)'}))
+               ]
+            )
+         ]
+      )
+   ]
 })
 export class OrdersShowComponent implements OnInit {
    orders$: Observable<Order[]>;
    columnsToDisplay = ['date', 'course', 'givenCurrency', 'takenCurrency'];
+   canAnimate = false;
 
    constructor(
       private store: Store<fromApp.AppState>,
@@ -31,6 +47,7 @@ export class OrdersShowComponent implements OnInit {
             delete order._id;
 
             this.store.dispatch(OrderActions.addOrder({ payload: order }));
+            this.canAnimate = true;
          }
       });
 

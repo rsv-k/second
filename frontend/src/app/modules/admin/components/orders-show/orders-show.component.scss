@@ -1,3 +1,5 @@
+@import '../../../../variables.scss';
+
 .orders {
    width: 100%;
 
@@ -27,4 +29,14 @@
 
 .icon {
    transform: scale(0.6);
+}
+
+.pending {
+   background: rgba($color-accent, 0.1);
+}
+
+.pagination {
+   display: flex;
+   justify-content: space-between;
+   margin-top: 20px;
 }
