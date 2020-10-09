@@ -43,7 +43,9 @@ export class OrdersShowComponent implements OnInit {
       this.socketService.setupSocketConnection();
       this.socketService.socket.on('orders', (data) => {
          if (data.action === 'create') {
-            console.log(data.order);
+            if (this.currentPage !== 1) {
+               return;
+            }
             const order = data.order;
             order.id = order._id;
             delete order._id;
