@@ -28,7 +28,7 @@ export class OrderEffects {
       this.actions$.pipe(
          ofType(OrderActions.getOrdersStart),
          mergeMap((action) =>
-            this.orderService.getOrders().pipe(
+            this.orderService.getOrders(action.payload.page).pipe(
                map((orders: Order[]) =>
                   OrderActions.getOrdersSuccess({ payload: orders })
                ),

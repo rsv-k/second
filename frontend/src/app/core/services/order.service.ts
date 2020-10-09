@@ -23,8 +23,13 @@ export class OrderService {
          );
    }
 
-   getOrders(): Observable<Order[]> {
-      return this.http.get<{ msg: string; orders: any[] }>('/api/order').pipe(
+   getOrders(page: number): Observable<Order[]> {
+      let params = '';
+      if (page) {
+         params = '?page=' + page;
+      }
+
+      return this.http.get<{ msg: string; orders: any[] }>('/api/order' + params).pipe(
          pluck('orders'),
          map((orders) =>
             orders.map((order) => {

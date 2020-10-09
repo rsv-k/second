@@ -36,8 +36,17 @@ exports.createOrder = async (req, res, next) => {
 
 exports.getOrders = async (req, res, next) => {
    try {
+      let page = +req.query.page - 1;
+      const amount = 10;
+
+     if ((await Order.count()) < page * 10) {
+        page--;
+     }
+
       const orders = await Order.find()
          .sort({ _id: -1 })
+         .skip(page * 10)
+         .limit(amount)
          .populate('givenCurrency')
          .populate('takenCurrency');
       if (!orders.length) {
