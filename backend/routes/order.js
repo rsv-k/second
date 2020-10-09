@@ -4,6 +4,6 @@ const orderController = require('../controllers/order');
 const rateLimitMiddleware = require('../middlewares/rate-limit');
 
 router.post('', rateLimitMiddleware, orderController.createOrder);
-router.get('', orderController.getCurrencies);
+router.get('', orderController.getOrders);
 
 module.exports = router;

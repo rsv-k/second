@@ -34,9 +34,10 @@ exports.createOrder = async (req, res, next) => {
    }
 };
 
-exports.getCurrencies = async (req, res, next) => {
+exports.getOrders = async (req, res, next) => {
    try {
-      const orders = await Order.find({})
+      const orders = await Order.find()
+         .sort({ _id: -1 })
          .populate('givenCurrency')
          .populate('takenCurrency');
       if (!orders.length) {
