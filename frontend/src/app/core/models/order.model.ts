@@ -1,5 +1,6 @@
 import { Currency } from './currency.model';
 export interface Order {
+   id?: string;
    givenCurrencyAmount: number;
    takenCurrencyAmount: number;
    givenCurrencyCard: string;

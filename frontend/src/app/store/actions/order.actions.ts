@@ -10,10 +10,22 @@ export const createOrderSuccess = createAction(
    props<{ payload: Order }>()
 );
 
-export const getOrdersStart = createAction('[ORDER] GET ORDERS START', props<{payload: { page: number }}>());
+export const getOrdersStart = createAction(
+   '[ORDER] GET ORDERS START',
+   props<{ payload: { page: number } }>()
+);
 export const getOrdersSuccess = createAction(
    '[ORDER] GET ORDERS SUCCESS',
    props<{ payload: Order[] }>()
+);
+
+export const deleteOrderStart = createAction(
+   '[ORDER] DELETE ORDER START',
+   props<{ payload: { id: string } }>()
+);
+export const deleteOrderSuccess = createAction(
+   '[ORDER] DELETE ORDER SUCCESS',
+   props<{ payload: Order }>()
 );
 
 export const addOrder = createAction(

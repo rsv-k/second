@@ -13,23 +13,23 @@ import { animate, style, transition, trigger } from '@angular/animations';
    templateUrl: './orders-show.component.html',
    styleUrls: ['./orders-show.component.scss'],
    animations: [
-      trigger(
-         'slideInAnimation',
-         [
-            transition(
-               ':enter',
-               [
-                  style({transform: 'translateX(-100%)'}),
-                  animate('.5s ease-in', style({transform: 'translateX(0)'}))
-               ]
-            )
-         ]
-      )
-   ]
+      trigger('slideInAnimation', [
+         transition(':enter', [
+            style({ transform: 'translateX(-100%)' }),
+            animate('.5s ease-in', style({ transform: 'translateX(0)' })),
+         ]),
+      ]),
+   ],
 })
 export class OrdersShowComponent implements OnInit {
    orders$: Observable<Order[]>;
-   columnsToDisplay = ['date', 'course', 'givenCurrency', 'takenCurrency'];
+   columnsToDisplay = [
+      'date',
+      'course',
+      'givenCurrency',
+      'takenCurrency',
+      'delete',
+   ];
    canAnimate = false;
 
    private currentOrdersAmount;
@@ -59,12 +59,15 @@ export class OrdersShowComponent implements OnInit {
       this.orders$ = this.store.select('order').pipe(
          pluck('orders'),
          filter((orders: Order[]) => orders.length > 0),
-         tap(orders => {
+         tap((orders) => {
             this.currentOrdersAmount = orders.length;
          })
       );
    }
 
+   onOrderDelete(id: string): void {
+      this.store.dispatch(OrderActions.deleteOrderStart({ payload: { id } }));
+   }
 
    nextPage(): void {
       if (this.currentOrdersAmount < 10) {
@@ -85,6 +88,8 @@ export class OrdersShowComponent implements OnInit {
    }
 
    private getOrders(): void {
-      this.store.dispatch(OrderActions.getOrdersStart({payload: { page: this.currentPage }}));
+      this.store.dispatch(
+         OrderActions.getOrdersStart({ payload: { page: this.currentPage } })
+      );
    }
 }
