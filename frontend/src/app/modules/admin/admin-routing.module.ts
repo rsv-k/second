@@ -1,3 +1,4 @@
+import { OrderResolver } from './../../core/resolvers/order-resolver.service';
 import { ExchangeResolver } from './../../core/resolvers/exchange-resolver.service';
 import { CurrencyResolver } from './../../core/resolvers/currency-resolver.service';
 import { OrdersShowComponent } from './components/orders-show/orders-show.component';
@@ -58,6 +59,9 @@ const routes: Routes = [
          {
             path: 'orders-show',
             component: OrdersShowComponent,
+            resolve: {
+               orders: OrderResolver,
+            },
          },
       ],
    },
