@@ -29,15 +29,30 @@ export class OrderService {
          params = '?page=' + page;
       }
 
-      return this.http.get<{ msg: string; orders: any[] }>('/api/order' + params).pipe(
-         pluck('orders'),
-         map((orders) =>
-            orders.map((order) => {
+      return this.http
+         .get<{ msg: string; orders: any[] }>('/api/order' + params)
+         .pipe(
+            pluck('orders'),
+            map((orders) =>
+               orders.map((order) => {
+                  order.id = order._id;
+                  delete order._id;
+                  return order;
+               })
+            )
+         );
+   }
+
+   deleteOrder(id: string): Observable<Order> {
+      return this.http
+         .delete<{ msg: string; order: any }>('/api/order/' + id)
+         .pipe(
+            pluck('order'),
+            map((order) => {
                order.id = order._id;
                delete order._id;
                return order;
             })
-         )
-      );
+         );
    }
 }
