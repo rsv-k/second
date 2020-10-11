@@ -1,6 +1,5 @@
 const Currency = require('../models/currency');
 const fileHelper = require('../utils/file');
-const mongoose = require('mongoose');
 const mongooseHelper = require('../utils/mongoose');
 
 exports.createCurrency = async (req, res, next) => {
