@@ -22,6 +22,9 @@ const routes: Routes = [
          {
             path: 'currencies-show',
             component: CurrenciesShowComponent,
+            resolve: {
+               currencies: CurrencyResolver,
+            },
          },
          {
             path: 'currencies-create',
@@ -37,6 +40,9 @@ const routes: Routes = [
          {
             path: 'exchanges-show',
             component: ExchangesShowComponent,
+            resolve: {
+               exchanges: ExchangeResolver,
+            },
          },
          {
             path: 'exchanges-create',
