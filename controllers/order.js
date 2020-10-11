@@ -1,5 +1,6 @@
 const Order = require('../models/order');
 const io = require('../socketio');
+const schedule = require('node-schedule');
 
 exports.createOrder = async (req, res, next) => {
    try {
@@ -39,9 +40,9 @@ exports.getOrders = async (req, res, next) => {
       let page = +req.query.page - 1;
       const amount = 10;
 
-     if ((await Order.count()) < page * 10) {
-        page--;
-     }
+      if ((await Order.count()) < page * 10) {
+         page--;
+      }
 
       const orders = await Order.find()
          .sort({ _id: -1 })
@@ -61,3 +62,15 @@ exports.getOrders = async (req, res, next) => {
       next(error);
    }
 };
+
+schedule.scheduleJob('* * * * *', async () => {
+   await Order.updateMany(
+      {
+         date: {
+            $lt: new Date(Date.now() - 15 * 60 * 1000),
+         },
+         status: 'pending',
+      },
+      { $set: { status: 'canceled' } }
+   );
+});
