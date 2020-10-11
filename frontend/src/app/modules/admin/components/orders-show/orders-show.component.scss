@@ -35,6 +35,10 @@
    background: rgba($color-accent, 0.1);
 }
 
+.canceled {
+   background: rgba($color-warn, 0.1);
+}
+
 .pagination {
    display: flex;
    justify-content: space-between;

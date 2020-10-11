@@ -64,15 +64,19 @@
    </ng-container>
 
    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-   <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay" 
-   [@.disabled] = '!canAnimate' 
-   [@slideInAnimation] 
-   [class] = "{
-      pending: myRowData.status === 'pending'
-   }"></tr>
+   <tr
+      mat-row
+      *matRowDef="let myRowData; columns: columnsToDisplay"
+      [@.disabled]="!canAnimate"
+      [@slideInAnimation]
+      [class]="{
+         pending: myRowData.status === 'pending',
+         canceled: myRowData.status === 'canceled'
+      }"
+   ></tr>
 </table>
 
 <div class="pagination">
-   <button mat-raised-button (click) = "prevPage()">Назад</button>
-   <button mat-raised-button (click) = "nextPage()">Вперед</button>
+   <button mat-raised-button (click)="prevPage()">Назад</button>
+   <button mat-raised-button (click)="nextPage()">Вперед</button>
 </div>
