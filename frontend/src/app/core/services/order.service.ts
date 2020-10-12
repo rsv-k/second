@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
@@ -23,14 +23,20 @@ export class OrderService {
          );
    }
 
-   getOrders(page: number): Observable<Order[]> {
-      let params = '';
-      if (page) {
-         params = '?page=' + page;
+   getOrders(opt: { page?: number }): Observable<Order[]> {
+      const options = {
+         params: new HttpParams(),
+      };
+      if (Object.keys(opt).length > 0) {
+         for (const key in opt) {
+            if (opt[key]) {
+               options.params = options.params.set(key, opt[key]);
+            }
+         }
       }
 
       return this.http
-         .get<{ msg: string; orders: any[] }>('/api/order' + params)
+         .get<{ msg: string; orders: any[] }>('/api/order', options)
          .pipe(
             pluck('orders'),
             map((orders) =>
