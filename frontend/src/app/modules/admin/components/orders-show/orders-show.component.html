@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="orders$ | async" class="orders">
+<table mat-table [dataSource]="dataSource" class="orders">
    <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Дата создания</th>
       <td mat-cell *matCellDef="let order" class="orders__column">

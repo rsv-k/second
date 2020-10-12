@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { filter, pluck, tap } from 'rxjs/operators';
+import { filter, pluck, takeUntil } from 'rxjs/operators';
 import { Order } from 'src/app/core/models/order.model';
-import { Observable } from 'rxjs';
 import { SocketioService } from './../../../../core/services/socketio.service';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { MatTableDataSource } from '@angular/material/table';
+import { BaseComponent } from './../../../base.component';
 
 @Component({
    selector: 'app-orders-show',
@@ -21,8 +22,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
       ]),
    ],
 })
-export class OrdersShowComponent implements OnInit {
-   orders$: Observable<Order[]>;
+export class OrdersShowComponent extends BaseComponent implements OnInit {
+   dataSource = new MatTableDataSource<Order>();
    columnsToDisplay = [
       'date',
       'course',
@@ -32,12 +33,13 @@ export class OrdersShowComponent implements OnInit {
    ];
    canAnimate = false;
 
-   private currentOrdersAmount;
    private currentPage = 1;
    constructor(
       private store: Store<fromApp.AppState>,
       private socketService: SocketioService
-   ) {}
+   ) {
+      super();
+   }
 
    ngOnInit(): void {
       this.socketService.setupSocketConnection();
@@ -56,13 +58,16 @@ export class OrdersShowComponent implements OnInit {
       });
 
       this.getOrders();
-      this.orders$ = this.store.select('order').pipe(
-         pluck('orders'),
-         filter((orders: Order[]) => orders.length > 0),
-         tap((orders) => {
-            this.currentOrdersAmount = orders.length;
-         })
-      );
+      this.store
+         .select('order')
+         .pipe(
+            pluck('orders'),
+            filter((orders: Order[]) => orders.length > 0),
+            takeUntil(this.destroyed)
+         )
+         .subscribe((orders) => {
+            this.dataSource.data = orders;
+         });
    }
 
    onOrderDelete(id: string): void {
@@ -70,7 +75,7 @@ export class OrdersShowComponent implements OnInit {
    }
 
    nextPage(): void {
-      if (this.currentOrdersAmount < 10) {
+      if (this.dataSource.data.length < 10) {
          return;
       }
 
