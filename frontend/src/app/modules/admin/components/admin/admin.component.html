@@ -1,8 +1,11 @@
 <mat-drawer-container class="admin">
-   <mat-drawer mode="side" opened>
+   <mat-drawer mode="side" opened #sidenav>
       <app-admin-side-menu class="side-menu"></app-admin-side-menu>
    </mat-drawer>
    <mat-drawer-content class="admin__main">
+      <button mat-icon-button class="button--toggle" (click)="sidenav.toggle()">
+         <mat-icon>{{ sidenav.opened ? 'close' : 'menu' }}</mat-icon>
+      </button>
       <app-admin-page-header></app-admin-page-header>
       <router-outlet></router-outlet>
    </mat-drawer-content>
