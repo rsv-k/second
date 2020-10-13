@@ -8,6 +8,7 @@ import { SocketioService } from './../../../../core/services/socketio.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
    selector: 'app-orders-show',
@@ -25,6 +26,7 @@ import { BaseComponent } from './../../../base.component';
 export class OrdersShowComponent extends BaseComponent implements OnInit {
    dataSource = new MatTableDataSource<Order>();
    columnsToDisplay = [
+      'select',
       'date',
       'course',
       'givenCurrency',
@@ -32,6 +34,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       'delete',
    ];
    canAnimate = false;
+   selection = new SelectionModel<Order>(true, []);
 
    private currentPage = 1;
    constructor(
@@ -72,6 +75,18 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
    onOrderDelete(id: string): void {
       this.store.dispatch(OrderActions.deleteOrderStart({ payload: { id } }));
+   }
+
+   isAllSelected(): boolean {
+      const numSelected = this.selection.selected.length;
+      const numRows = this.dataSource.data.length;
+      return numSelected === numRows;
+   }
+
+   masterToggle(): void {
+      this.isAllSelected()
+         ? this.selection.clear()
+         : this.dataSource.data.forEach((row) => this.selection.select(row));
    }
 
    nextPage(): void {

@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
    exports: [
@@ -18,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       MatTableModule,
       MatAutocompleteModule,
       MatSlideToggleModule,
+      MatCheckboxModule,
    ],
 })
 export class MaterialModule {}
