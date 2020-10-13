@@ -31,7 +31,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       'course',
       'givenCurrency',
       'takenCurrency',
-      'delete',
    ];
    canAnimate = false;
    selection = new SelectionModel<Order>(true, []);
@@ -73,8 +72,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          });
    }
 
-   onOrderDelete(id: string): void {
-      this.store.dispatch(OrderActions.deleteOrderStart({ payload: { id } }));
+   onDeleteOrders(): void {
+      const ids = this.selection.selected.map((order) => order.id);
+      this.store.dispatch(OrderActions.deleteOrdersStart({ payload: { ids } }));
+      this.getOrders();
    }
 
    isAllSelected(): boolean {

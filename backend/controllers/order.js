@@ -1,7 +1,6 @@
 const Order = require('../models/order');
 const io = require('../socketio');
 const schedule = require('node-schedule');
-const mongooseHelper = require('../utils/mongoose');
 
 exports.createOrder = async (req, res, next) => {
    try {
@@ -64,24 +63,18 @@ exports.getOrders = async (req, res, next) => {
    }
 };
 
-exports.deleteOrder = async (req, res, next) => {
+exports.deleteOrders = async (req, res, next) => {
    try {
-      const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Order not found');
-         error.status = 404;
+      const ids = req.body;
+      if (ids.length === 0) {
+         const error = new Error('Incomplete data');
+         error.statusCode = 422;
          return next(error);
       }
 
-      const order = await Order.findById(id);
-      if (!order) {
-         const error = new Error('Order not found');
-         error.status = 404;
-         return next(error);
-      }
+      await Order.deleteMany({ _id: { $in: ids } });
 
-      await order.remove();
-      res.status(200).json({ msg: 'order deleted successfully', order });
+      res.status(200).json({ msg: 'orders deleted successfully' });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);

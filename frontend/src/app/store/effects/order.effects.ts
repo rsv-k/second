@@ -42,12 +42,10 @@ export class OrderEffects {
 
    deleteOrder$ = createEffect(() =>
       this.actions$.pipe(
-         ofType(OrderActions.deleteOrderStart),
+         ofType(OrderActions.deleteOrdersStart),
          mergeMap((action) =>
-            this.orderService.deleteOrder(action.payload.id).pipe(
-               map((order: Order) =>
-                  OrderActions.deleteOrderSuccess({ payload: order })
-               ),
+            this.orderService.deleteOrder(action.payload.ids).pipe(
+               map(() => OrderActions.deleteOrdersSuccess()),
                catchError((error) =>
                   of(OrderActions.orderError({ payload: error.message }))
                )

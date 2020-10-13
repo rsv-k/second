@@ -32,13 +32,12 @@ const orderReducer = createReducer(
       ...state,
       orders: [...payload],
    })),
-   on(OrderActions.deleteOrderStart, (state) => ({
+   on(OrderActions.deleteOrdersStart, (state) => ({
       ...state,
       error: null,
    })),
-   on(OrderActions.deleteOrderSuccess, (state, { payload }) => ({
+   on(OrderActions.deleteOrdersSuccess, (state) => ({
       ...state,
-      orders: state.orders.filter((order) => order.id !== payload.id),
    })),
    on(OrderActions.addOrder, (state, { payload }) => ({
       ...state,

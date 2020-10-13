@@ -49,16 +49,7 @@ export class OrderService {
          );
    }
 
-   deleteOrder(id: string): Observable<Order> {
-      return this.http
-         .delete<{ msg: string; order: any }>('/api/order/' + id)
-         .pipe(
-            pluck('order'),
-            map((order) => {
-               order.id = order._id;
-               delete order._id;
-               return order;
-            })
-         );
+   deleteOrder(ids: string[]) {
+      return this.http.post('/api/order/deleteManyById', ids);
    }
 }
