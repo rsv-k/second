@@ -12,5 +12,5 @@ export interface Order {
    phone: string;
    email: string;
    date: Date;
-   status: 'canceled' | 'pending' | 'paid';
+   status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed';
 }
