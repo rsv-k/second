@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
    exports: [
@@ -20,6 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
       MatAutocompleteModule,
       MatSlideToggleModule,
       MatCheckboxModule,
+      MatSidenavModule,
    ],
 })
 export class MaterialModule {}

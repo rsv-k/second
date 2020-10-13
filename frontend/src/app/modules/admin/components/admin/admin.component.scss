@@ -1,9 +1,11 @@
 .admin {
-   min-height: 100%;
-   display: flex;
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
 
    &__main {
       padding: 2rem 15rem;
-      width: 100%;
    }
 }

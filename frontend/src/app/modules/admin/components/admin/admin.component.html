@@ -1,7 +1,9 @@
-<div class="admin">
-   <app-admin-side-menu class="side-menu"></app-admin-side-menu>
-   <main class="admin__main">
+<mat-drawer-container class="admin">
+   <mat-drawer mode="side" opened>
+      <app-admin-side-menu class="side-menu"></app-admin-side-menu>
+   </mat-drawer>
+   <mat-drawer-content class="admin__main">
       <app-admin-page-header></app-admin-page-header>
       <router-outlet></router-outlet>
-   </main>
-</div>
+   </mat-drawer-content>
+</mat-drawer-container>
