@@ -1,5 +1,15 @@
 @import '../../../../variables.scss';
 
+.section-orders {
+   position: relative;
+}
+
+.management {
+   position: absolute;
+   right: 0;
+   top: -6.5rem;
+}
+
 .orders {
    width: 100%;
 
