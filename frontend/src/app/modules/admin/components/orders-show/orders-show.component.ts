@@ -1,3 +1,4 @@
+import { OrdersStatusDialogComponent } from './../orders-status-dialog/orders-status-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../../store/index';
@@ -9,6 +10,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
    selector: 'app-orders-show',
@@ -38,7 +40,8 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    private currentPage = 1;
    constructor(
       private store: Store<fromApp.AppState>,
-      private socketService: SocketioService
+      private socketService: SocketioService,
+      private dialog: MatDialog
    ) {
       super();
    }
@@ -70,6 +73,19 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          .subscribe((orders) => {
             this.dataSource.data = orders;
          });
+   }
+
+   openDialog(): void {
+      const dialogRef = this.dialog.open(OrdersStatusDialogComponent, {
+         width: '250px',
+         data: '',
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+         if (!result) {
+            return;
+         }
+      });
    }
 
    onDeleteOrders(): void {

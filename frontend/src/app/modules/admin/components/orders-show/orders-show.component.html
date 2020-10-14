@@ -6,7 +6,20 @@
       </button>
 
       <mat-menu #menu="matMenu">
-         <button mat-menu-item (click)="onDeleteOrders()">Удалить</button>
+         <button
+            mat-menu-item
+            (click)="openDialog()"
+            [disabled]="!selection.hasValue()"
+         >
+            Изменить статус
+         </button>
+         <button
+            mat-menu-item
+            (click)="onDeleteOrders()"
+            [disabled]="!selection.hasValue()"
+         >
+            Удалить
+         </button>
       </mat-menu>
    </div>
 

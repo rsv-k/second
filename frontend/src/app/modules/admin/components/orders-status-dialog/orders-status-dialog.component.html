@@ -1,0 +1,17 @@
+<p>Изменить статус</p>
+
+<mat-form-field appearance="fill">
+   <mat-label>Статус</mat-label>
+   <mat-select #select>
+      <mat-option *ngFor="let status of statuses" [value]="status">
+         {{ status }}
+      </mat-option>
+   </mat-select>
+</mat-form-field>
+
+<div mat-dialog-actions>
+   <button mat-button [mat-dialog-close]="select.selected" cdkFocusInitial>
+      Сохранить
+   </button>
+   <button mat-button (click)="onNoClick()">Закрыть</button>
+</div>

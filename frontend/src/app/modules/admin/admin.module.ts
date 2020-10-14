@@ -15,6 +15,7 @@ import * as fromCurrency from './store/reducers/currency.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CurrencyEffects } from './store/effects/currency.effects';
 import { CurrencyService } from './services/currency.service';
+import { OrdersStatusDialogComponent } from './components/orders-status-dialog/orders-status-dialog.component';
 
 @NgModule({
    declarations: [
@@ -26,6 +27,7 @@ import { CurrencyService } from './services/currency.service';
       AdminPageHeaderComponent,
       CurrenciesCreateComponent,
       ExchangesCreateComponent,
+      OrdersStatusDialogComponent,
    ],
    imports: [
       AdminRoutingModule,
