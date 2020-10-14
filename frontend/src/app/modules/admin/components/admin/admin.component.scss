@@ -10,8 +10,12 @@
    }
 }
 
+.admin__main {
+   position: relative;
+}
+
 .button--toggle {
-   position: absolute;
-   left: 0;
-   top: 0;
+   position: fixed;
+   margin-left: -15rem;
+   margin-top: -1rem;
 }
