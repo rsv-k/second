@@ -93,6 +93,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
             OrderActions.updateOrdersStart({ payload: { ids, status } })
          );
          this.getOrders();
+         this.selectionClear();
       });
    }
 
@@ -101,6 +102,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       const ids = this.getSelectedIds();
       this.store.dispatch(OrderActions.deleteOrdersStart({ payload: { ids } }));
       this.getOrders();
+      this.selectionClear();
    }
 
    isAllSelected(): boolean {
@@ -111,7 +113,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
    masterToggle(): void {
       this.isAllSelected()
-         ? this.selection.clear()
+         ? this.selectionClear()
          : this.dataSource.data.forEach((row) => this.selection.select(row));
    }
 
@@ -131,6 +133,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
       this.currentPage--;
       this.getOrders();
+   }
+
+   private selectionClear(): void {
+      this.selection.clear();
    }
 
    private getSelectedIds(): string[] {

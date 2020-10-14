@@ -119,7 +119,10 @@
          [@slideInAnimation]
          [class]="{
             pending: myRowData.status === 'pending',
-            canceled: myRowData.status === 'canceled'
+            canceled: myRowData.status === 'canceled',
+            paid: myRowData.status === 'paid',
+            done: myRowData.status === 'done',
+            freezed: myRowData.status === 'freezed'
          }"
       ></tr>
    </table>

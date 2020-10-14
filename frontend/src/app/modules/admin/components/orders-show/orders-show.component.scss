@@ -42,11 +42,23 @@
 }
 
 .pending {
-   background: rgba($color-accent, 0.1);
+   background: rgba($color-teal, 0.1);
 }
 
 .canceled {
    background: rgba($color-warn, 0.1);
+}
+
+.paid {
+   background: rgba($color-primary, 0.1);
+}
+
+.done {
+   background: rgba($color-green, 0.1);
+}
+
+.freezed {
+   background: rgba($color-grey, 0.1);
 }
 
 .pagination {
