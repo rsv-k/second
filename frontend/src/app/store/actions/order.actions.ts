@@ -27,6 +27,20 @@ export const deleteOrdersSuccess = createAction(
    '[ORDER] DELETE ORDERS SUCCESS'
 );
 
+export const updateOrdersStart = createAction(
+   '[ORDER] UPDATE ORDERS START',
+   props<{
+      payload: {
+         ids: string[];
+         status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed';
+      };
+   }>()
+);
+
+export const updateOrdersSuccess = createAction(
+   '[ORDER] UPDATE ORDERS SUCCESS'
+);
+
 export const addOrder = createAction(
    '[ORDER] ADD ORDER',
    props<{ payload: Order }>()

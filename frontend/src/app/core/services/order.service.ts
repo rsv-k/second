@@ -15,10 +15,10 @@ export class OrderService {
          .post<{ msg: string; order: any }>('/api/order', order)
          .pipe(
             pluck('order'),
-            map((order) => {
-               order.id = order._id;
-               delete order._id;
-               return order;
+            map((o) => {
+               o.id = o._id;
+               delete o._id;
+               return o;
             })
          );
    }
@@ -49,7 +49,19 @@ export class OrderService {
          );
    }
 
-   deleteOrder(ids: string[]) {
+   deleteOrder(ids: string[]): Observable<any> {
       return this.http.post('/api/order/deleteManyById', ids);
+   }
+
+   updateOrder(
+      ids: string[],
+      status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed'
+   ): Observable<any> {
+      return this.http.put<{
+         msg: 'string';
+      }>('/api/order/updateManyById', {
+         ids,
+         status,
+      });
    }
 }

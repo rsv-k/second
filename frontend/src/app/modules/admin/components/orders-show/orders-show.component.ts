@@ -76,6 +76,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    openDialog(): void {
+      this.canAnimate = false;
       const dialogRef = this.dialog.open(OrdersStatusDialogComponent, {
          width: '250px',
          data: '',
@@ -85,11 +86,19 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          if (!result) {
             return;
          }
+         const ids = this.getSelectedIds();
+         const status = result.value;
+
+         this.store.dispatch(
+            OrderActions.updateOrdersStart({ payload: { ids, status } })
+         );
+         this.getOrders();
       });
    }
 
    onDeleteOrders(): void {
-      const ids = this.selection.selected.map((order) => order.id);
+      this.canAnimate = false;
+      const ids = this.getSelectedIds();
       this.store.dispatch(OrderActions.deleteOrdersStart({ payload: { ids } }));
       this.getOrders();
    }
@@ -122,6 +131,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
       this.currentPage--;
       this.getOrders();
+   }
+
+   private getSelectedIds(): string[] {
+      return this.selection.selected.map((order) => order.id);
    }
 
    private getOrders(): void {

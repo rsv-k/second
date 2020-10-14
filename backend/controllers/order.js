@@ -63,6 +63,28 @@ exports.getOrders = async (req, res, next) => {
    }
 };
 
+exports.updateOrders = async (req, res, next) => {
+   try {
+      const ids = req.body.ids;
+      const status = req.body.status;
+      if (ids.length === 0 || !status) {
+         const error = new Error('Incomplete data');
+         error.statusCode = 422;
+         return next(error);
+      }
+
+      await Order.updateMany(
+         { _id: { $in: ids } },
+         { $set: { status } },
+         { multi: true }
+      );
+
+      res.status(200).json({ msg: 'orders updated successfully' });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
 exports.deleteOrders = async (req, res, next) => {
    try {
       const ids = req.body;

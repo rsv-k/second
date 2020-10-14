@@ -43,6 +43,13 @@ const orderReducer = createReducer(
       ...state,
       orders: [payload, ...state.orders.slice(0, 9)],
    })),
+   on(OrderActions.updateOrdersStart, (state) => ({
+      ...state,
+      error: null,
+   })),
+   on(OrderActions.updateOrdersSuccess, (state) => ({
+      ...state,
+   })),
    on(OrderActions.orderError, (state, { payload }) => ({
       ...state,
       error: payload,
