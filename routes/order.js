@@ -6,5 +6,6 @@ const rateLimitMiddleware = require('../middlewares/rate-limit');
 router.post('', rateLimitMiddleware, orderController.createOrder);
 router.get('', orderController.getOrders);
 router.post('/deleteManyById', orderController.deleteOrders);
+router.put('/updateManyById', orderController.updateOrders);
 
 module.exports = router;
