@@ -85,6 +85,7 @@ exports.updateOrders = async (req, res, next) => {
       next(error);
    }
 };
+
 exports.deleteOrders = async (req, res, next) => {
    try {
       const ids = req.body;
