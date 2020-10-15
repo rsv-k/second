@@ -1,6 +1,7 @@
 const Order = require('../models/order');
 const io = require('../socketio');
 const schedule = require('node-schedule');
+const mongooseHelper = require('../utils/mongoose');
 
 exports.createOrder = async (req, res, next) => {
    try {
@@ -53,6 +54,29 @@ exports.getOrders = async (req, res, next) => {
          .populate('takenCurrency');
 
       res.status(200).json({ msg: 'Orders fetched successfully', orders });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
+
+exports.getOrder = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Order not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const order = await Order.findById(id);
+      if (!order) {
+         const error = new Error('Order not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({ msg: 'Order successfully fetched', order });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
