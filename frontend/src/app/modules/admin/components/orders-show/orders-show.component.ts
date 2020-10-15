@@ -35,13 +35,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       'givenCurrency',
       'takenCurrency',
    ];
-   statuses = {
-      freezed: 'Приостановлена',
-      done: 'Выполнена',
-      pending: 'Ожидается',
-      canceled: 'Отменена',
-      paid: 'Оплачена',
-   };
 
    availableStatuses = ['done', 'paid', 'pending', 'freezed', 'canceled'];
    canAnimate = false;

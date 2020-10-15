@@ -3,7 +3,7 @@
       <div class="showOnly">
          <button mat-button class="button" [matMenuTriggerFor]="menuStatuses">
             <mat-icon class="icon">filter_frames</mat-icon>
-            <span class="text">Показыввать только</span>
+            <span class="text">Показывать только</span>
          </button>
 
          <mat-menu #menuStatuses="matMenu">
@@ -14,7 +14,7 @@
                mat-menu-item
                *ngFor="let status of availableStatuses"
             >
-               {{ statuses[status] }}
+               {{ status | status }}
             </button>
          </mat-menu>
       </div>
@@ -76,7 +76,7 @@
                   {{ order.date | date: 'd/M/yyyy, h:mm' }}
                </span>
                <mat-icon class="icon">loop</mat-icon>
-               <span class="orders__status">{{ statuses[order.status] }}</span>
+               <span class="orders__status">{{ order.status | status }}</span>
             </p>
          </td>
       </ng-container>

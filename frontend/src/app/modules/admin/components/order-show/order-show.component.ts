@@ -16,13 +16,6 @@ import { OrdersStatusDialogComponent } from '../orders-status-dialog/orders-stat
 export class OrderShowComponent implements OnInit {
    order: Order;
 
-   statuses = {
-      freezed: 'Приостановлена',
-      done: 'Выполнена',
-      pending: 'Ожидается',
-      canceled: 'Отменена',
-      paid: 'Оплачена',
-   };
    constructor(
       private store: Store<fromApp.AppState>,
       private router: Router,
