@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ExchangesCreateComponent } from './components/exchanges-create/exchanges-create.component';
 import { CurrenciesCreateComponent } from './components/currencies-create/currencies-create.component';
+import { OrderShowComponent } from './components/order-show/order-show.component';
 
 const routes: Routes = [
    {
@@ -61,6 +62,13 @@ const routes: Routes = [
             component: OrdersShowComponent,
             resolve: {
                orders: OrderResolver,
+            },
+         },
+         {
+            path: 'order/:id',
+            component: OrderShowComponent,
+            resolve: {
+               order: OrderResolver,
             },
          },
       ],
