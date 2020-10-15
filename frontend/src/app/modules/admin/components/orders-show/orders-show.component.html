@@ -53,7 +53,7 @@
                   {{ order.date | date: 'd/M/yyyy, h:mm' }}
                </span>
                <mat-icon class="icon">loop</mat-icon>
-               <span class="orders__status">{{ order.status }}</span>
+               <span class="orders__status">{{ statuses[order.status] }}</span>
             </p>
          </td>
       </ng-container>
