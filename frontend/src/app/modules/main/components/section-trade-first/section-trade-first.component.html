@@ -8,13 +8,10 @@
          (click)="selectCurrentExchange(exchange)"
          [class.selected]="exchange.id === currentExchange.id"
       >
-         <div class="image-container">
-            <img
-               src="{{ exchange.givenCurrency.icon }}"
-               alt="icon"
-               class="img"
-            />
-         </div>
+         <app-currency-img
+            [icon]="exchange.givenCurrency.icon"
+            [alt]="exchange.givenCurrency.stringId"
+         ></app-currency-img>
          <p class="currency__name">{{ exchange.givenCurrency.name }}</p>
       </div>
    </div>
@@ -31,13 +28,10 @@
             disabled="!exchange.isActive"
             (click)="onExchangeSelect(exchange)"
          >
-            <div class="image-container">
-               <img
-                  src="{{ exchange.takenCurrency.icon }}"
-                  alt="icon"
-                  class="img"
-               />
-            </div>
+            <app-currency-img
+               [icon]="exchange.takenCurrency.icon"
+               [alt]="exchange.takenCurrency.stringId"
+            ></app-currency-img>
             <div class="currency__info">
                <p class="currency__name no-margin">
                   {{ exchange.takenCurrency.name }}

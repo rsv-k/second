@@ -16,9 +16,10 @@
       </span>
    </div>
    <div class="currency">
-      <div class="img-container">
-         <img class="img" src="{{ order.givenCurrency.icon }}" alt="" />
-      </div>
+      <app-currency-img
+         [icon]="order.givenCurrency.icon"
+         [alt]="order.givenCurrency.stringId"
+      ></app-currency-img>
       <h2 class="currency__title">{{ order.givenCurrency.name }}</h2>
    </div>
    <div class="row">
@@ -34,9 +35,10 @@
       </span>
    </div>
    <div class="currency">
-      <div class="img-container">
-         <img class="img" src="{{ order.takenCurrency.icon }}" alt="" />
-      </div>
+      <app-currency-img
+         [icon]="order.takenCurrency.icon"
+         [alt]="order.takenCurrency.stringId"
+      ></app-currency-img>
       <h2 class="currency__title">{{ order.takenCurrency.name }}</h2>
    </div>
    <div class="row">
