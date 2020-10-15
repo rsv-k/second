@@ -69,7 +69,9 @@ exports.getOrder = async (req, res, next) => {
          return next(error);
       }
 
-      const order = await Order.findById(id);
+      const order = await Order.findById(id)
+         .populate('givenCurrency')
+         .populate('takenCurrency');
       if (!order) {
          const error = new Error('Order not found');
          error.statusCode = 404;

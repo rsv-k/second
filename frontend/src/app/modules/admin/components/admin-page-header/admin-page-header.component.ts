@@ -36,9 +36,9 @@ export class AdminPageHeaderComponent implements OnInit {
       'exchanges-edit': {
          title: 'Редактировать направление обмена',
       },
-      // order: {
-      //    title: 'Заявка на обмен',
-      // },
+      order: {
+         title: 'Заявка на обмен',
+      },
    };
    constructor(private router: Router) {}
 

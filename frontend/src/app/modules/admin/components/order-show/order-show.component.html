@@ -1,1 +1,79 @@
-<p>order-show works!</p>
+<section class="section-order" *ngIf="order">
+   <div class="row">
+      <h3 class="title">Дата создания</h3>
+      <span class="text">{{ order.date | date: 'd/M/yyyy, h:mm' }}</span>
+   </div>
+   <div class="row">
+      <h3 class="title">Статус</h3>
+      <span class="text">{{ statuses[order.status] }}</span>
+   </div>
+   <div class="row">
+      <h3 class="title">Курс обмена</h3>
+      <span class="text text--currency">
+         {{ order.takenCurrencyAmount / order.givenCurrencyAmount }}
+         <mat-icon class="icon">arrow_right_alt</mat-icon>
+         1
+      </span>
+   </div>
+   <div class="currency">
+      <div class="img-container">
+         <img class="img" src="{{ order.givenCurrency.icon }}" alt="" />
+      </div>
+      <h2 class="currency__title">{{ order.givenCurrency.name }}</h2>
+   </div>
+   <div class="row">
+      <h3 class="title">Отдает</h3>
+      <span class="text text--currency">
+         {{ order.givenCurrencyAmount }} {{ order.givenCurrency.currencyCode }}
+      </span>
+   </div>
+   <div class="row">
+      <h3 class="title">Номер кошелька</h3>
+      <span class="text text--currency">
+         {{ order.givenCurrencyCard }}
+      </span>
+   </div>
+   <div class="currency">
+      <div class="img-container">
+         <img class="img" src="{{ order.takenCurrency.icon }}" alt="" />
+      </div>
+      <h2 class="currency__title">{{ order.takenCurrency.name }}</h2>
+   </div>
+   <div class="row">
+      <h3 class="title">Получает</h3>
+      <span class="text text--currency">
+         {{ order.takenCurrencyAmount }} {{ order.takenCurrency.currencyCode }}
+      </span>
+   </div>
+   <div class="row">
+      <h3 class="title">Номер кошелька</h3>
+      <span class="text text--currency">
+         {{ order.takenCurrencyCard }}
+      </span>
+   </div>
+
+   <div class="personal">
+      <h2 class="currency__title">Персональные данные</h2>
+   </div>
+
+   <div class="row">
+      <h3 class="title">Электронная почта</h3>
+      <span class="text text--currency">
+         {{ order.email }}
+      </span>
+   </div>
+
+   <div class="actions">
+      <button mat-raised-button color="accent" (click)="openDialog()">
+         Изменить статус
+      </button>
+      <button
+         mat-raised-button
+         color="warn"
+         (click)="onDelete()"
+         class="margin-left"
+      >
+         Удалить
+      </button>
+   </div>
+</section>

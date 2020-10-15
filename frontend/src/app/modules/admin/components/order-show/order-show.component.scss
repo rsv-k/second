@@ -1,0 +1,34 @@
+.row {
+   display: flex;
+   justify-content: space-between;
+}
+
+.text--currency {
+   display: flex;
+   align-content: center;
+}
+
+.img-container {
+   width: 5rem;
+   height: 3rem;
+   margin-right: 10px;
+}
+
+.img {
+   width: 100%;
+   height: 100%;
+   background-size: cover;
+}
+
+.currency {
+   display: flex;
+   align-content: center;
+
+   &__title {
+      font-weight: 400;
+   }
+}
+
+.margin-left {
+   margin-left: 10px;
+}
