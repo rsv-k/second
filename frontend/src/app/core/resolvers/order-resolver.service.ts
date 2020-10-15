@@ -14,7 +14,7 @@ export class OrderResolver implements Resolve<any> {
 
    resolve(): Observable<any> {
       this.store.dispatch(
-         OrderActions.getOrdersStart({ payload: { page: 1 } })
+         OrderActions.getOrdersStart({ payload: { page: 1, status: '' } })
       );
 
       return this.store.select('order').pipe(

@@ -38,23 +38,19 @@ exports.createOrder = async (req, res, next) => {
 exports.getOrders = async (req, res, next) => {
    try {
       let page = +req.query.page - 1;
+      const status = req.query.status || '';
       const amount = 10;
 
       if ((await Order.count()) < page * 10) {
          page--;
       }
 
-      const orders = await Order.find()
+      const orders = await Order.find({ status: new RegExp('^' + status) })
          .sort({ _id: -1 })
          .skip(page * 10)
          .limit(amount)
          .populate('givenCurrency')
          .populate('takenCurrency');
-      if (!orders.length) {
-         const error = new Error('Orders not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       res.status(200).json({ msg: 'Orders fetched successfully', orders });
    } catch (err) {

@@ -1,26 +1,47 @@
 <section class="section-orders">
-   <div class="management">
-      <button mat-button class="button" [matMenuTriggerFor]="menu">
-         <mat-icon class="icon">build</mat-icon>
-         <span class="text">Управление</span>
-      </button>
+   <div class="actions">
+      <div class="showOnly">
+         <button mat-button class="button" [matMenuTriggerFor]="menuStatuses">
+            <mat-icon class="icon">filter_frames</mat-icon>
+            <span class="text">Показыввать только</span>
+         </button>
 
-      <mat-menu #menu="matMenu">
-         <button
-            mat-menu-item
-            (click)="openDialog()"
-            [disabled]="!selection.hasValue()"
-         >
-            Изменить статус
+         <mat-menu #menuStatuses="matMenu">
+            <button mat-menu-item (click)="selectStatus()">Всё</button>
+
+            <button
+               (click)="selectStatus(status)"
+               mat-menu-item
+               *ngFor="let status of availableStatuses"
+            >
+               {{ statuses[status] }}
+            </button>
+         </mat-menu>
+      </div>
+
+      <div class="management">
+         <button mat-button class="button" [matMenuTriggerFor]="menu">
+            <mat-icon class="icon">build</mat-icon>
+            <span class="text">Управление</span>
          </button>
-         <button
-            mat-menu-item
-            (click)="onDeleteOrders()"
-            [disabled]="!selection.hasValue()"
-         >
-            Удалить
-         </button>
-      </mat-menu>
+
+         <mat-menu #menu="matMenu">
+            <button
+               mat-menu-item
+               (click)="openDialog()"
+               [disabled]="!selection.hasValue()"
+            >
+               Изменить статус
+            </button>
+            <button
+               mat-menu-item
+               (click)="onDeleteOrders()"
+               [disabled]="!selection.hasValue()"
+            >
+               Удалить
+            </button>
+         </mat-menu>
+      </div>
    </div>
 
    <table mat-table [dataSource]="dataSource" class="orders">

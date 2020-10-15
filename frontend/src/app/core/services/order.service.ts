@@ -23,7 +23,7 @@ export class OrderService {
          );
    }
 
-   getOrders(opt: { page?: number }): Observable<Order[]> {
+   getOrders(opt: { page?: number; status: string }): Observable<Order[]> {
       const options = {
          params: new HttpParams(),
       };

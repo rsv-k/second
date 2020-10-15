@@ -4,10 +4,11 @@
    position: relative;
 }
 
-.management {
+.actions {
    position: absolute;
    right: 0;
    top: -6.5rem;
+   display: flex;
 }
 
 .orders {

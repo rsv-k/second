@@ -12,7 +12,7 @@ export const createOrderSuccess = createAction(
 
 export const getOrdersStart = createAction(
    '[ORDER] GET ORDERS START',
-   props<{ payload: { page: number } }>()
+   props<{ payload: { page: number; status: string } }>()
 );
 export const getOrdersSuccess = createAction(
    '[ORDER] GET ORDERS SUCCESS',

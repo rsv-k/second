@@ -41,10 +41,13 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       canceled: 'Отменена',
       paid: 'Оплачена',
    };
+
+   availableStatuses = ['done', 'paid', 'pending', 'freezed', 'canceled'];
    canAnimate = false;
    selection = new SelectionModel<Order>(true, []);
 
    private currentPage = 1;
+   private showOnlyThisStatus = '';
    constructor(
       private store: Store<fromApp.AppState>,
       private socketService: SocketioService,
@@ -72,14 +75,16 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       this.getOrders();
       this.store
          .select('order')
-         .pipe(
-            pluck('orders'),
-            filter((orders: Order[]) => orders.length > 0),
-            takeUntil(this.destroyed)
-         )
+         .pipe(pluck('orders'), takeUntil(this.destroyed))
          .subscribe((orders) => {
             this.dataSource.data = orders;
          });
+   }
+
+   selectStatus(value: string): void {
+      this.showOnlyThisStatus = value || '';
+      this.currentPage = 1;
+      this.getOrders();
    }
 
    openDialog(): void {
@@ -152,7 +157,12 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
    private getOrders(): void {
       this.store.dispatch(
-         OrderActions.getOrdersStart({ payload: { page: this.currentPage } })
+         OrderActions.getOrdersStart({
+            payload: {
+               page: this.currentPage,
+               status: this.showOnlyThisStatus,
+            },
+         })
       );
    }
 }
