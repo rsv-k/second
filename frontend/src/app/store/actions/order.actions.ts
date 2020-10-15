@@ -19,6 +19,16 @@ export const getOrdersSuccess = createAction(
    props<{ payload: Order[] }>()
 );
 
+export const getOrderStart = createAction(
+   '[ORDER] GET ORDER START',
+   props<{ payload: { id: string } }>()
+);
+
+export const getOrderSuccess = createAction(
+   '[ORDER] GET ORDER SUCCESS',
+   props<{ payload: Order }>()
+);
+
 export const deleteOrdersStart = createAction(
    '[ORDER] DELETE ORDERS START',
    props<{ payload: { ids: string[] } }>()

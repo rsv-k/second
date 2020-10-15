@@ -5,6 +5,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as OrderActions from '../actions/order.actions';
 import { Order } from '../../core/models/order.model';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class OrderEffects {
@@ -40,6 +41,23 @@ export class OrderEffects {
       )
    );
 
+   getOrder$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OrderActions.getOrderStart),
+         mergeMap((action) =>
+            this.orderService.getOrder(action.payload.id).pipe(
+               map((order) => OrderActions.getOrderSuccess({ payload: order })),
+               catchError((error) => {
+                  this.router.navigate(['/admin-dashboard/orders-show']);
+                  return of(
+                     OrderActions.orderError({ payload: error.message })
+                  );
+               })
+            )
+         )
+      )
+   );
+
    deleteOrder$ = createEffect(() =>
       this.actions$.pipe(
          ofType(OrderActions.deleteOrdersStart),
@@ -70,5 +88,9 @@ export class OrderEffects {
       )
    );
 
-   constructor(private orderService: OrderService, private actions$: Actions) {}
+   constructor(
+      private orderService: OrderService,
+      private actions$: Actions,
+      private router: Router
+   ) {}
 }

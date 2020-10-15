@@ -6,11 +6,13 @@ export const FEATURE_NAME = 'exchange';
 
 export interface State {
    orders: Order[];
+   order: Order;
    error: string;
 }
 
 export const initialState: State = {
    orders: [],
+   order: null,
    error: null,
 };
 
@@ -26,11 +28,20 @@ const orderReducer = createReducer(
    })),
    on(OrderActions.getOrdersStart, (state) => ({
       ...state,
+      order: null,
       error: null,
    })),
    on(OrderActions.getOrdersSuccess, (state, { payload }) => ({
       ...state,
       orders: [...payload],
+   })),
+   on(OrderActions.getOrderStart, (state) => ({
+      ...state,
+      error: null,
+   })),
+   on(OrderActions.getOrderSuccess, (state, { payload }) => ({
+      ...state,
+      order: payload,
    })),
    on(OrderActions.deleteOrdersStart, (state) => ({
       ...state,
