@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { filter, pluck, takeUntil } from 'rxjs/operators';
+import { pluck, takeUntil } from 'rxjs/operators';
 import { Order } from 'src/app/core/models/order.model';
 import { SocketioService } from './../../../../core/services/socketio.service';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -80,6 +80,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       this.showOnlyThisStatus = value || '';
       this.currentPage = 1;
       this.getOrders();
+      this.selectionClear();
    }
 
    openDialog(): void {
@@ -142,7 +143,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       this.getOrders();
    }
 
-   onNavigate(id: string) {
+   onNavigate(id: string): void {
       this.router.navigate(['/admin-dashboard/order', id]);
    }
 
