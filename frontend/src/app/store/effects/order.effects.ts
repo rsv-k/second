@@ -1,7 +1,7 @@
 import { OrderService } from './../../core/services/order.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as OrderActions from '../actions/order.actions';
 import { Order } from '../../core/models/order.model';

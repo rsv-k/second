@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
    selector: 'app-orders-show',
@@ -51,7 +52,8 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    constructor(
       private store: Store<fromApp.AppState>,
       private socketService: SocketioService,
-      private dialog: MatDialog
+      private dialog: MatDialog,
+      private router: Router
    ) {
       super();
    }
@@ -145,6 +147,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
       this.currentPage--;
       this.getOrders();
+   }
+
+   onNavigate(id: string) {
+      this.router.navigate(['/admin-dashboard/order', id]);
    }
 
    private selectionClear(): void {

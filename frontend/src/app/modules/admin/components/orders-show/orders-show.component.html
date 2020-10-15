@@ -67,7 +67,9 @@
       <ng-container matColumnDef="date">
          <th mat-header-cell *matHeaderCellDef>Дата создания</th>
          <td mat-cell *matCellDef="let order" class="orders__column">
-            <p class="orders__id"># {{ order.id }}</p>
+            <p class="orders__id" (click)="onNavigate(order.id)">
+               # {{ order.id }}
+            </p>
             <p class="orders__details no-margin">
                <mat-icon class="icon">calendar_today </mat-icon>
                <span class="orders__date">
