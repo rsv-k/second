@@ -3,10 +3,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StatusPipe } from './pipes/status.pipe';
+import { CurrencyImgComponent } from './components/currency-img/currency-img.component';
 
 @NgModule({
-   declarations: [StatusPipe],
+   declarations: [StatusPipe, CurrencyImgComponent],
    imports: [CommonModule, MaterialModule],
-   exports: [CommonModule, MaterialModule, ReactiveFormsModule, StatusPipe],
+   exports: [
+      CommonModule,
+      MaterialModule,
+      ReactiveFormsModule,
+      StatusPipe,
+      CurrencyImgComponent,
+   ],
 })
 export class SharedModule {}
