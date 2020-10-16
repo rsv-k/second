@@ -45,6 +45,8 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       page: 1,
       status: '',
       id: '',
+      givenCurrency: '',
+      takenCurrency: '',
    };
 
    constructor(
@@ -92,6 +94,8 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
             ...this.ordersOptions,
             status: result.status || '',
             id: result.id || '',
+            givenCurrency: result.givenCurrency || '',
+            takenCurrency: result.takenCurrency || '',
          };
          this.getOrders();
       });

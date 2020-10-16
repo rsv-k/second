@@ -43,6 +43,21 @@ exports.getOrders = async (req, res, next) => {
       let options = {
          status: new RegExp('^' + req.query.status),
       };
+
+      if (req.query.givenCurrency) {
+         options = {
+            ...options,
+            givenCurrency: req.query.givenCurrency,
+         };
+      }
+
+      if (req.query.takenCurrency) {
+         options = {
+            ...options,
+            takenCurrency: req.query.takenCurrency,
+         };
+      }
+
       if (req.query.id) {
          options = {
             _id: req.query.id,
