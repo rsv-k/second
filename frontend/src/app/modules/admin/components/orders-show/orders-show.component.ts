@@ -1,3 +1,4 @@
+import { OrdersOptions } from './../../../../core/models/ordersOptions.model';
 import { OrdersStatusDialogComponent } from './../orders-status-dialog/orders-status-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -40,9 +41,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    canAnimate = false;
    selection = new SelectionModel<Order>(true, []);
 
-   private ordersOptions = {
+   private ordersOptions: OrdersOptions = {
       page: 1,
       status: '',
+      id: '',
    };
 
    constructor(
@@ -88,7 +90,8 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
          this.ordersOptions = {
             ...this.ordersOptions,
-            status: result.status,
+            status: result.status || '',
+            id: result.id || '',
          };
          this.getOrders();
       });

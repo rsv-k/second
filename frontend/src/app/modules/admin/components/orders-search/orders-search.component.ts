@@ -15,6 +15,7 @@ export class OrdersSearchComponent implements OnInit {
    ngOnInit(): void {
       this.form = new FormGroup({
          status: new FormControl(''),
+         id: new FormControl(''),
       });
    }
 

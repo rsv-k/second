@@ -1,3 +1,4 @@
+import { OrdersOptions } from './../../core/models/ordersOptions.model';
 import { Order } from './../../core/models/order.model';
 import { createAction, props } from '@ngrx/store';
 
@@ -12,7 +13,7 @@ export const createOrderSuccess = createAction(
 
 export const getOrdersStart = createAction(
    '[ORDER] GET ORDERS START',
-   props<{ payload: { page: number; status: string } }>()
+   props<{ payload: OrdersOptions }>()
 );
 export const getOrdersSuccess = createAction(
    '[ORDER] GET ORDERS SUCCESS',

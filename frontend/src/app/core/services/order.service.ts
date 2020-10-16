@@ -1,3 +1,4 @@
+import { OrdersOptions } from './../models/ordersOptions.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -23,15 +24,13 @@ export class OrderService {
          );
    }
 
-   getOrders(opt: { page?: number; status: string }): Observable<Order[]> {
+   getOrders(opt: OrdersOptions): Observable<Order[]> {
       const options = {
          params: new HttpParams(),
       };
-      if (Object.keys(opt).length > 0) {
-         for (const key in opt) {
-            if (opt[key]) {
-               options.params = options.params.set(key, opt[key]);
-            }
+      for (const key in opt) {
+         if (key in opt) {
+            options.params = options.params.set(key, opt[key]);
          }
       }
 

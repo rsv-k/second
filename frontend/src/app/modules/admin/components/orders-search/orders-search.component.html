@@ -14,7 +14,7 @@
 
    <form [formGroup]="form" class="form">
       <div class="row">
-         <mat-form-field appearance="fill">
+         <mat-form-field class="form-group">
             <mat-label>Статус</mat-label>
             <mat-select formControlName="status">
                <mat-option></mat-option>
@@ -22,6 +22,11 @@
                   status | status
                }}</mat-option>
             </mat-select>
+         </mat-form-field>
+
+         <mat-form-field class="form-group">
+            <mat-label>Поиск по id</mat-label>
+            <input matInput formControlName="id" />
          </mat-form-field>
       </div>
 
