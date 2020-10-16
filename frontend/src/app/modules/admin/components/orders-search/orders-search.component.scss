@@ -1,8 +1,13 @@
-.orders-search__header {
+.orders-search__header,
+.actions {
    display: flex;
    justify-content: space-between;
 }
 
 .button-icon {
    transform: scale(0.8);
+}
+
+.form {
+   margin-top: 2rem;
 }

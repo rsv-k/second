@@ -37,12 +37,14 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       'takenCurrency',
    ];
 
-   availableStatuses = ['done', 'paid', 'pending', 'freezed', 'canceled'];
    canAnimate = false;
    selection = new SelectionModel<Order>(true, []);
 
-   private currentPage = 1;
-   private showOnlyThisStatus = '';
+   private ordersOptions = {
+      page: 1,
+      status: '',
+   };
+
    constructor(
       private store: Store<fromApp.AppState>,
       private socketService: SocketioService,
@@ -56,7 +58,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       this.socketService.setupSocketConnection();
       this.socketService.socket.on('orders', (data) => {
          if (data.action === 'create') {
-            if (this.currentPage !== 1) {
+            if (this.ordersOptions.page !== 1) {
                return;
             }
             const order = data.order;
@@ -77,23 +79,18 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          });
    }
 
-   selectStatus(value: string): void {
-      this.showOnlyThisStatus = value || '';
-      this.currentPage = 1;
-      this.getOrders();
-      this.selectionClear();
-   }
-
    openSearchDialog(): void {
       this.canAnimate = false;
       const dialogRef = this.dialog.open(OrdersSearchComponent, {
-         width: '550px',
+         width: '65rem',
       });
 
       dialogRef.afterClosed().subscribe((result) => {
-         if (!result) {
-            return;
-         }
+         this.ordersOptions = {
+            ...this.ordersOptions,
+            status: result.status,
+         };
+         this.getOrders();
       });
    }
 
@@ -144,16 +141,16 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          return;
       }
 
-      this.currentPage++;
+      this.ordersOptions.page++;
       this.getOrders();
    }
 
    prevPage(): void {
-      if (this.currentPage === 1) {
+      if (this.ordersOptions.page === 1) {
          return;
       }
 
-      this.currentPage--;
+      this.ordersOptions.page--;
       this.getOrders();
    }
 
@@ -172,10 +169,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    private getOrders(): void {
       this.store.dispatch(
          OrderActions.getOrdersStart({
-            payload: {
-               page: this.currentPage,
-               status: this.showOnlyThisStatus,
-            },
+            payload: this.ordersOptions,
          })
       );
    }

@@ -11,4 +11,29 @@
       </button>
    </header>
    <mat-divider></mat-divider>
+
+   <form [formGroup]="form" class="form">
+      <div class="row">
+         <mat-form-field appearance="fill">
+            <mat-label>Статус</mat-label>
+            <mat-select formControlName="status">
+               <mat-option></mat-option>
+               <mat-option *ngFor="let status of statuses" [value]="status">{{
+                  status | status
+               }}</mat-option>
+            </mat-select>
+         </mat-form-field>
+      </div>
+
+      <div class="actions">
+         <button
+            mat-raised-button
+            color="accent"
+            [mat-dialog-close]="form.value"
+         >
+            Сохранить
+         </button>
+         <button mat-raised-button type="button">Очистить</button>
+      </div>
+   </form>
 </section>

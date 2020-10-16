@@ -1,26 +1,10 @@
 <section class="section-orders">
    <div class="actions">
       <div class="showOnly">
-         <!-- <button mat-button class="button" [matMenuTriggerFor]="menuStatuses">
-            <mat-icon class="icon">filter_frames</mat-icon>
-            <span class="text">Показывать только</span>
-         </button> -->
          <button mat-button class="button" (click)="openSearchDialog()">
             <mat-icon class="icon">search</mat-icon>
             <span class="text">Поиск</span>
          </button>
-
-         <!-- <mat-menu #menuStatuses="matMenu">
-            <button mat-menu-item (click)="selectStatus('')">Всё</button>
-
-            <button
-               (click)="selectStatus(status)"
-               mat-menu-item
-               *ngFor="let status of availableStatuses"
-            >
-               {{ status | status }}
-            </button>
-         </mat-menu> -->
       </div>
 
       <div class="management">
