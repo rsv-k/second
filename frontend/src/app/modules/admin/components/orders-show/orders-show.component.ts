@@ -12,6 +12,7 @@ import { BaseComponent } from './../../../base.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { OrdersSearchComponent } from '../orders-search/orders-search.component';
 
 @Component({
    selector: 'app-orders-show',
@@ -81,6 +82,19 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       this.currentPage = 1;
       this.getOrders();
       this.selectionClear();
+   }
+
+   openSearchDialog(): void {
+      this.canAnimate = false;
+      const dialogRef = this.dialog.open(OrdersSearchComponent, {
+         width: '550px',
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+         if (!result) {
+            return;
+         }
+      });
    }
 
    openDialog(): void {

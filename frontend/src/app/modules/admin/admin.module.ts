@@ -17,6 +17,7 @@ import { CurrencyEffects } from './store/effects/currency.effects';
 import { CurrencyService } from './services/currency.service';
 import { OrdersStatusDialogComponent } from './components/orders-status-dialog/orders-status-dialog.component';
 import { OrderShowComponent } from './components/order-show/order-show.component';
+import { OrdersSearchComponent } from './components/orders-search/orders-search.component';
 
 @NgModule({
    declarations: [
@@ -30,6 +31,7 @@ import { OrderShowComponent } from './components/order-show/order-show.component
       ExchangesCreateComponent,
       OrdersStatusDialogComponent,
       OrderShowComponent,
+      OrdersSearchComponent,
    ],
    imports: [
       AdminRoutingModule,
