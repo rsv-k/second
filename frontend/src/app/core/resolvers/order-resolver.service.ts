@@ -24,7 +24,9 @@ export class OrderResolver implements Resolve<any> {
          );
       } else {
          this.store.dispatch(
-            OrderActions.getOrdersStart({ payload: { page: 1, status: '' } })
+            OrderActions.getOrdersStart({
+               payload: { page: 1, status: '', id: '' },
+            })
          );
 
          return this.store.select('order').pipe(
