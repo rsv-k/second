@@ -39,14 +39,21 @@ exports.createOrder = async (req, res, next) => {
 exports.getOrders = async (req, res, next) => {
    try {
       let page = +req.query.page - 1;
-      const status = req.query.status || '';
       const amount = 10;
+      let options = {
+         status: new RegExp('^' + req.query.status),
+      };
+      if (req.query.id) {
+         options = {
+            _id: req.query.id,
+         };
+      }
 
       if ((await Order.count()) < page * 10) {
          page--;
       }
 
-      const orders = await Order.find({ status: new RegExp('^' + status) })
+      const orders = await Order.find(options)
          .sort({ _id: -1 })
          .skip(page * 10)
          .limit(amount)
