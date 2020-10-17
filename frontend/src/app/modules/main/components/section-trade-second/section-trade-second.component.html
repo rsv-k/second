@@ -61,14 +61,17 @@
    </div>
 
    <div class="row">
-      <button
-         mat-raised-button
-         color="accent"
-         [disabled]="!form.valid"
-         class="submit"
-      >
-         Следующий шаг
-      </button>
+      <div class="buttons">
+         <button
+            mat-raised-button
+            color="accent"
+            [disabled]="!form.valid"
+            class="submit"
+         >
+            Следующий шаг
+         </button>
+         <a routerLink="/" class="link--back">Изменить направление</a>
+      </div>
       <div class="terms-of-use">
          <p class="text">
             Нажимая кнопку «Следующий шаг» вы подтверждаете свое согласие с
