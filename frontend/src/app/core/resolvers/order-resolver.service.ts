@@ -37,7 +37,7 @@ export class OrderResolver implements Resolve<any> {
 
          return this.store.select('order').pipe(
             pluck('orders'),
-            filter((orders) => !orders.length),
+            filter((orders) => !!orders.length),
             take(1)
          );
       }

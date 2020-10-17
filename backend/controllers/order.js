@@ -58,7 +58,7 @@ exports.getOrders = async (req, res, next) => {
          };
       }
 
-      if (req.query.id) {
+      if (req.query.id && mongooseHelper.isValidId(req.query.id)) {
          options = {
             _id: req.query.id,
          };
