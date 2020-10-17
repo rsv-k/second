@@ -1,4 +1,5 @@
 const Order = require('../models/order');
+const Exchange = require('../models/exchange');
 const io = require('../socketio');
 const schedule = require('node-schedule');
 const mongooseHelper = require('../utils/mongoose');
@@ -16,6 +17,17 @@ exports.createOrder = async (req, res, next) => {
       body.takenCurrency = body.takenCurrencyId;
       delete body.givenCurrencyId;
       delete body.takenCurrencyId;
+
+      const exchange = await Exchange.find({
+         givenCurrency: body.givenCurrency,
+         takenCurrency: body.takenCurrency,
+      });
+
+      if (!exchange || !exchange.isActive) {
+         const error = new Error('Active exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
 
       let order = new Order(body);
       await order.save();
