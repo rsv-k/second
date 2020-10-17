@@ -5,7 +5,6 @@
       &:not(:last-child) {
          margin-bottom: 4rem;
       }
-
       text-align: center;
    }
 
@@ -16,6 +15,14 @@
       border: 2px solid rgba($color-white, 0.2);
       border-radius: 50%;
       font-size: 3rem;
+   }
+
+   &__container {
+      text-align: center;
+   }
+
+   &__text {
+      word-spacing: 9999px;
    }
 }
 
