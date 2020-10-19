@@ -58,6 +58,22 @@ export class OrderEffects {
       )
    );
 
+   getActiveOrder$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OrderActions.getActiveOrderStart),
+         mergeMap((action) =>
+            this.orderService.getActiveOrder(action.payload.id).pipe(
+               map((order) =>
+                  OrderActions.getActiveOrderSuccess({ payload: order })
+               ),
+               catchError((error) =>
+                  of(OrderActions.orderError({ payload: error.message }))
+               )
+            )
+         )
+      )
+   );
+
    deleteOrder$ = createEffect(() =>
       this.actions$.pipe(
          ofType(OrderActions.deleteOrdersStart),

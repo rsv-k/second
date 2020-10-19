@@ -43,6 +43,14 @@ const orderReducer = createReducer(
       ...state,
       order: payload,
    })),
+   on(OrderActions.getActiveOrderStart, (state) => ({
+      ...state,
+      error: null,
+   })),
+   on(OrderActions.getActiveOrderSuccess, (state, { payload }) => ({
+      ...state,
+      order: payload,
+   })),
    on(OrderActions.deleteOrdersStart, (state) => ({
       ...state,
       error: null,
