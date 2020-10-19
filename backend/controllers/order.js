@@ -119,6 +119,37 @@ exports.getOrder = async (req, res, next) => {
    }
 };
 
+exports.getActiveOrder = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Order not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const order = await Order.findOne({
+         _id: id,
+         date: {
+            $lt: new Date(Date.now() - 15 * 60 * 1000),
+         },
+      })
+         .populate('givenCurrency')
+         .populate('takenCurrency');
+
+      if (!order) {
+         const error = new Error('Order not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({ msg: 'Order successfully fetched', order });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
+
 exports.updateOrders = async (req, res, next) => {
    try {
       const ids = req.body.ids;
