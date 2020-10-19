@@ -1,7 +1,7 @@
 import { OrderService } from './../../core/services/order.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as OrderActions from '../actions/order.actions';
 import { Order } from '../../core/models/order.model';
@@ -14,6 +14,9 @@ export class OrderEffects {
          ofType(OrderActions.createOrderStart),
          mergeMap((action) =>
             this.orderService.createOrder(action.payload).pipe(
+               tap((order) =>
+                  this.router.navigate(['/exchanges/transaction/', order.id])
+               ),
                map((order: Order) =>
                   OrderActions.createOrderSuccess({ payload: order })
                ),
@@ -66,9 +69,12 @@ export class OrderEffects {
                map((order) =>
                   OrderActions.getActiveOrderSuccess({ payload: order })
                ),
-               catchError((error) =>
-                  of(OrderActions.orderError({ payload: error.message }))
-               )
+               catchError((error) => {
+                  this.router.navigate(['/exchanges']);
+                  return of(
+                     OrderActions.orderError({ payload: error.message })
+                  );
+               })
             )
          )
       )
