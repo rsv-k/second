@@ -61,6 +61,19 @@ export class OrderService {
          );
    }
 
+   getActiveOrder(id: string): Observable<Order> {
+      return this.http
+         .get<{ msg: string; order: any }>('/api/order/getActiveOrder/' + id)
+         .pipe(
+            pluck('order'),
+            map((order) => {
+               order.id = order._id;
+               delete order._id;
+               return order;
+            })
+         );
+   }
+
    deleteOrder(ids: string[]): Observable<any> {
       return this.http.post('/api/order/deleteManyById', ids);
    }
