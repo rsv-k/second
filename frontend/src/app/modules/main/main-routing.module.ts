@@ -1,6 +1,6 @@
+import { ActiveOrderResolver } from './../../core/resolvers/activeOrder-resolver.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OrderResolver } from 'src/app/core/resolvers/order-resolver.service';
 import { MainComponent } from './components/main/main.component';
 import { SectionAboutComponent } from './components/section-about/section-about.component';
 import { SectionRulesComponent } from './components/section-rules/section-rules.component';
@@ -37,7 +37,7 @@ const routes: Routes = [
                   path: 'transaction/:id',
                   component: SectionTradeThirdComponent,
                   resolve: {
-                     order: OrderResolver,
+                     order: ActiveOrderResolver,
                   },
                },
             ],
