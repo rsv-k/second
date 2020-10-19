@@ -3,6 +3,7 @@ const Exchange = require('../models/exchange');
 const io = require('../socketio');
 const schedule = require('node-schedule');
 const mongooseHelper = require('../utils/mongoose');
+const mongoose = require('mongoose');
 
 exports.createOrder = async (req, res, next) => {
    try {
@@ -18,11 +19,10 @@ exports.createOrder = async (req, res, next) => {
       delete body.givenCurrencyId;
       delete body.takenCurrencyId;
 
-      const exchange = await Exchange.find({
-         givenCurrency: body.givenCurrency,
-         takenCurrency: body.takenCurrency,
+      const exchange = await Exchange.findOne({
+         givenCurrency: mongoose.Types.ObjectId(body.givenCurrency),
+         takenCurrency: mongoose.Types.ObjectId(body.takenCurrency),
       });
-
       if (!exchange || !exchange.isActive) {
          const error = new Error('Active exchange not found');
          error.statusCode = 404;
@@ -131,7 +131,7 @@ exports.getActiveOrder = async (req, res, next) => {
       const order = await Order.findOne({
          _id: id,
          date: {
-            $lt: new Date(Date.now() - 15 * 60 * 1000),
+            $gt: new Date(Date.now() - 15 * 60 * 1000),
          },
       })
          .populate('givenCurrency')
