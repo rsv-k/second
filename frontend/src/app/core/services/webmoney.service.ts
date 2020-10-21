@@ -12,7 +12,7 @@ export class WebmoneyService {
 
    check(order: Order): Observable<boolean> {
       return this.http
-         .post<{ res: boolean }>('/api/webmoney', order)
-         .pipe(pluck('res'));
+         .post<{ result: boolean }>('/api/webmoney', order)
+         .pipe(pluck('result'));
    }
 }

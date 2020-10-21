@@ -1,13 +1,20 @@
+import { WebmoneyService } from './../../../../core/services/webmoney.service';
 import { Exchange } from './../../../../core/models/exchange.model';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+   FormControl,
+   FormGroup,
+   ValidationErrors,
+   Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { first, pluck } from 'rxjs/operators';
+import { catchError, first, map, pluck } from 'rxjs/operators';
 import * as fromApp from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 import * as OrderActions from '../../../../store/actions/order.actions';
 import { Order } from 'src/app/core/models/order.model';
+import { Observable, of } from 'rxjs';
 
 @Component({
    selector: 'app-section-trade-second',
@@ -31,7 +38,8 @@ export class SectionTradeSecondComponent implements OnInit {
    constructor(
       private store: Store<fromApp.AppState>,
       private route: ActivatedRoute,
-      private router: Router
+      private router: Router,
+      private webmoneyService: WebmoneyService
    ) {}
 
    ngOnInit(): void {
@@ -93,24 +101,43 @@ export class SectionTradeSecondComponent implements OnInit {
    }
 
    private initForm(): void {
-      this.form = new FormGroup({
-         givenCurrencyAmount: new FormControl('', [
-            Validators.required,
-            Validators.min(this.exchange.minGivenCurrency),
-            Validators.max(this.exchange.maxGivenCurrency),
-         ]),
-         takenCurrencyAmount: new FormControl('', [
-            Validators.required,
-            Validators.min(
-               this.exchange.minGivenCurrency *
-                  this.exchange.takenCurrencyCourse
-            ),
-            Validators.max(this.exchange.takenCurrency.reserve),
-         ]),
-         givenCurrencyCard: new FormControl('', [Validators.required]),
-         takenCurrencyCard: new FormControl('', [Validators.required]),
-         phone: new FormControl('', [Validators.required]),
-         email: new FormControl('', [Validators.required, Validators.email]),
-      });
+      this.form = new FormGroup(
+         {
+            givenCurrencyAmount: new FormControl('', [
+               Validators.required,
+               Validators.min(this.exchange.minGivenCurrency),
+               Validators.max(this.exchange.maxGivenCurrency),
+            ]),
+            takenCurrencyAmount: new FormControl('', [
+               Validators.required,
+               Validators.min(
+                  this.exchange.minGivenCurrency *
+                     this.exchange.takenCurrencyCourse
+               ),
+               Validators.max(this.exchange.takenCurrency.reserve),
+            ]),
+            givenCurrencyCard: new FormControl('', [Validators.required]),
+            takenCurrencyCard: new FormControl('', [Validators.required]),
+            phone: new FormControl('', [Validators.required]),
+            email: new FormControl('', [Validators.required, Validators.email]),
+         },
+         {
+            updateOn: 'submit',
+            asyncValidators: [this.webmoneyValidator.bind(this)],
+         }
+      );
+   }
+
+   private webmoneyValidator(): Observable<ValidationErrors | null> {
+      const order: Order = {
+         ...this.form.value,
+         givenCurrencyId: this.exchange.givenCurrency.id,
+         takenCurrencyId: this.exchange.takenCurrency.id,
+      };
+
+      return this.webmoneyService.check(order).pipe(
+         map((result) => (result ? null : { invalidData: true })),
+         catchError(() => of(null))
+      );
    }
 }

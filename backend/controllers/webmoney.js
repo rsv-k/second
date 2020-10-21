@@ -6,7 +6,7 @@ exports.isValidInfo = async (req, res, next) => {
          return next(error);
       }
 
-      return res.status(200).json({ result: true });
+      res.status(200).json({ result: true });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
