@@ -9,6 +9,8 @@ export interface Order {
    takenCurrency?: Currency;
    givenCurrencyId?: string;
    takenCurrencyId?: string;
+   name?: string;
+   surname?: string;
    phone: string;
    email: string;
    date: Date;

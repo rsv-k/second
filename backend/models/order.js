@@ -20,6 +20,8 @@ module.exports = mongoose.model(
       date: { type: Date, default: Date.now },
       phone: { type: String, required: true },
       email: { type: String, required: true },
+      name: { type: String, required: false },
+      surname: { type: String, required: false },
       status: {
          type: String,
          enum: ['freezed', 'canceled', 'pending', 'paid', 'done'],

@@ -118,6 +118,8 @@ export class SectionTradeSecondComponent implements OnInit {
             ]),
             givenCurrencyCard: new FormControl('', [Validators.required]),
             takenCurrencyCard: new FormControl('', [Validators.required]),
+            name: new FormControl('', [Validators.required]),
+            surname: new FormControl('', [Validators.required]),
             phone: new FormControl('', [Validators.required]),
             email: new FormControl('', [Validators.required, Validators.email]),
          },

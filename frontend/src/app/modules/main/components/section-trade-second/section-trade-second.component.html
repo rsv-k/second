@@ -48,6 +48,17 @@
 
    <div class="row">
       <mat-form-field class="form__group">
+         <mat-label>Имя</mat-label>
+         <input matInput required formControlName="name" />
+      </mat-form-field>
+      <mat-form-field class="form__group">
+         <mat-label>Фамилия</mat-label>
+         <input matInput required formControlName="surname" />
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group">
          <mat-label>Номер телефона</mat-label>
          <input matInput required formControlName="phone" />
       </mat-form-field>
