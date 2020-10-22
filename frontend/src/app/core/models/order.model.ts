@@ -13,6 +13,7 @@ export interface Order {
    surname?: string;
    phone: string;
    email: string;
+   number?: number;
    date: Date;
    status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed';
 }
