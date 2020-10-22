@@ -1,4 +1,5 @@
 const axios = require('axios');
+const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
 
 exports.isValidInfo = async (req, res, next) => {
    try {
@@ -7,6 +8,9 @@ exports.isValidInfo = async (req, res, next) => {
          error.status = 422;
          return next(error);
       }
+
+      await webmoneyStatisticsHelper.increaseRequestsAmount();
+      const webmoneyStatistics = await webmoneyStatisticsHelper.getWebmoneyStatistics();
 
       const result = await axios.post(
          'https://apipassport.webmoney.ru/XMLCheckUser.aspx',
@@ -34,7 +38,7 @@ exports.isValidInfo = async (req, res, next) => {
          { headers: { 'Content-Type': 'text/xml' } }
       );
 
-      console.log(result.data);
+      // console.log(result.data);
 
       res.status(200).json({ result: true });
    } catch (err) {

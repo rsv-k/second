@@ -22,6 +22,7 @@ module.exports = mongoose.model(
       email: { type: String, required: true },
       name: { type: String, required: false },
       surname: { type: String, required: false },
+      number: { type: Number, required: false },
       status: {
          type: String,
          enum: ['freezed', 'canceled', 'pending', 'paid', 'done'],

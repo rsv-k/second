@@ -1,50 +1,41 @@
 const WebmoneyStatistics = require('../models/webmoneyStatistics');
 
-exports.increaseOrdersAmount = async (req, res) => {
-   let webmoneyStatistics = WebmoneyStatistics.findOne({});
+exports.increaseOrdersAmount = async () => {
+   let webmoneyStatistics = await WebmoneyStatistics.findOne({});
    if (!webmoneyStatistics) {
-      webmoneyStatistics = new WebmoneyStatistics({
-         ordersAmount: 1,
-         requestsAmount: 1,
-      });
-      await webmoneyStatistics.save();
+      webmoneyStatistics = await createWebmoneyStatistics();
    }
 
-   await WebmoneyStatistics.findOneAndUpdate(
+   await WebmoneyStatistics.findByIdAndUpdate(
       { _id: webmoneyStatistics._id },
-      {
-         ordersAmount: webmoneyStatistics.ordersAmount + 1,
-      }
+      { $inc: { ordersAmount: 1 } }
    );
 };
 
-exports.increaseRequestsAmount = async (req, res) => {
-   let webmoneyStatistics = WebmoneyStatistics.findOne({});
+exports.increaseRequestsAmount = async () => {
+   let webmoneyStatistics = await WebmoneyStatistics.findOne({});
    if (!webmoneyStatistics) {
-      webmoneyStatistics = new WebmoneyStatistics({
-         ordersAmount: 1,
-         requestsAmount: 1,
-      });
-      await webmoneyStatistics.save();
+      webmoneyStatistics = await createWebmoneyStatistics();
    }
 
-   await WebmoneyStatistics.findOneAndUpdate(
+   await WebmoneyStatistics.findByIdAndUpdate(
       { _id: webmoneyStatistics._id },
-      {
-         ordersAmount: webmoneyStatistics.requestsAmount + 1,
-      }
+      { $inc: { requestsAmount: 1 } }
    );
 };
 
-exports.getWebmoneyStatistics = async (req, res) => {
-   let webmoneyStatistics = WebmoneyStatistics.findOne({});
+exports.getWebmoneyStatistics = async () => {
+   let webmoneyStatistics = await WebmoneyStatistics.findOne({});
    if (!webmoneyStatistics) {
-      webmoneyStatistics = new WebmoneyStatistics({
-         ordersAmount: 1,
-         requestsAmount: 1,
-      });
-      await webmoneyStatistics.save();
+      webmoneyStatistics = await createWebmoneyStatistics();
    }
 
    return webmoneyStatistics;
 };
+
+async function createWebmoneyStatistics() {
+   const webmoneyStatistics = new WebmoneyStatistics({});
+   await webmoneyStatistics.save();
+
+   return webmoneyStatistics;
+}
