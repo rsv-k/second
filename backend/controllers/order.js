@@ -4,6 +4,7 @@ const io = require('../socketio');
 const schedule = require('node-schedule');
 const mongooseHelper = require('../utils/mongoose');
 const mongoose = require('mongoose');
+const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
 
 exports.createOrder = async (req, res, next) => {
    try {
@@ -28,6 +29,10 @@ exports.createOrder = async (req, res, next) => {
          error.statusCode = 404;
          return next(error);
       }
+
+      await webmoneyStatisticsHelper.increaseOrdersAmount();
+      const webmoneyStatistics = await webmoneyStatisticsHelper.getWebmoneyStatistics();
+      body.number = webmoneyStatistics.ordersAmount;
 
       let order = new Order(body);
       await order.save();
@@ -76,7 +81,7 @@ exports.getOrders = async (req, res, next) => {
          };
       }
 
-      if ((await Order.count()) < page * 10) {
+      if ((await Order.countDocuments()) < page * 10) {
          page--;
       }
 
