@@ -31,6 +31,7 @@ export class OrderResolver implements Resolve<any> {
                   id: '',
                   givenCurrency: '',
                   takenCurrency: '',
+                  number: null,
                },
             })
          );
