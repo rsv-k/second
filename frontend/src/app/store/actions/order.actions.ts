@@ -30,11 +30,11 @@ export const getOrderSuccess = createAction(
 );
 
 export const getActiveOrderStart = createAction(
-   '[ORDER] GET ORDER START',
+   '[ORDER] GET ACTIVE ORDER START',
    props<{ payload: { id: string } }>()
 );
 export const getActiveOrderSuccess = createAction(
-   '[ORDER] GET ORDER SUCCESS',
+   '[ORDER] GET ACTIVE ORDER SUCCESS',
    props<{ payload: Order }>()
 );
 

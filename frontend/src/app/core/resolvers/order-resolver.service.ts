@@ -16,6 +16,7 @@ export class OrderResolver implements Resolve<any> {
       const id = route.paramMap.get('id');
       if (id) {
          this.store.dispatch(OrderActions.getOrderStart({ payload: { id } }));
+         console.log(id);
 
          return this.store.select('order').pipe(
             pluck('order'),
@@ -31,7 +32,7 @@ export class OrderResolver implements Resolve<any> {
                   id: '',
                   givenCurrency: '',
                   takenCurrency: '',
-                  number: null,
+                  number: 0,
                },
             })
          );

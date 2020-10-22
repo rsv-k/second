@@ -138,7 +138,7 @@
       ></tr>
    </table>
 
-   <div class="pagination">
+   <div class="pagination" *ngIf = "dataSource.data.length === 10">
       <button mat-raised-button (click)="prevPage()">Назад</button>
       <button mat-raised-button (click)="nextPage()">Вперед</button>
    </div>
