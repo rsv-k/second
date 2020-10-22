@@ -59,6 +59,7 @@ exports.getOrders = async (req, res, next) => {
       const amount = 10;
       let options = {
          status: new RegExp('^' + req.query.status),
+         number: req.query.number,
       };
 
       if (req.query.givenCurrency) {

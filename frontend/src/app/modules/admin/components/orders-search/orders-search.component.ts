@@ -35,6 +35,7 @@ export class OrdersSearchComponent implements OnInit {
          id: new FormControl(''),
          givenCurrency: new FormControl(''),
          takenCurrency: new FormControl(''),
+         number: new FormControl(''),
       });
    }
 

@@ -47,6 +47,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       id: '',
       givenCurrency: '',
       takenCurrency: '',
+      number: null,
    };
 
    constructor(
@@ -92,10 +93,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
          this.ordersOptions = {
             ...this.ordersOptions,
-            status: result.status || '',
-            id: result.id || '',
-            givenCurrency: result.givenCurrency || '',
-            takenCurrency: result.takenCurrency || '',
+            ...result,
          };
          this.getOrders();
       });
