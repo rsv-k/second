@@ -23,10 +23,53 @@
                }}</mat-option>
             </mat-select>
          </mat-form-field>
+      </div>
 
+      <div class="row">
          <mat-form-field class="form-group">
             <mat-label>Поиск по id</mat-label>
             <input matInput formControlName="id" />
+         </mat-form-field>
+
+         <mat-form-field class="form-group">
+            <mat-label>Поиск по номеру</mat-label>
+            <input matInput formControlName="number" />
+         </mat-form-field>
+      </div>
+
+      <div class="row">
+         <mat-form-field class="form-group">
+            <mat-label>Отдаваемая валюта</mat-label>
+            <mat-select
+               (selectionChange)="onGivenSelection($event.value)"
+               appearance="fill"
+               #givenSelection
+            >
+               <mat-option></mat-option>
+               <mat-option
+                  *ngFor="let currency of currencies$ | async"
+                  [value]="currency"
+                  [disabled]="currency.name === form.get('takenCurrency').value"
+                  >{{ currency.name }}</mat-option
+               >
+            </mat-select>
+         </mat-form-field>
+
+         <mat-form-field class="form-group">
+            <mat-label>Получаемая валюта</mat-label>
+            <mat-select
+               (selectionChange)="onTakenSelection($event.value)"
+               appearance="fill"
+               #takenSelection
+            >
+               <mat-option></mat-option>
+               <mat-option
+                  *ngFor="let currency of currencies$ | async"
+                  [value]="currency"
+                  [disabled]="currency.name === form.get('givenCurrency').value"
+                  >{{ currency.name }}</mat-option
+               >
+            </mat-select>
          </mat-form-field>
       </div>
 

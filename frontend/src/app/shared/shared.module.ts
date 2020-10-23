@@ -1,7 +1,7 @@
 import { MaterialModule } from './material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusPipe } from './pipes/status.pipe';
 import { CurrencyImgComponent } from './components/currency-img/currency-img.component';
 
@@ -14,6 +14,7 @@ import { CurrencyImgComponent } from './components/currency-img/currency-img.com
       ReactiveFormsModule,
       StatusPipe,
       CurrencyImgComponent,
+      FormsModule,
    ],
 })
 export class SharedModule {}

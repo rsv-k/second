@@ -1,5 +1,9 @@
 <section class="section-order" *ngIf="order">
    <div class="row">
+      <h3 class="title">Номер</h3>
+      <span class="text">{{ order.number }}</span>
+   </div>
+   <div class="row">
       <h3 class="title">Дата создания</h3>
       <span class="text">{{ order.date | date: 'd/M/yyyy, h:mm' }}</span>
    </div>

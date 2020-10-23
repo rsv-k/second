@@ -9,8 +9,11 @@ export interface Order {
    takenCurrency?: Currency;
    givenCurrencyId?: string;
    takenCurrencyId?: string;
+   name?: string;
+   surname?: string;
    phone: string;
    email: string;
+   number?: number;
    date: Date;
    status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed';
 }

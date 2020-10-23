@@ -48,6 +48,17 @@
 
    <div class="row">
       <mat-form-field class="form__group">
+         <mat-label>Имя</mat-label>
+         <input matInput required formControlName="name" />
+      </mat-form-field>
+      <mat-form-field class="form__group">
+         <mat-label>Фамилия</mat-label>
+         <input matInput required formControlName="surname" />
+      </mat-form-field>
+   </div>
+
+   <div class="row">
+      <mat-form-field class="form__group">
          <mat-label>Номер телефона</mat-label>
          <input matInput required formControlName="phone" />
       </mat-form-field>
@@ -61,14 +72,12 @@
    </div>
 
    <div class="row">
-      <button
-         mat-raised-button
-         color="accent"
-         [disabled]="!form.valid"
-         class="submit"
-      >
-         Следующий шаг
-      </button>
+      <div class="buttons">
+         <button mat-raised-button color="accent" class="submit">
+            Следующий шаг
+         </button>
+         <a routerLink="/" class="link--back">Изменить направление</a>
+      </div>
       <div class="terms-of-use">
          <p class="text">
             Нажимая кнопку «Следующий шаг» вы подтверждаете свое согласие с

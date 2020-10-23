@@ -1,21 +1,29 @@
 @import '../../../../variables.scss';
 
 .progress {
+   width: 100px;
    &__block {
       &:not(:last-child) {
          margin-bottom: 4rem;
       }
-
       text-align: center;
    }
 
    &__level {
       display: inline-block;
-      padding: 3rem;
+      padding: 2.6rem 2.8rem;
       user-select: none;
       border: 2px solid rgba($color-white, 0.2);
       border-radius: 50%;
       font-size: 3rem;
+   }
+
+   &__container {
+      text-align: center;
+   }
+
+   &__text {
+      word-spacing: 9999px;
    }
 }
 

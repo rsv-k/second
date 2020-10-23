@@ -2,7 +2,11 @@
 
 .table {
    display: flex;
-   justify-content: space-between;
+   justify-content: center;
+}
+
+.left {
+   margin-right: 4rem;
 }
 
 .table__column-title {
@@ -12,7 +16,7 @@
 .currency {
    display: flex;
    align-items: center;
-   width: 30rem;
+   width: 25rem;
    height: 5rem;
    border-bottom: 1px solid rgba($color-white, $alpha: 0.2);
    padding-bottom: 2rem;
