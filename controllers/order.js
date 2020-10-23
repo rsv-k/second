@@ -1,7 +1,10 @@
 const Order = require('../models/order');
+const Exchange = require('../models/exchange');
 const io = require('../socketio');
 const schedule = require('node-schedule');
 const mongooseHelper = require('../utils/mongoose');
+const mongoose = require('mongoose');
+const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
 
 exports.createOrder = async (req, res, next) => {
    try {
@@ -16,6 +19,20 @@ exports.createOrder = async (req, res, next) => {
       body.takenCurrency = body.takenCurrencyId;
       delete body.givenCurrencyId;
       delete body.takenCurrencyId;
+
+      const exchange = await Exchange.findOne({
+         givenCurrency: mongoose.Types.ObjectId(body.givenCurrency),
+         takenCurrency: mongoose.Types.ObjectId(body.takenCurrency),
+      });
+      if (!exchange || !exchange.isActive) {
+         const error = new Error('Active exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      await webmoneyStatisticsHelper.increaseOrdersAmount();
+      const webmoneyStatistics = await webmoneyStatisticsHelper.getWebmoneyStatistics();
+      body.number = webmoneyStatistics.ordersAmount;
 
       let order = new Order(body);
       await order.save();
@@ -44,6 +61,13 @@ exports.getOrders = async (req, res, next) => {
          status: new RegExp('^' + req.query.status),
       };
 
+      if (req.query.number > 0) {
+         options = {
+            ...options,
+            number: req.query.number,
+         };
+      }
+
       if (req.query.givenCurrency) {
          options = {
             ...options,
@@ -58,13 +82,17 @@ exports.getOrders = async (req, res, next) => {
          };
       }
 
+<<<<<<< HEAD
       if (req.query.id) {
+=======
+      if (req.query.id && mongooseHelper.isValidId(req.query.id)) {
+>>>>>>> feature/8
          options = {
             _id: req.query.id,
          };
       }
 
-      if ((await Order.count()) < page * 10) {
+      if ((await Order.countDocuments()) < page * 10) {
          page--;
       }
 
@@ -94,6 +122,37 @@ exports.getOrder = async (req, res, next) => {
       const order = await Order.findById(id)
          .populate('givenCurrency')
          .populate('takenCurrency');
+      if (!order) {
+         const error = new Error('Order not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({ msg: 'Order successfully fetched', order });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
+
+exports.getActiveOrder = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Order not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const order = await Order.findOne({
+         _id: id,
+         date: {
+            $gt: new Date(Date.now() - 15 * 60 * 1000),
+         },
+      })
+         .populate('givenCurrency')
+         .populate('takenCurrency');
+
       if (!order) {
          const error = new Error('Order not found');
          error.statusCode = 404;
