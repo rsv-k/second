@@ -93,14 +93,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       dialogRef.afterClosed().subscribe((result) => {
          this.ordersOptions = {
             ...this.ordersOptions,
-<<<<<<< HEAD
-            status: result.status || '',
-            id: result.id || '',
-            givenCurrency: result.givenCurrency || '',
-            takenCurrency: result.takenCurrency || '',
-=======
             ...result,
->>>>>>> feature/8
          };
          this.getOrders();
       });

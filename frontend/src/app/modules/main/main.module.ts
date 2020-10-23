@@ -14,9 +14,10 @@ import { SectionTradeSecondComponent } from './components/section-trade-second/s
 import { SectionRulesComponent } from './components/section-rules/section-rules.component';
 import { SectionTariffsComponent } from './components/section-tariffs/section-tariffs.component';
 import { SectionTradeThirdComponent } from './components/section-trade-third/section-trade-third.component';
+import { MoneybackPolicyComponent } from './components/moneyback-policy/moneyback-policy.component';
 
 @NgModule({
-   declarations: [MainComponent, HeaderComponent, FooterComponent, NavComponent, SectionTradeComponent, SectionTradeProgressComponent, SectionTradeFirstComponent, SectionAboutComponent, SectionTradeSecondComponent, SectionRulesComponent, SectionTariffsComponent, SectionTradeThirdComponent],
+   declarations: [MainComponent, HeaderComponent, FooterComponent, NavComponent, SectionTradeComponent, SectionTradeProgressComponent, SectionTradeFirstComponent, SectionAboutComponent, SectionTradeSecondComponent, SectionRulesComponent, SectionTariffsComponent, SectionTradeThirdComponent, MoneybackPolicyComponent],
    imports: [MainRoutingModule, SharedModule],
 })
 export class MainModule {}

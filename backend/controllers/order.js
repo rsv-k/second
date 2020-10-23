@@ -82,11 +82,7 @@ exports.getOrders = async (req, res, next) => {
          };
       }
 
-<<<<<<< HEAD
-      if (req.query.id) {
-=======
       if (req.query.id && mongooseHelper.isValidId(req.query.id)) {
->>>>>>> feature/8
          options = {
             _id: req.query.id,
          };

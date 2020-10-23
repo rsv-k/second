@@ -9,6 +9,7 @@ import { SectionTradeFirstComponent } from './components/section-trade-first/sec
 import { SectionTradeSecondComponent } from './components/section-trade-second/section-trade-second.component';
 import { SectionTradeThirdComponent } from './components/section-trade-third/section-trade-third.component';
 import { SectionTradeComponent } from './components/section-trade/section-trade.component';
+import { MoneybackPolicyComponent } from './components/moneyback-policy/moneyback-policy.component';
 
 const routes: Routes = [
    {
@@ -53,6 +54,10 @@ const routes: Routes = [
          {
             path: 'tariffs',
             component: SectionTariffsComponent,
+         },
+         {
+            path: 'moneybackPolicy',
+            component: MoneybackPolicyComponent,
          },
       ],
    },
