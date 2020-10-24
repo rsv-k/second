@@ -1,1 +1,30 @@
-<p>moneyback-policy works!</p>
+<section class="moneyback-policy">
+   <h2 class="title">Политика возвратов</h2>
+
+   <p class="paragraph" *ngFor="let p of paragraphs">{{ p }}</p>
+   <ol class="ordered-list">
+      <li class="list-item" *ngFor="let li of list">
+         {{ li.text }}
+         <ol class="ordered-list" *ngIf="li.sublist">
+            <li class="list-item" *ngFor="let sublist of li.sublist">
+               <p class="paragraph">{{ sublist.text }}</p>
+               <p class="paragraph" *ngFor="let p of sublist.paragraphs">
+                  {{ p }}
+               </p>
+            </li>
+         </ol>
+      </li>
+   </ol>
+
+   <table>
+      <tbody>
+         <tr>
+            <td style="width: 50%">
+               Любые электронные валюты, фиатные безналичные и наличные мировые
+               валюты, криптовалюты и токены
+            </td>
+            <td style="text-align: center">1,5%</td>
+         </tr>
+      </tbody>
+   </table>
+</section>
