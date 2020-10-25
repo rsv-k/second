@@ -10,6 +10,7 @@ import { SectionTradeSecondComponent } from './components/section-trade-second/s
 import { SectionTradeThirdComponent } from './components/section-trade-third/section-trade-third.component';
 import { SectionTradeComponent } from './components/section-trade/section-trade.component';
 import { MoneybackPolicyComponent } from './components/moneyback-policy/moneyback-policy.component';
+import { ExchangeResolver } from 'src/app/core/resolvers/exchange-resolver.service';
 
 const routes: Routes = [
    {
@@ -24,6 +25,9 @@ const routes: Routes = [
          {
             path: 'exchanges',
             component: SectionTradeComponent,
+            resolve: {
+               exchanges: ExchangeResolver,
+            },
             children: [
                {
                   path: '',
