@@ -1,5 +1,6 @@
 const axios = require('axios');
 const webmoneyHelper = require('../utils/webmoney');
+const xml2js = require('xml2js');
 
 exports.isValidInfo = async (req, res, next) => {
    try {
@@ -45,7 +46,10 @@ exports.isValidInfo = async (req, res, next) => {
          { headers: { 'Content-Type': 'application/xml' } }
       );
 
-      res.send(result.data);
+      const json = await xml2js.parseStringPromise(result.data);
+      const response = !+json['passport.response']['retval'][0];
+
+      res.status(200).json({ result: response });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
