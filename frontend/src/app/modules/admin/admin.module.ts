@@ -18,6 +18,7 @@ import { CurrencyService } from './services/currency.service';
 import { OrdersStatusDialogComponent } from './components/orders-status-dialog/orders-status-dialog.component';
 import { OrderShowComponent } from './components/order-show/order-show.component';
 import { OrdersSearchComponent } from './components/orders-search/orders-search.component';
+import { ValidatorsShowComponent } from './components/validators-show/validators-show.component';
 
 @NgModule({
    declarations: [
@@ -32,6 +33,7 @@ import { OrdersSearchComponent } from './components/orders-search/orders-search.
       OrdersStatusDialogComponent,
       OrderShowComponent,
       OrdersSearchComponent,
+      ValidatorsShowComponent,
    ],
    imports: [
       AdminRoutingModule,

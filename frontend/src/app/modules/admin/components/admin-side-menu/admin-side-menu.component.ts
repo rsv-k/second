@@ -23,7 +23,7 @@ export class AdminSideMenuComponent implements OnInit {
          text: 'Валюты',
       },
       {
-         linkTo: './validators',
+         linkTo: './validators-show',
          icon: 'check',
          text: 'Валидаторы',
       },
