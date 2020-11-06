@@ -24,4 +24,19 @@ export class ValidatorService {
             })
          );
    }
+
+   getValidators(): Observable<Validator[]> {
+      return this.http
+         .get<{ msg: string; validators: any[] }>(ENDPOINT_URL)
+         .pipe(
+            pluck('validators'),
+            map((validators) =>
+               validators.map((v) => {
+                  v.id = v._id;
+                  delete v._id;
+                  return v;
+               })
+            )
+         );
+   }
 }
