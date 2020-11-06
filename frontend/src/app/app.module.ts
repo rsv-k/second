@@ -1,3 +1,4 @@
+import { ValidatorEffects } from './store/effects/validator.effects';
 import { CoreModule } from './core/core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -18,7 +19,7 @@ import * as fromApp from './store/index';
       AppRoutingModule,
       BrowserAnimationsModule,
       StoreModule.forRoot(fromApp.appReducers),
-      EffectsModule.forRoot([ExchangeEffects, OrderEffects]),
+      EffectsModule.forRoot([ExchangeEffects, OrderEffects, ValidatorEffects]),
       CoreModule,
    ],
    providers: [],

@@ -14,7 +14,7 @@ export class ValidatorsShowComponent implements OnInit {
 
    openDialog(): void {
       const dialogRef = this.dialog.open(ValidatorsCreateComponent, {
-         width: '250px',
+         width: '50rem',
       });
 
       dialogRef.afterClosed().subscribe((result) => {
