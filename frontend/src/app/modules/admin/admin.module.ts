@@ -19,6 +19,7 @@ import { OrdersStatusDialogComponent } from './components/orders-status-dialog/o
 import { OrderShowComponent } from './components/order-show/order-show.component';
 import { OrdersSearchComponent } from './components/orders-search/orders-search.component';
 import { ValidatorsShowComponent } from './components/validators-show/validators-show.component';
+import { ValidatorsCreateComponent } from './components/validators-create/validators-create.component';
 
 @NgModule({
    declarations: [
@@ -34,6 +35,7 @@ import { ValidatorsShowComponent } from './components/validators-show/validators
       OrderShowComponent,
       OrdersSearchComponent,
       ValidatorsShowComponent,
+      ValidatorsCreateComponent,
    ],
    imports: [
       AdminRoutingModule,
