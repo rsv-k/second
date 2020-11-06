@@ -25,6 +25,15 @@ const validatorReducer = createReducer(
       validators: [...state.validators, payload],
    })),
 
+   on(ValidatorActions.getValidatorsStart, (state) => ({
+      ...state,
+      validatorError: null,
+   })),
+   on(ValidatorActions.getValidatorsSuccess, (state, { payload }) => ({
+      ...state,
+      validators: [...payload],
+   })),
+
    on(ValidatorActions.validatorError, (state, { payload }) => ({
       ...state,
       validatorError: payload,

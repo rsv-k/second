@@ -25,6 +25,26 @@ export class ValidatorEffects {
       )
    );
 
+   getValidators$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(ValidatorActions.getValidatorsStart),
+         mergeMap((action) =>
+            this.validatorService
+               .getValidators()
+               .pipe(
+                  map((validator) =>
+                     ValidatorActions.getValidatorsSuccess({
+                        payload: validator,
+                     })
+                  )
+               )
+         ),
+         catchError((error) =>
+            of(ValidatorActions.validatorError({ payload: error.message }))
+         )
+      )
+   );
+
    constructor(
       private validatorService: ValidatorService,
       private actions$: Actions
