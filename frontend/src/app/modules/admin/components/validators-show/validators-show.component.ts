@@ -16,7 +16,7 @@ import { ValidatorTestComponent } from '../validator-test/validator-test.compone
 })
 export class ValidatorsShowComponent implements OnInit {
    validators$: Observable<Validator[]>;
-   displayedColumns = ['name', 'pattern', 'delete'];
+   displayedColumns = ['name', 'pattern', 'edit', 'delete'];
    constructor(
       public dialog: MatDialog,
       private store: Store<fromRoot.AppState>
@@ -33,6 +33,13 @@ export class ValidatorsShowComponent implements OnInit {
    openDialog(): void {
       this.dialog.open(ValidatorsCreateComponent, {
          width: '50rem',
+      });
+   }
+
+   onEditDialog(validator: Validator): void {
+      this.dialog.open(ValidatorsCreateComponent, {
+         width: '50rem',
+         data: { validator },
       });
    }
 

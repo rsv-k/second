@@ -29,6 +29,19 @@
          </td>
       </ng-container>
 
+      <ng-container matColumnDef="edit">
+         <th mat-header-cell *matHeaderCellDef></th>
+         <td mat-cell *matCellDef="let validator">
+            <button
+               mat-icon-button
+               color="accent"
+               (click)="onEditDialog(validator)"
+            >
+               <mat-icon>edit</mat-icon>
+            </button>
+         </td>
+      </ng-container>
+
       <ng-container matColumnDef="delete">
          <th mat-header-cell *matHeaderCellDef></th>
          <td mat-cell *matCellDef="let validator">

@@ -12,24 +12,29 @@ import * as ValidatorActions from '../../../../store/actions/validator.actions';
    styleUrls: ['./validators-create.component.scss'],
 })
 export class ValidatorsCreateComponent implements OnInit {
+   mode = 'Сохранить';
    form: FormGroup;
 
    constructor(
       public dialogRef: MatDialogRef<ValidatorsCreateComponent>,
-      @Inject(MAT_DIALOG_DATA) public data,
+      @Inject(MAT_DIALOG_DATA) public data: { validator: Validator },
       private store: Store<fromRoot.AppState>
    ) {}
 
    ngOnInit(): void {
+      if (this.data.validator) {
+         this.mode = 'Редактировать';
+      }
+
       this.form = new FormGroup({
-         name: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-         ]),
-         regex: new FormControl('', [
-            Validators.required,
-            Validators.minLength(3),
-         ]),
+         name: new FormControl(
+            (this.data.validator && this.data.validator.name) || '',
+            [Validators.required, Validators.minLength(3)]
+         ),
+         regex: new FormControl(
+            (this.data.validator && this.data.validator.regex) || '',
+            [Validators.required, Validators.minLength(3)]
+         ),
       });
    }
 
@@ -39,9 +44,24 @@ export class ValidatorsCreateComponent implements OnInit {
          return;
       }
 
-      this.store.dispatch(
-         ValidatorActions.addValidatorStart({ payload: validator })
-      );
+      if (this.mode === 'Сохранить') {
+         this.store.dispatch(
+            ValidatorActions.addValidatorStart({ payload: validator })
+         );
+      } else {
+         this.store.dispatch(
+            ValidatorActions.editValidatorStart({
+               payload: {
+                  id: this.data.validator.id,
+                  validator: {
+                     name: validator.name,
+                     regex: validator.regex,
+                     id: this.data.validator.id,
+                  },
+               },
+            })
+         );
+      }
    }
 
    onNoClick(): void {
