@@ -46,5 +46,20 @@
       </div>
    </div>
 
+   <div class="row">
+      <mat-form-field class="form__group" appearance="fill">
+         <mat-label>Валидатор реквезитов</mat-label>
+         <mat-select>
+            <mat-option>Ничего не использовать</mat-option>
+            <ng-template> </ng-template>
+            <mat-option
+               *ngFor="let validator of validators$ | async"
+               [value]="validator"
+               >{{ validator.name }}</mat-option
+            >
+         </mat-select>
+      </mat-form-field>
+   </div>
+
    <button mat-raised-button color="accent">Сохранить</button>
 </form>
