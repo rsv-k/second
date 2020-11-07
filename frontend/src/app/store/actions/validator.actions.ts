@@ -27,6 +27,15 @@ export const deleteValidatorSuccess = createAction(
    props<{ payload: Validator }>()
 );
 
+export const editValidatorStart = createAction(
+   '[VALIDATOR] EDIT VALDIATOR START',
+   props<{ payload: { id: string; validator: Validator } }>()
+);
+export const editValidatorSuccess = createAction(
+   '[VALIDATOR] EDIT VALDIATOR SUCCESS',
+   props<{ payload: Validator }>()
+);
+
 export const validatorError = createAction(
    '[VALIDATOR] ERROR',
    props<{ payload: string }>()

@@ -63,6 +63,33 @@ export class ValidatorEffects {
       )
    );
 
+   editValidator$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(ValidatorActions.editValidatorStart),
+         mergeMap((action) =>
+            this.validatorService
+               .editValidator(
+                  action.payload.validator.id,
+                  action.payload.validator
+               )
+               .pipe(
+                  map((validator) =>
+                     ValidatorActions.editValidatorSuccess({
+                        payload: validator,
+                     })
+                  ),
+                  catchError((error) =>
+                     of(
+                        ValidatorActions.validatorError({
+                           payload: error.message,
+                        })
+                     )
+                  )
+               )
+         )
+      )
+   );
+
    constructor(
       private validatorService: ValidatorService,
       private actions$: Actions

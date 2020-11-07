@@ -43,6 +43,21 @@ const validatorReducer = createReducer(
       validators: state.validators.filter((v) => v.id !== payload.id),
    })),
 
+   on(ValidatorActions.editValidatorStart, (state) => ({
+      ...state,
+      validatorError: null,
+   })),
+   on(ValidatorActions.editValidatorSuccess, (state, { payload }) => ({
+      ...state,
+      validators: state.validators.map((v) => {
+         if (v.id === payload.id) {
+            return payload;
+         }
+
+         return v;
+      }),
+   })),
+
    on(ValidatorActions.validatorError, (state, { payload }) => ({
       ...state,
       validatorError: payload,
