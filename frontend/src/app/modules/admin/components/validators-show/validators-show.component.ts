@@ -15,7 +15,7 @@ import { pluck } from 'rxjs/operators';
 })
 export class ValidatorsShowComponent implements OnInit {
    validators$: Observable<Validator[]>;
-   displayedColumns = ['name', 'pattern'];
+   displayedColumns = ['name', 'pattern', 'delete'];
    constructor(
       public dialog: MatDialog,
       private store: Store<fromRoot.AppState>

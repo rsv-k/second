@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, pluck } from 'rxjs/operators';
+import { map, pluck, tap } from 'rxjs/operators';
 import { Validator } from './../models/validator.model';
 
 const ENDPOINT_URL = '/api/validator/';
@@ -43,8 +43,13 @@ export class ValidatorService {
    }
 
    deleteValidator(id: string): Observable<Validator> {
-      return this.http
-         .delete<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('validator'));
+      return this.http.delete<Response>(ENDPOINT_URL + id).pipe(
+         pluck('validator'),
+         map((v) => {
+            v.id = v._id;
+            delete v._id;
+            return v;
+         })
+      );
    }
 }
