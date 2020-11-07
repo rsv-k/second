@@ -52,4 +52,15 @@ export class ValidatorService {
          })
       );
    }
+
+   editValidator(id: string, validator: Validator): Observable<Validator> {
+      return this.http.put<Response>(ENDPOINT_URL + id, validator).pipe(
+         pluck('validator'),
+         map((v) => {
+            v.id = v._id;
+            delete v._id;
+            return v;
+         })
+      );
+   }
 }
