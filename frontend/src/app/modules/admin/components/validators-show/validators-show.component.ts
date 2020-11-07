@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import * as ValidatorActions from '../../../../store/actions/validator.actions';
 import { pluck } from 'rxjs/operators';
+import { ValidatorTestComponent } from '../validator-test/validator-test.component';
 
 @Component({
    selector: 'app-validators-show',
@@ -30,12 +31,15 @@ export class ValidatorsShowComponent implements OnInit {
    }
 
    openDialog(): void {
-      const dialogRef = this.dialog.open(ValidatorsCreateComponent, {
+      this.dialog.open(ValidatorsCreateComponent, {
          width: '50rem',
       });
+   }
 
-      dialogRef.afterClosed().subscribe((result) => {
-         console.log('The dialog was closed');
+   openTestDialog(validator: Validator): void {
+      this.dialog.open(ValidatorTestComponent, {
+         width: '25rem',
+         data: { validator },
       });
    }
 
