@@ -22,17 +22,17 @@ export class ValidatorsCreateComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      if (this.data.validator) {
+      if (this.data) {
          this.mode = 'Редактировать';
       }
 
       this.form = new FormGroup({
-         name: new FormControl(
-            (this.data.validator && this.data.validator.name) || '',
-            [Validators.required, Validators.minLength(3)]
-         ),
+         name: new FormControl((this.data && this.data.validator.name) || '', [
+            Validators.required,
+            Validators.minLength(3),
+         ]),
          regex: new FormControl(
-            (this.data.validator && this.data.validator.regex) || '',
+            (this.data && this.data.validator.regex) || '',
             [Validators.required, Validators.minLength(3)]
          ),
       });
