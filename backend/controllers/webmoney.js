@@ -1,5 +1,6 @@
 const axios = require('axios');
-const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
+const webmoneyHelper = require('../utils/webmoney');
+const xml2js = require('xml2js');
 
 exports.isValidInfo = async (req, res, next) => {
    try {
@@ -9,38 +10,46 @@ exports.isValidInfo = async (req, res, next) => {
          return next(error);
       }
 
-      await webmoneyStatisticsHelper.increaseRequestsAmount();
-      const webmoneyStatistics = await webmoneyStatisticsHelper.getWebmoneyStatistics();
+      const reqn = webmoneyHelper.getReqn();
+      const wmid = 224080027036;
+      const operation = 4;
+      const direction = 2;
+      const purse = 'WMZ';
+      const amount = 12;
+      const sign = await webmoneyHelper.getSign(
+         reqn + '' + operation + '' + wmid
+      );
 
       const result = await axios.post(
          'https://apipassport.webmoney.ru/XMLCheckUser.aspx',
          `
-         <?xml version="1.0" encoding="UTF-8"?>
-      <passport.request>
-         <reqn>1</reqn>
-         <signerwmid>Z303845251746</signerwmid>
-         <sign>//1//4//Z303845251746</sign>
-         <operation>
-               <type>4</type>
-               <direction>1</direction>
-               <pursetype>WMZ</pursetype>
-               <amount>12.08</amount>
-               <id>1</id>
-         </operation>
-         <userinfo>
-               <wmid>Z303845251746</wmid>
-               <fname>Иван</fname>
-               <iname>Борисенко</iname>
-               <bank_name>Приватбанк</bank_name>
+         <passport.request>
+            <reqn>${reqn}</reqn>
+               <lang>en</lang>
+            <signerwmid>${wmid}</signerwmid>
+            <sign>${sign}</sign>
+            <operation>
+               <type>${operation}</type>
+               <direction>${direction}</direction>
+               <pursetype>${purse}</pursetype>
+               <amount>${amount}</amount>
+            </operation>
+            <userinfo>
+               <wmid>${wmid}</wmid>
+               <fname>Антіфоров</fname>
+               <iname>Олександр</iname>
+               <bank_name>Приват</bank_name>
                <card_number>5375411400215278</card_number>
-         </userinfo>
-      </passport.request>`,
-         { headers: { 'Content-Type': 'text/xml' } }
+            </userinfo>
+         </passport.request>
+         `,
+         { headers: { 'Content-Type': 'application/xml' } }
       );
 
-      // console.log(result.data);
+      const json = await xml2js.parseStringPromise(result.data);
+      const response = !+json['passport.response']['retval'][0];
 
-      res.status(200).json({ result: true });
+      res.status(200).json({ result: response });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);

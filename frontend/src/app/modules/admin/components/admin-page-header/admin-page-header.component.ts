@@ -19,7 +19,6 @@ export class AdminPageHeaderComponent implements OnInit {
       'currencies-show': {
          title: 'Валюты',
          linkTo: 'currencies-create',
-         showAmount: true,
       },
       'orders-show': {
          title: 'Заявки на обмен',
@@ -38,6 +37,9 @@ export class AdminPageHeaderComponent implements OnInit {
       },
       order: {
          title: 'Заявка на обмен',
+      },
+      'validators-show': {
+         title: 'Валидаторы',
       },
    };
    constructor(private router: Router) {}

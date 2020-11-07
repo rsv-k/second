@@ -1,35 +1,13 @@
 <mat-toolbar class="side-menu">
-   <mat-toolbar-row class="side-menu__row">
+   <mat-toolbar-row class="side-menu__row" *ngFor="let link of links">
       <button
          mat-button
          class="side-menu__button"
-         routerLink="./orders-show"
+         routerLink="{{ link.linkTo }}"
          routerLinkActive="mat-accent"
       >
-         <mat-icon>loop</mat-icon>
-         <span class="side-menu__text">Заявки на обмен</span>
-      </button>
-   </mat-toolbar-row>
-   <mat-toolbar-row class="side-menu__row">
-      <button
-         mat-button
-         class="side-menu__button"
-         routerLink="./exchanges-show"
-         routerLinkActive="mat-accent"
-      >
-         <mat-icon>shuffle</mat-icon>
-         <span class="side-menu__text">Направления обмена</span>
-      </button>
-   </mat-toolbar-row>
-   <mat-toolbar-row class="side-menu__row">
-      <button
-         mat-button
-         class="side-menu__button"
-         routerLink="./currencies-show"
-         routerLinkActive="mat-accent"
-      >
-         <mat-icon>credit_card</mat-icon>
-         <span class="side-menu__text">Валюты</span>
+         <mat-icon>{{ link.icon }}</mat-icon>
+         <span class="side-menu__text">{{ link.text }}</span>
       </button>
    </mat-toolbar-row>
 </mat-toolbar>

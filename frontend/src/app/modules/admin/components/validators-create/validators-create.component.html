@@ -1,0 +1,27 @@
+<form [formGroup]="form">
+   <div class="row">
+      <mat-form-field class="form__group">
+         <mat-label>Имя</mat-label>
+         <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field class="form__group">
+         <mat-label>Шаблон</mat-label>
+         <input matInput formControlName="regex" />
+      </mat-form-field>
+   </div>
+
+   <div class="actions">
+      <button
+         mat-raised-button
+         color="primary"
+         (click)="onSubmit()"
+         [mat-dialog-close]=""
+         [disabled]="!form.valid"
+      >
+         {{ mode }}
+      </button>
+      <button mat-raised-button color="warn" (click)="onNoClick()">
+         Отмена
+      </button>
+   </div>
+</form>

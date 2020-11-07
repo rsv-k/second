@@ -7,6 +7,7 @@ const currencyRoutes = require('./routes/currency');
 const exchangeRoutes = require('./routes/exchange');
 const orderRoutes = require('./routes/order');
 const webmoneyRoutes = require('./routes/webmoney');
+const validatorRoutes = require('./routes/validator');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -17,6 +18,7 @@ app.use('/api/currency', currencyRoutes);
 app.use('/api/exchange', exchangeRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/webmoney', webmoneyRoutes);
+app.use('/api/validator', validatorRoutes);
 
 app.use(errorHandler);
 
