@@ -1,5 +1,6 @@
 const Validator = require('../models/validator');
 const { validationResult } = require('express-validator');
+const mongooseHelper = require('../utils/mongoose');
 
 exports.createValidator = async (req, res, next) => {
    try {
@@ -34,6 +35,33 @@ exports.getValidators = async (req, res, next) => {
       res.status(200).json({
          msg: 'validators fetched successfully',
          validators,
+      });
+   } catch (err) {
+      next(err);
+   }
+};
+
+exports.deleteValidator = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Validator not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const validator = await Validator.findById(id);
+      if (!validator) {
+         const error = new Error('Validator not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      await validator.remove();
+
+      res.status(200).json({
+         msg: 'validator successfully deleted',
+         validator,
       });
    } catch (err) {
       next(err);

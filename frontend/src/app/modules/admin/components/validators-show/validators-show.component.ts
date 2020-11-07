@@ -6,7 +6,7 @@ import { ValidatorsCreateComponent } from '../validators-create/validators-creat
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import * as ValidatorActions from '../../../../store/actions/validator.actions';
-import { filter, pluck } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
 @Component({
    selector: 'app-validators-show',
