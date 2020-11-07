@@ -38,4 +38,10 @@ export class ValidatorsShowComponent implements OnInit {
          console.log('The dialog was closed');
       });
    }
+
+   onDeleteValidator(id: string): void {
+      this.store.dispatch(
+         ValidatorActions.deleteValidatorStart({ payload: { id } })
+      );
+   }
 }

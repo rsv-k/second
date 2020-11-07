@@ -18,6 +18,15 @@ export const getValidatorsSuccess = createAction(
    props<{ payload: Validator[] }>()
 );
 
+export const deleteValidatorStart = createAction(
+   '[VALIDATOR] DELETE VALDIATOR START',
+   props<{ payload: { id: string } }>()
+);
+export const deleteValidatorSuccess = createAction(
+   '[VALIDATOR] DELETE VALIDATOR SUCCESS',
+   props<{ payload: Validator }>()
+);
+
 export const validatorError = createAction(
    '[VALIDATOR] ERROR',
    props<{ payload: string }>()

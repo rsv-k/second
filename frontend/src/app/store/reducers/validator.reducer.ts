@@ -34,6 +34,15 @@ const validatorReducer = createReducer(
       validators: [...payload],
    })),
 
+   on(ValidatorActions.deleteValidatorStart, (state) => ({
+      ...state,
+      validatorError: null,
+   })),
+   on(ValidatorActions.deleteValidatorSuccess, (state, { payload }) => ({
+      ...state,
+      validators: state.validators.filter((v) => v.id !== payload.id),
+   })),
+
    on(ValidatorActions.validatorError, (state, { payload }) => ({
       ...state,
       validatorError: payload,

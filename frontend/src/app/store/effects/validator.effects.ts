@@ -29,18 +29,36 @@ export class ValidatorEffects {
       this.actions$.pipe(
          ofType(ValidatorActions.getValidatorsStart),
          mergeMap((action) =>
-            this.validatorService
-               .getValidators()
-               .pipe(
-                  map((validator) =>
-                     ValidatorActions.getValidatorsSuccess({
-                        payload: validator,
-                     })
-                  )
+            this.validatorService.getValidators().pipe(
+               map((validator) =>
+                  ValidatorActions.getValidatorsSuccess({
+                     payload: validator,
+                  })
                )
+            )
          ),
          catchError((error) =>
             of(ValidatorActions.validatorError({ payload: error.message }))
+         )
+      )
+   );
+
+   deleteValidator$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(ValidatorActions.deleteValidatorStart),
+         mergeMap((action) =>
+            this.validatorService.deleteValidator(action.payload.id).pipe(
+               map((validator) =>
+                  ValidatorActions.deleteValidatorSuccess({
+                     payload: validator,
+                  })
+               ),
+               catchError((error) =>
+                  of(
+                     ValidatorActions.validatorError({ payload: error.message })
+                  )
+               )
+            )
          )
       )
    );
