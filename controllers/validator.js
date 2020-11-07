@@ -14,7 +14,7 @@ exports.createValidator = async (req, res, next) => {
       let validator = new Validator(req.body);
       validator = await validator.save();
 
-      res.status(200).json({
+      res.status(201).json({
          msg: 'validator created successfully',
          validator,
       });
@@ -61,6 +61,40 @@ exports.deleteValidator = async (req, res, next) => {
 
       res.status(200).json({
          msg: 'validator successfully deleted',
+         validator,
+      });
+   } catch (err) {
+      next(err);
+   }
+};
+
+exports.editValidator = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Validator not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      let validator = await Validator.findById(id);
+      if (!validator) {
+         const error = new Error('Validator not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      validator = await Validator.findByIdAndUpdate(
+         id,
+         {
+            name: req.body.name,
+            regex: req.body.regex,
+         },
+         { new: true }
+      );
+
+      res.status(202).json({
+         msg: 'validator successfully updated',
          validator,
       });
    } catch (err) {
