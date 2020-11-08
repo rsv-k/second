@@ -106,35 +106,59 @@ export class SectionTradeSecondComponent implements OnInit {
 
       this.form = new FormGroup(
          {
-            givenCurrencyAmount: new FormControl('', [
-               Validators.required,
-               Validators.min(this.exchange.minGivenCurrency),
-               Validators.max(this.exchange.maxGivenCurrency),
-            ]),
-            takenCurrencyAmount: new FormControl('', [
-               Validators.required,
-               Validators.min(
-                  this.exchange.minGivenCurrency *
-                     this.exchange.takenCurrencyCourse
-               ),
-               Validators.max(this.exchange.takenCurrency.reserve),
-            ]),
-            givenCurrencyCard: new FormControl('', [
-               Validators.required,
-               Validators.pattern(
-                  givenCurrency.validator && givenCurrency.validator.regex
-               ),
-            ]),
-            takenCurrencyCard: new FormControl('', [
-               Validators.required,
-               Validators.pattern(
-                  takenCurrency.validator && takenCurrency.validator.regex
-               ),
-            ]),
-            name: new FormControl('', [Validators.required]),
-            surname: new FormControl('', [Validators.required]),
-            phone: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, Validators.email]),
+            givenCurrencyAmount: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.min(this.exchange.minGivenCurrency),
+                  Validators.max(this.exchange.maxGivenCurrency),
+               ],
+            }),
+            takenCurrencyAmount: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.min(
+                     this.exchange.minGivenCurrency *
+                        this.exchange.takenCurrencyCourse
+                  ),
+                  Validators.max(this.exchange.takenCurrency.reserve),
+               ],
+            }),
+            givenCurrencyCard: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.pattern(
+                     givenCurrency.validator && givenCurrency.validator.regex
+                  ),
+               ],
+            }),
+            takenCurrencyCard: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.pattern(
+                     takenCurrency.validator && takenCurrency.validator.regex
+                  ),
+               ],
+            }),
+            name: new FormControl('', {
+               updateOn: 'change',
+               validators: [Validators.required],
+            }),
+            surname: new FormControl('', {
+               updateOn: 'change',
+               validators: [Validators.required],
+            }),
+            phone: new FormControl('', {
+               updateOn: 'change',
+               validators: [Validators.required],
+            }),
+            email: new FormControl('', {
+               updateOn: 'change',
+               validators: [Validators.required, Validators.email],
+            }),
          },
          {
             updateOn: 'submit',
