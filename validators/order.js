@@ -40,4 +40,5 @@ exports.checkBodyCorrection = [
 
       return true;
    }),
+   body('email').isEmail(),
 ];
