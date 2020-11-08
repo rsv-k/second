@@ -41,4 +41,5 @@ exports.checkBodyCorrection = [
       return true;
    }),
    body('email').isEmail(),
+   body('phone').matches('^[+]{1}[0-9]{1,4}[0-9]{10}$'),
 ];
