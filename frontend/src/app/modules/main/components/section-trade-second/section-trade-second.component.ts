@@ -101,6 +101,9 @@ export class SectionTradeSecondComponent implements OnInit {
    }
 
    private initForm(): void {
+      const givenCurrency = this.exchange.givenCurrency;
+      const takenCurrency = this.exchange.takenCurrency;
+
       this.form = new FormGroup(
          {
             givenCurrencyAmount: new FormControl('', [
@@ -116,8 +119,18 @@ export class SectionTradeSecondComponent implements OnInit {
                ),
                Validators.max(this.exchange.takenCurrency.reserve),
             ]),
-            givenCurrencyCard: new FormControl('', [Validators.required]),
-            takenCurrencyCard: new FormControl('', [Validators.required]),
+            givenCurrencyCard: new FormControl('', [
+               Validators.required,
+               Validators.pattern(
+                  givenCurrency.validator && givenCurrency.validator.regex
+               ),
+            ]),
+            takenCurrencyCard: new FormControl('', [
+               Validators.required,
+               Validators.pattern(
+                  takenCurrency.validator && takenCurrency.validator.regex
+               ),
+            ]),
             name: new FormControl('', [Validators.required]),
             surname: new FormControl('', [Validators.required]),
             phone: new FormControl('', [Validators.required]),

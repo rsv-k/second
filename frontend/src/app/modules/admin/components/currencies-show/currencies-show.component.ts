@@ -21,8 +21,6 @@ export class CurrenciesShowComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.store.dispatch(CurrencyActions.currenciesLoadStart());
-
       this.currencies$ = this.store.pipe(
          select(fromCurrency.selectAdminCurrencies)
       );
