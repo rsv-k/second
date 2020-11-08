@@ -60,7 +60,8 @@
    <div class="row">
       <mat-form-field class="form__group">
          <mat-label>Номер телефона</mat-label>
-         <input matInput required formControlName="phone" />
+         <span matPrefix>+ &nbsp;</span>
+         <input type="tel" matInput formControlName="phone" required />
       </mat-form-field>
    </div>
 
