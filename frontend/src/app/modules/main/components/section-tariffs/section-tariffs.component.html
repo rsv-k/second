@@ -5,13 +5,10 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'Отдаете' | uppercase }}</th>
       <td mat-cell *matCellDef="let exchange">
          <div class="vertical-center">
-            <div class="img-container">
-               <img
-                  [src]="exchange.givenCurrency.icon"
-                  alt="exchange.givenCurrency.name"
-                  class="img"
-               />
-            </div>
+            <app-currency-img
+               [icon]="exchange.givenCurrency.icon"
+               [alt]="exchange.givenCurrency.stringId"
+            ></app-currency-img>
             {{ exchange.givenCurrencyCourse }} {{ exchange.givenCurrency.name }}
          </div>
       </td>
@@ -21,13 +18,10 @@
       <th mat-header-cell *matHeaderCellDef>{{ 'Получаете' | uppercase }}</th>
       <td mat-cell *matCellDef="let exchange">
          <div class="vertical-center">
-            <div class="img-container">
-               <img
-                  [src]="exchange.givenCurrency.icon"
-                  alt="exchange.givenCurrency.name"
-                  class="img"
-               />
-            </div>
+            <app-currency-img
+               [icon]="exchange.takenCurrency.icon"
+               [alt]="exchange.takenCurrency.stringId"
+            ></app-currency-img>
             {{ exchange.takenCurrencyCourse }} {{ exchange.takenCurrency.name }}
          </div>
       </td>
