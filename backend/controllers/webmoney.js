@@ -1,9 +1,17 @@
 const axios = require('axios');
 const webmoneyHelper = require('../utils/webmoney');
 const xml2js = require('xml2js');
+const { validationResult } = require('express-validator');
 
 exports.isValidInfo = async (req, res, next) => {
    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+         const error = new Error('invalid body');
+         error.statusCode = 422;
+         return next(error);
+      }
+
       if (!req.body) {
          const error = new Error('Incomplete data');
          error.status = 422;
