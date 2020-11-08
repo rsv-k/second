@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 module.exports = mongoose.model(
-   "Currency",
+   'Currency',
    new mongoose.Schema({
       name: { type: String, required: true },
       stringId: { type: String, required: true },
@@ -9,5 +9,10 @@ module.exports = mongoose.model(
       reserve: { type: Number, required: true },
       currencyCode: { type: String, required: true },
       icon: { type: String, required: true },
+      validator: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Validator',
+         required: false,
+      },
    })
 );
