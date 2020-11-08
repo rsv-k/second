@@ -93,7 +93,7 @@ export class SectionTradeSecondComponent implements OnInit {
 
       const order: Order = {
          ...this.form.value,
-         phone: '+' + this.form.value.phone,
+         phone: this.form.value.phone,
          givenCurrencyId: this.exchange.givenCurrency.id,
          takenCurrencyId: this.exchange.takenCurrency.id,
       };
@@ -153,14 +153,14 @@ export class SectionTradeSecondComponent implements OnInit {
                validators: [Validators.required],
             }),
             phone: new FormControl('', {
-               updateOn: 'change',
+               updateOn: 'blur',
                validators: [
                   Validators.required,
                   Validators.pattern('^[0-9]{1,4}[0-9]{10}$'),
                ],
             }),
             email: new FormControl('', {
-               updateOn: 'change',
+               updateOn: 'blur',
                validators: [Validators.required, Validators.email],
             }),
          },
