@@ -99,6 +99,7 @@ export class CurrenciesCreateComponent implements OnInit {
          card: new FormControl(''),
          icon: new FormControl(''),
          name: new FormControl(''),
+         validator: new FormControl(''),
       });
    }
 

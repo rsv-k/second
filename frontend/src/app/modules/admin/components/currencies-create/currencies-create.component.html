@@ -49,12 +49,12 @@
    <div class="row">
       <mat-form-field class="form__group" appearance="fill">
          <mat-label>Валидатор реквизитов</mat-label>
-         <mat-select>
+         <mat-select formControlName="validator">
             <mat-option>Ничего не использовать</mat-option>
             <ng-template> </ng-template>
             <mat-option
                *ngFor="let validator of validators$ | async"
-               [value]="validator"
+               [value]="validator.id"
                >{{ validator.name }}</mat-option
             >
          </mat-select>
