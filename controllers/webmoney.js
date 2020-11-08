@@ -12,12 +12,6 @@ exports.isValidInfo = async (req, res, next) => {
          return next(error);
       }
 
-      if (!req.body) {
-         const error = new Error('Incomplete data');
-         error.status = 422;
-         return next(error);
-      }
-
       const reqn = webmoneyHelper.getReqn();
       const wmid = 224080027036;
       const operation = 4;
@@ -59,7 +53,6 @@ exports.isValidInfo = async (req, res, next) => {
 
       res.status(200).json({ result: response });
    } catch (err) {
-      const error = new Error('Internal server error');
       next(error);
    }
 };
