@@ -1,17 +1,9 @@
 const axios = require('axios');
 const webmoneyHelper = require('../utils/webmoney');
 const xml2js = require('xml2js');
-const { validationResult } = require('express-validator');
 
 exports.webmoney = async (req, res, next) => {
    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-         const error = new Error('invalid body');
-         error.statusCode = 422;
-         return next(error);
-      }
-
       const reqn = webmoneyHelper.getReqn();
       const wmid = 224080027036;
       const operation = 4;

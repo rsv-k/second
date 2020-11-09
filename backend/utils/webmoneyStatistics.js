@@ -12,18 +12,6 @@ exports.increaseOrdersAmount = async () => {
    );
 };
 
-exports.increaseRequestsAmount = async () => {
-   let webmoneyStatistics = await WebmoneyStatistics.findOne({});
-   if (!webmoneyStatistics) {
-      webmoneyStatistics = await createWebmoneyStatistics();
-   }
-
-   await WebmoneyStatistics.findByIdAndUpdate(
-      { _id: webmoneyStatistics._id },
-      { $inc: { requestsAmount: 1 } }
-   );
-};
-
 exports.getWebmoneyStatistics = async () => {
    let webmoneyStatistics = await WebmoneyStatistics.findOne({});
    if (!webmoneyStatistics) {
