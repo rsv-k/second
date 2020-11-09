@@ -3,7 +3,7 @@ const webmoneyHelper = require('../utils/webmoney');
 const xml2js = require('xml2js');
 const { validationResult } = require('express-validator');
 
-exports.isValidInfo = async (req, res, next) => {
+exports.webmoney = async (req, res, next) => {
    try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
