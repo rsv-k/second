@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const webmoneyController = require('../controllers/webmoney');
+const merchantController = require('../controllers/merchant');
 const orderValidator = require('../validators/order');
 
 router.post(
-   '',
+   'webmoney',
    orderValidator.checkBodyCorrection,
-   webmoneyController.isValidInfo
+   merchantController.webmoney
 );
 
 module.exports = router;
