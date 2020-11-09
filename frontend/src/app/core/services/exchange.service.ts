@@ -1,3 +1,4 @@
+import { CommonService } from './common.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -6,29 +7,34 @@ import { Exchange } from '../models/exchange.model';
 
 const ENDPOINT_URL = '/api/exchange/';
 
+interface Response {
+   msg: string;
+   exchange?: any;
+   exchanges?: any[];
+}
+
 @Injectable({
    providedIn: 'root',
 })
 export class ExchangeService {
-   constructor(private http: HttpClient) {}
+   constructor(
+      private http: HttpClient,
+      private commonService: CommonService
+   ) {}
 
    createExchange(exchange: Exchange): Observable<Exchange> {
-      return this.http
-         .post<{ msg: string; exchange: any }>(ENDPOINT_URL, exchange)
-         .pipe(
-            pluck('exchange'),
-            map((ex) => {
-               ex.id = ex._id;
-               delete ex._id;
+      return this.http.post<Response>(ENDPOINT_URL, exchange).pipe(
+         pluck('exchange'),
+         map(this.commonService.changeId),
+         map((ex) => {
+            ex.givenCurrency.id = ex.givenCurrency._id;
+            delete ex.givenCurrency._id;
+            ex.takenCurrency.id = ex.takenCurrency._id;
+            delete ex.takenCurrency._id;
 
-               ex.givenCurrency.id = ex.givenCurrency._id;
-               delete ex.givenCurrency._id;
-               ex.takenCurrency.id = ex.takenCurrency._id;
-               delete ex.takenCurrency._id;
-
-               return ex;
-            })
-         );
+            return ex;
+         })
+      );
    }
 
    getExchanges(isSorted: boolean): Observable<Exchange[]> {
@@ -37,62 +43,37 @@ export class ExchangeService {
          sort = '?isSorted=true';
       }
 
-      return this.http
-         .get<{ msg: string; exchanges: any[] }>(ENDPOINT_URL + sort)
-         .pipe(
-            pluck('exchanges'),
-            map((exchanges) => {
-               return exchanges.map((ex) => {
-                  ex.id = ex._id;
-                  delete ex._id;
+      return this.http.get<Response>(ENDPOINT_URL + sort).pipe(
+         pluck('exchanges'),
+         map((exchanges) => exchanges.map(this.commonService.changeId)),
+         map((exchanges) => {
+            return exchanges.map((ex) => {
+               ex.givenCurrency.id = ex.givenCurrency._id;
+               delete ex.givenCurrency._id;
+               ex.takenCurrency.id = ex.takenCurrency._id;
+               delete ex.takenCurrency._id;
 
-                  ex.givenCurrency.id = ex.givenCurrency._id;
-                  delete ex.givenCurrency._id;
-                  ex.takenCurrency.id = ex.takenCurrency._id;
-                  delete ex.takenCurrency._id;
-
-                  return ex;
-               });
-            })
-         );
+               return ex;
+            });
+         })
+      );
    }
 
    deleteExchange(id: string): Observable<Exchange> {
       return this.http
-         .delete<{ msg: string; exchange: any }>(ENDPOINT_URL + id)
-         .pipe(
-            map((response) => {
-               const exchange = response.exchange;
-               exchange.id = exchange._id;
-               delete exchange._id;
-               return exchange;
-            })
-         );
+         .delete<Response>(ENDPOINT_URL + id)
+         .pipe(pluck('exchange'), map(this.commonService.changeId));
    }
 
    getExchange(id: string): Observable<Exchange> {
       return this.http
-         .get<{ msg: string; exchange: any }>(ENDPOINT_URL + id)
-         .pipe(
-            map((response) => {
-               const exchange = response.exchange;
-               exchange.id = exchange._id;
-               delete exchange._id;
-               return exchange;
-            })
-         );
+         .get<Response>(ENDPOINT_URL + id)
+         .pipe(map(this.commonService.changeId));
    }
 
    updateExchange(id: string, exchange: any): Observable<Exchange> {
       return this.http
-         .put<{ msg: string; exchange: any }>(ENDPOINT_URL + id, exchange)
-         .pipe(
-            map((response) => {
-               const ex = response.exchange;
-               ex.id = ex._id;
-               delete ex._id;
-               return ex;
-            })
-         );
+         .put<Response>(ENDPOINT_URL + id, exchange)
+         .pipe(map(this.commonService.changeId));
    }
 }
