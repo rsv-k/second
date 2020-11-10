@@ -46,7 +46,7 @@
       </mat-form-field>
    </div>
 
-   <div class="row">
+   <div class="row" *ngIf="showNameAndSurname">
       <mat-form-field class="form__group">
          <mat-label>Имя</mat-label>
          <input matInput required formControlName="name" />

@@ -28,6 +28,8 @@ export class SectionTradeSecondComponent implements OnInit {
    givenCurrencyName: string;
    takenCurrencyName: string;
 
+   showNameAndSurname = true;
+
    private currencyNames = {
       EUR: 'евро',
       UAH: 'гривнах',
@@ -65,6 +67,15 @@ export class SectionTradeSecondComponent implements OnInit {
             ];
 
             this.initForm();
+            if (
+               exchange.givenCurrency.name.includes('Webmoney') &&
+               exchange.takenCurrency.name.includes('Webmoney')
+            ) {
+               this.showNameAndSurname = false;
+               this.form.removeControl('name');
+               this.form.removeControl('surname');
+               this.form.clearAsyncValidators();
+            }
          });
    }
 
@@ -153,7 +164,6 @@ export class SectionTradeSecondComponent implements OnInit {
                validators: [Validators.required],
             }),
             phone: new FormControl('', {
-               updateOn: 'blur',
                validators: [
                   Validators.required,
                   Validators.pattern('^[0-9]{1,4}[0-9]{10}$'),
