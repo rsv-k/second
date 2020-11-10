@@ -6,7 +6,7 @@ exports.webmoney = async (req, res, next) => {
       const direction = 2;
       const purse = 'WMZ';
 
-      const response = merchantHelper.interfaceX19(
+      const response = await merchantHelper.interfaceX19(
          operation,
          direction,
          purse,
