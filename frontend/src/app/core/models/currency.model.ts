@@ -1,3 +1,4 @@
+import { Validator } from './validator.model';
 export interface Currency {
    id?: string;
    stringId: string;
@@ -6,5 +7,5 @@ export interface Currency {
    card: string;
    icon: string | File;
    name: string;
-   __v?: number;
+   validator?: Validator;
 }

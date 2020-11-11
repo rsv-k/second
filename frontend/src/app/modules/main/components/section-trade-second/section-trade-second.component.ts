@@ -28,6 +28,8 @@ export class SectionTradeSecondComponent implements OnInit {
    givenCurrencyName: string;
    takenCurrencyName: string;
 
+   showNameAndSurname = true;
+
    private currencyNames = {
       EUR: 'евро',
       UAH: 'гривнах',
@@ -65,6 +67,15 @@ export class SectionTradeSecondComponent implements OnInit {
             ];
 
             this.initForm();
+            if (
+               exchange.givenCurrency.name.includes('Webmoney') &&
+               exchange.takenCurrency.name.includes('Webmoney')
+            ) {
+               this.showNameAndSurname = false;
+               this.form.removeControl('name');
+               this.form.removeControl('surname');
+               this.form.clearAsyncValidators();
+            }
          });
    }
 
@@ -93,6 +104,7 @@ export class SectionTradeSecondComponent implements OnInit {
 
       const order: Order = {
          ...this.form.value,
+         phone: this.form.value.phone,
          givenCurrencyId: this.exchange.givenCurrency.id,
          takenCurrencyId: this.exchange.takenCurrency.id,
       };
@@ -101,27 +113,66 @@ export class SectionTradeSecondComponent implements OnInit {
    }
 
    private initForm(): void {
+      const givenCurrency = this.exchange.givenCurrency;
+      const takenCurrency = this.exchange.takenCurrency;
+
       this.form = new FormGroup(
          {
-            givenCurrencyAmount: new FormControl('', [
-               Validators.required,
-               Validators.min(this.exchange.minGivenCurrency),
-               Validators.max(this.exchange.maxGivenCurrency),
-            ]),
-            takenCurrencyAmount: new FormControl('', [
-               Validators.required,
-               Validators.min(
-                  this.exchange.minGivenCurrency *
-                     this.exchange.takenCurrencyCourse
-               ),
-               Validators.max(this.exchange.takenCurrency.reserve),
-            ]),
-            givenCurrencyCard: new FormControl('', [Validators.required]),
-            takenCurrencyCard: new FormControl('', [Validators.required]),
-            name: new FormControl('', [Validators.required]),
-            surname: new FormControl('', [Validators.required]),
-            phone: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, Validators.email]),
+            givenCurrencyAmount: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.min(this.exchange.minGivenCurrency),
+                  Validators.max(this.exchange.maxGivenCurrency),
+               ],
+            }),
+            takenCurrencyAmount: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.min(
+                     this.exchange.minGivenCurrency *
+                        this.exchange.takenCurrencyCourse
+                  ),
+                  Validators.max(this.exchange.takenCurrency.reserve),
+               ],
+            }),
+            givenCurrencyCard: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.pattern(
+                     givenCurrency.validator && givenCurrency.validator.regex
+                  ),
+               ],
+            }),
+            takenCurrencyCard: new FormControl('', {
+               updateOn: 'change',
+               validators: [
+                  Validators.required,
+                  Validators.pattern(
+                     takenCurrency.validator && takenCurrency.validator.regex
+                  ),
+               ],
+            }),
+            name: new FormControl('', {
+               updateOn: 'change',
+               validators: [Validators.required],
+            }),
+            surname: new FormControl('', {
+               updateOn: 'change',
+               validators: [Validators.required],
+            }),
+            phone: new FormControl('', {
+               validators: [
+                  Validators.required,
+                  Validators.pattern('^[0-9]{1,4}[0-9]{10}$'),
+               ],
+            }),
+            email: new FormControl('', {
+               updateOn: 'blur',
+               validators: [Validators.required, Validators.email],
+            }),
          },
          {
             updateOn: 'submit',

@@ -4,24 +4,27 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { Order } from './../models/order.model';
+import { CommonService } from './common.service';
+
+interface Response {
+   msg: string;
+   order?: any;
+   orders?: any[];
+}
 
 @Injectable({
    providedIn: 'root',
 })
 export class OrderService {
-   constructor(private http: HttpClient) {}
+   constructor(
+      private http: HttpClient,
+      private commonService: CommonService
+   ) {}
 
    createOrder(order: Order): Observable<Order> {
       return this.http
-         .post<{ msg: string; order: any }>('/api/order', order)
-         .pipe(
-            pluck('order'),
-            map((o) => {
-               o.id = o._id;
-               delete o._id;
-               return o;
-            })
-         );
+         .post<Response>('/api/order', order)
+         .pipe(pluck('order'), map(this.commonService.changeId));
    }
 
    getOrders(opt: OrdersOptions): Observable<Order[]> {
@@ -34,44 +37,22 @@ export class OrderService {
          }
       }
 
-      return this.http
-         .get<{ msg: string; orders: any[] }>('/api/order', options)
-         .pipe(
-            pluck('orders'),
-            map((orders) =>
-               orders.map((order) => {
-                  order.id = order._id;
-                  delete order._id;
-                  return order;
-               })
-            )
-         );
+      return this.http.get<Response>('/api/order', options).pipe(
+         pluck('orders'),
+         map((orders) => orders.map(this.commonService.changeId))
+      );
    }
 
    getOrder(id: string): Observable<Order> {
       return this.http
-         .get<{ msg: string; order: any }>('/api/order/' + id)
-         .pipe(
-            pluck('order'),
-            map((order) => {
-               order.id = order._id;
-               delete order._id;
-               return order;
-            })
-         );
+         .get<Response>('/api/order/' + id)
+         .pipe(pluck('order'), map(this.commonService.changeId));
    }
 
    getActiveOrder(id: string): Observable<Order> {
       return this.http
-         .get<{ msg: string; order: any }>('/api/order/getActiveOrder/' + id)
-         .pipe(
-            pluck('order'),
-            map((order) => {
-               order.id = order._id;
-               delete order._id;
-               return order;
-            })
-         );
+         .get<Response>('/api/order/getActiveOrder/' + id)
+         .pipe(pluck('order'), map(this.commonService.changeId));
    }
 
    deleteOrder(ids: string[]): Observable<any> {
@@ -82,9 +63,7 @@ export class OrderService {
       ids: string[],
       status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed'
    ): Observable<any> {
-      return this.http.put<{
-         msg: 'string';
-      }>('/api/order/updateManyById', {
+      return this.http.put<Response>('/api/order/updateManyById', {
          ids,
          status,
       });

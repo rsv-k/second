@@ -1,10 +1,14 @@
+import { Validator } from './../../../../core/models/validator.model';
 import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as fromCurrency from '../../store/reducers/currency.reducer';
+import * as ValidatorActions from '../../../../store/actions/validator.actions';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { filter, pluck } from 'rxjs/operators';
 
 @Component({
    selector: 'app-currencies-create',
@@ -14,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CurrenciesCreateComponent implements OnInit {
    form: FormGroup;
    file: File;
+   validators$: Observable<Validator[]>;
 
    private mode = 'create';
    private currencyToEdit: Currency;
@@ -34,6 +39,12 @@ export class CurrenciesCreateComponent implements OnInit {
 
          this.setForm(data.currency);
       });
+
+      this.store.dispatch(ValidatorActions.getValidatorsStart());
+      this.validators$ = this.store.select('validator').pipe(
+         pluck('validators'),
+         filter((validators) => !!validators.length)
+      );
 
       this.form.get('icon').disable();
    }
@@ -88,6 +99,7 @@ export class CurrenciesCreateComponent implements OnInit {
          card: new FormControl(''),
          icon: new FormControl(''),
          name: new FormControl(''),
+         validator: new FormControl(''),
       });
    }
 

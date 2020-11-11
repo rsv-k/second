@@ -9,8 +9,18 @@ exports.getExchanges = async (req, res, next) => {
 
    try {
       const exchanges = await Exchange.find({})
-         .populate('givenCurrency')
-         .populate('takenCurrency')
+         .populate({
+            path: 'givenCurrency',
+            populate: {
+               path: 'validator',
+            },
+         })
+         .populate({
+            path: 'takenCurrency',
+            populate: {
+               path: 'validator',
+            },
+         })
          .sort(sortOptions);
       if (exchanges.length === 0) {
          const error = new Error('Exchanges not found');

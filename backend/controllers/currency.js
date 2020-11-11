@@ -20,7 +20,6 @@ exports.createCurrency = async (req, res, next) => {
 
       res.status(201).json({ msg: 'currency created successfully', currency });
    } catch (err) {
-      const error = new Error('Internal server error');
       next(error);
    }
 };
@@ -39,7 +38,6 @@ exports.getCurrencies = async (req, res, next) => {
          currencies,
       });
    } catch (err) {
-      const error = new Error('Internal server error');
       next(error);
    }
 };
@@ -65,7 +63,6 @@ exports.deleteCurrency = async (req, res, next) => {
 
       res.status(200).json({ msg: 'Currency successfully deleted', currency });
    } catch (err) {
-      const error = new Error('Internal server error');
       next(error);
    }
 };
@@ -88,8 +85,6 @@ exports.getCurrency = async (req, res, next) => {
 
       res.status(200).json({ msg: 'Currency fetched successfully', currency });
    } catch (err) {
-      const error = new Error('Internal server error');
-
       next(error);
    }
 };
@@ -127,8 +122,6 @@ exports.updateCurrency = async (req, res, next) => {
 
       res.status(202).json({ msg: 'Currency updated successfully', currency });
    } catch (err) {
-      const error = new Error('Internal server error');
-
       next(error);
    }
 };
