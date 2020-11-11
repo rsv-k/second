@@ -46,5 +46,3 @@ testem.log
 Thumbs.db
 .env
 wmsigner
-/certificates
-/SSl
