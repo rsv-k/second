@@ -119,7 +119,6 @@ export class SectionTradeSecondComponent implements OnInit {
       this.form = new FormGroup(
          {
             givenCurrencyAmount: new FormControl('', {
-               updateOn: 'change',
                validators: [
                   Validators.required,
                   Validators.min(this.exchange.minGivenCurrency),
@@ -127,7 +126,6 @@ export class SectionTradeSecondComponent implements OnInit {
                ],
             }),
             takenCurrencyAmount: new FormControl('', {
-               updateOn: 'change',
                validators: [
                   Validators.required,
                   Validators.min(
@@ -138,7 +136,6 @@ export class SectionTradeSecondComponent implements OnInit {
                ],
             }),
             givenCurrencyCard: new FormControl('', {
-               updateOn: 'change',
                validators: [
                   Validators.required,
                   Validators.pattern(
@@ -147,7 +144,6 @@ export class SectionTradeSecondComponent implements OnInit {
                ],
             }),
             takenCurrencyCard: new FormControl('', {
-               updateOn: 'change',
                validators: [
                   Validators.required,
                   Validators.pattern(
@@ -156,11 +152,9 @@ export class SectionTradeSecondComponent implements OnInit {
                ],
             }),
             name: new FormControl('', {
-               updateOn: 'change',
                validators: [Validators.required],
             }),
             surname: new FormControl('', {
-               updateOn: 'change',
                validators: [Validators.required],
             }),
             phone: new FormControl('', {
@@ -170,7 +164,6 @@ export class SectionTradeSecondComponent implements OnInit {
                ],
             }),
             email: new FormControl('', {
-               updateOn: 'blur',
                validators: [Validators.required, Validators.email],
             }),
          },
