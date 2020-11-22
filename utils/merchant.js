@@ -1,7 +1,6 @@
 const axios = require('axios');
 const webmoneyHelper = require('../utils/webmoney');
 const xml2js = require('xml2js');
-const signerWMID = process.env.SIGNERWMID;
 
 module.exports.interfaceX19 = async (
    operation,
@@ -11,7 +10,10 @@ module.exports.interfaceX19 = async (
    userWMID
 ) => {
    const reqn = webmoneyHelper.getReqn();
-   const sign = await webmoneyHelper.getSign(reqn + '' + operation + '' + wmid);
+   const signerWMID = process.env.SIGNERWMID;
+   const sign = await webmoneyHelper.getSign(
+      reqn + '' + operation + '' + signerWMID
+   );
 
    const result = await axios.post(
       'https://apipassport.webmoney.ru/XMLCheckUser.aspx',
@@ -41,6 +43,33 @@ module.exports.interfaceX19 = async (
 
    const json = await xml2js.parseStringPromise(result.data);
    const response = !+json['passport.response']['retval'][0];
+
+   return response;
+};
+
+module.exports.interfaceX8 = async () => {
+   const reqn = webmoneyHelper.getReqn();
+   const sign = await webmoneyHelper.getSign('Z303845251746');
+   const signerWMID = process.env.SIGNERWMID;
+
+   const result = await axios.post(
+      'https://w3s.webmoney.ru/asp/XMLFindWMPurseNew.asp',
+      `
+      <w3s.request>
+         <reqn>${reqn}</reqn>
+         <wmid>${signerWMID}</wmid>
+         <sign>${sign}</sign>
+         <testwmpurse>
+            <wmid></wmid>
+            <purse>Z303845251746</purse>
+         </testwmpurse>
+      </w3s.request>
+      `,
+      { headers: { 'Content-Type': 'application/xml' } }
+   );
+
+   const json = await xml2js.parseStringPromise(result.data);
+   const response = json['w3s.response']['testwmpurse'][0]['wmid'][0]['_'];
 
    return response;
 };
