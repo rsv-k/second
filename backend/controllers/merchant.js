@@ -15,6 +15,6 @@ exports.webmoney = async (req, res, next) => {
 
       res.status(200).json({ result: response });
    } catch (err) {
-      next(error);
+      next(err);
    }
 };
