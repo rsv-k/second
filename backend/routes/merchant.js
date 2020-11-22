@@ -6,8 +6,8 @@ const validationResultMiddleware = require('../middlewares/validationResult');
 
 router.post(
    '/webmoney',
-   orderValidator.checkBodyCorrection,
-   validationResultMiddleware,
+   // orderValidator.checkBodyCorrection,
+   // validationResultMiddleware,
    merchantController.webmoney
 );
 
