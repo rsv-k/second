@@ -25,6 +25,8 @@ export class SectionTradeSecondComponent implements OnInit {
    form: FormGroup;
    exchange: Exchange;
 
+   fields: { [key: string]: boolean } = {};
+
    constructor(
       private store: Store<fromApp.AppState>,
       private route: ActivatedRoute,
@@ -47,6 +49,9 @@ export class SectionTradeSecondComponent implements OnInit {
             }
 
             this.exchange = exchange;
+            for (const control of exchange.fields) {
+               this.fields[control] = true;
+            }
 
             this.initForm();
          });
@@ -86,63 +91,75 @@ export class SectionTradeSecondComponent implements OnInit {
    private initForm(): void {
       const givenCurrency = this.exchange.givenCurrency;
       const takenCurrency = this.exchange.takenCurrency;
-
-      this.form = new FormGroup(
-         {
-            givenCurrencyAmount: new FormControl('', {
-               validators: [
-                  Validators.required,
-                  Validators.min(this.exchange.minGivenCurrency),
-                  Validators.max(this.exchange.maxGivenCurrency),
-               ],
-            }),
-            takenCurrencyAmount: new FormControl('', {
-               validators: [
-                  Validators.required,
-                  Validators.min(
-                     this.exchange.minGivenCurrency *
-                        this.exchange.takenCurrencyCourse
-                  ),
-                  Validators.max(this.exchange.takenCurrency.reserve),
-               ],
-            }),
-            givenCurrencyCard: new FormControl('', {
-               validators: [
-                  Validators.required,
-                  Validators.pattern(
-                     givenCurrency.validator && givenCurrency.validator.regex
-                  ),
-               ],
-            }),
-            takenCurrencyCard: new FormControl('', {
-               validators: [
-                  Validators.required,
-                  Validators.pattern(
-                     takenCurrency.validator && takenCurrency.validator.regex
-                  ),
-               ],
-            }),
-            name: new FormControl('', {
-               validators: [Validators.required],
-            }),
-            surname: new FormControl('', {
-               validators: [Validators.required],
-            }),
-            phone: new FormControl('', {
-               validators: [
-                  Validators.required,
-                  Validators.pattern('^[0-9]{1,4}[0-9]{10}$'),
-               ],
-            }),
-            email: new FormControl('', {
-               validators: [Validators.required, Validators.email],
-            }),
-         },
-         {
-            updateOn: 'submit',
-            asyncValidators: [this.webmoneyValidator.bind(this)],
-         }
+      const optionalControls = this.getOptionalControls(
+         givenCurrency,
+         takenCurrency
       );
+
+      const controls = {
+         givenCurrencyAmount: new FormControl('', {
+            validators: [
+               Validators.required,
+               Validators.min(this.exchange.minGivenCurrency),
+               Validators.max(this.exchange.maxGivenCurrency),
+            ],
+         }),
+         takenCurrencyAmount: new FormControl('', {
+            validators: [
+               Validators.required,
+               Validators.min(
+                  this.exchange.minGivenCurrency *
+                     this.exchange.takenCurrencyCourse
+               ),
+               Validators.max(this.exchange.takenCurrency.reserve),
+            ],
+         }),
+      };
+
+      for (const control of this.exchange.fields) {
+         controls[control] = optionalControls[control];
+      }
+
+      this.form = new FormGroup(controls, {
+         updateOn: 'submit',
+         asyncValidators: [this.webmoneyValidator.bind(this)],
+      });
+   }
+
+   private getOptionalControls(givenCurrency, takenCurrency) {
+      return {
+         givenCurrencyCard: new FormControl('', {
+            validators: [
+               Validators.required,
+               Validators.pattern(
+                  givenCurrency.validator && givenCurrency.validator.regex
+               ),
+            ],
+         }),
+         takenCurrencyCard: new FormControl('', {
+            validators: [
+               Validators.required,
+               Validators.pattern(
+                  takenCurrency.validator && takenCurrency.validator.regex
+               ),
+            ],
+         }),
+         name: new FormControl('', {
+            validators: [Validators.required],
+         }),
+         surname: new FormControl('', {
+            validators: [Validators.required],
+         }),
+         phone: new FormControl('', {
+            validators: [
+               Validators.required,
+               Validators.pattern('^[0-9]{1,4}[0-9]{10}$'),
+            ],
+         }),
+         email: new FormControl('', {
+            validators: [Validators.required, Validators.email],
+         }),
+      };
    }
 
    private webmoneyValidator(): Observable<ValidationErrors | null> {

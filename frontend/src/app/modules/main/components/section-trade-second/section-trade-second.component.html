@@ -42,14 +42,14 @@
       </mat-form-field>
    </div>
 
-   <div class="row">
+   <div class="row" *ngIf="fields['givenCurrencyCard']">
       <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
          <input matInput required formControlName="givenCurrencyCard" />
       </mat-form-field>
    </div>
 
-   <div class="row">
+   <div class="row" *ngIf="fields['takenCurrencyCard']">
       <mat-form-field class="form__group">
          <mat-label>Номер кошелька</mat-label>
          <input matInput required formControlName="takenCurrencyCard" />
@@ -57,17 +57,17 @@
    </div>
 
    <div class="row">
-      <mat-form-field class="form__group">
+      <mat-form-field class="form__group" *ngIf="fields['name']">
          <mat-label>Имя</mat-label>
          <input matInput required formControlName="name" />
       </mat-form-field>
-      <mat-form-field class="form__group">
+      <mat-form-field class="form__group" *ngIf="fields['surname']">
          <mat-label>Фамилия</mat-label>
          <input matInput required formControlName="surname" />
       </mat-form-field>
    </div>
 
-   <div class="row">
+   <div class="row" *ngIf="fields['phone']">
       <mat-form-field class="form__group">
          <mat-label>Номер телефона</mat-label>
          <span matPrefix>+ &nbsp;</span>
@@ -76,7 +76,7 @@
    </div>
 
    <div class="row">
-      <mat-form-field class="form__group">
+      <mat-form-field class="form__group" *ngIf="fields['email']">
          <mat-label>Email</mat-label>
          <input matInput required formControlName="email" />
       </mat-form-field>
