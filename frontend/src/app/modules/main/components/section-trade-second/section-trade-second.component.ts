@@ -25,8 +25,6 @@ export class SectionTradeSecondComponent implements OnInit {
    form: FormGroup;
    exchange: Exchange;
 
-   showNameAndSurname = true;
-
    constructor(
       private store: Store<fromApp.AppState>,
       private route: ActivatedRoute,
@@ -51,15 +49,6 @@ export class SectionTradeSecondComponent implements OnInit {
             this.exchange = exchange;
 
             this.initForm();
-            if (
-               exchange.givenCurrency.name.includes('Webmoney') &&
-               exchange.takenCurrency.name.includes('Webmoney')
-            ) {
-               this.showNameAndSurname = false;
-               this.form.removeControl('name');
-               this.form.removeControl('surname');
-               this.form.clearAsyncValidators();
-            }
          });
    }
 
