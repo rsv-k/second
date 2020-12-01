@@ -13,4 +13,5 @@ export interface Exchange {
    minTakenCurrency: number;
    comment: string;
    isActive?: boolean;
+   fields: string[];
 }

@@ -68,7 +68,7 @@ export class ExchangeService {
    getExchange(id: string): Observable<Exchange> {
       return this.http
          .get<Response>(ENDPOINT_URL + id)
-         .pipe(map(this.commonService.changeId));
+         .pipe(pluck('exchange'), map(this.commonService.changeId));
    }
 
    updateExchange(id: string, exchange: any): Observable<Exchange> {

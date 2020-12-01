@@ -21,5 +21,6 @@ module.exports = mongoose.model(
       minTakenCurrency: { type: Number, required: false },
       comment: { type: String, required: false },
       isActive: { type: Boolean, default: false },
+      fields: { type: [String], require: false },
    })
 );

@@ -55,6 +55,8 @@ export class ExchangesCreateComponent implements OnInit {
       },
    ];
 
+   selectedFields = [];
+
    private mode = 'create';
    private exchangeToEdit: Exchange = null;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -76,9 +78,11 @@ export class ExchangesCreateComponent implements OnInit {
          .pipe(first())
          .subscribe((data) => {
             this.exchangeToEdit = data.exchange;
+            console.log(data.exchange);
             if (this.exchangeToEdit) {
                this.mode = 'edit';
                this.setForm(this.exchangeToEdit);
+               this.setSlidersToTrue(this.exchangeToEdit);
             }
          });
    }
@@ -88,6 +92,7 @@ export class ExchangesCreateComponent implements OnInit {
          ...this.form.value,
          givenCurrencyId: this.givenCurrencyId,
          takenCurrencyId: this.takenCurrencyId,
+         fields: this.selectedFields,
       };
 
       if (this.mode === 'create') {
@@ -140,6 +145,22 @@ export class ExchangesCreateComponent implements OnInit {
       );
    }
 
+   onSlideChange(controlName: string): void {
+      const field = this.fieldNames.find((f) => f.controlName === controlName);
+      if (!field) {
+         return;
+      }
+
+      field.isSelected = !field.isSelected;
+      if (field.isSelected) {
+         this.selectedFields.push(field.controlName);
+      } else {
+         this.selectedFields = this.selectedFields.filter(
+            (f) => f === controlName
+         );
+      }
+   }
+
    private initForm(): void {
       this.form = new FormGroup({
          givenCurrency: new FormControl(''),
@@ -163,5 +184,19 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.form.get('givenCurrency').disable();
       this.form.get('takenCurrency').disable();
+   }
+
+   private setSlidersToTrue(exchange: Exchange): void {
+      const controlNames = {};
+
+      for (const c of exchange.fields) {
+         controlNames[c] = true;
+      }
+
+      for (const f of this.fieldNames) {
+         if (controlNames[f.controlName]) {
+            f.isSelected = true;
+         }
+      }
    }
 }
