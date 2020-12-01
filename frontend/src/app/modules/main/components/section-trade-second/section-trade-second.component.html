@@ -16,7 +16,9 @@
          <input
             matInput
             required
-            (input)="onGivenCurrencyChange($event.target.value)"
+            (input)="
+               onCurrencyChange('takenCurrencyAmount', $event.target.value)
+            "
             formControlName="givenCurrencyAmount"
          />
       </mat-form-field>
@@ -32,7 +34,9 @@
          <input
             matInput
             required
-            (input)="onTakenCurrencyChange($event.target.value)"
+            (input)="
+               onCurrencyChange('givenCurrencyAmount', $event.target.value)
+            "
             formControlName="takenCurrencyAmount"
          />
       </mat-form-field>

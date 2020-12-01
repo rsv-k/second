@@ -63,22 +63,20 @@ export class SectionTradeSecondComponent implements OnInit {
          });
    }
 
-   onGivenCurrencyChange(value: number): void {
+   onCurrencyChange(property: string, value: number): void {
       if (!value || value < 0) {
-         return this.form.get('takenCurrencyAmount').patchValue('');
+         return this.form.get(property).patchValue('');
       }
 
-      const calculatedCurrency = this.exchange.takenCurrencyCourse * value;
-      this.form.get('takenCurrencyAmount').patchValue(calculatedCurrency);
-   }
+      let calculatedCurrency;
 
-   onTakenCurrencyChange(value: number): void {
-      if (!value || value < 0) {
-         return this.form.get('givenCurrencyAmount').patchValue('');
+      if (property.startsWith('taken')) {
+         calculatedCurrency = this.exchange.takenCurrencyCourse * value;
+      } else {
+         calculatedCurrency = value / this.exchange.takenCurrencyCourse;
       }
 
-      const calculatedCurrency = value / this.exchange.takenCurrencyCourse;
-      this.form.get('givenCurrencyAmount').patchValue(calculatedCurrency);
+      this.form.get(property).patchValue(calculatedCurrency);
    }
 
    onSubmit(): void {
