@@ -44,14 +44,28 @@
 
    <div class="row" *ngIf="fields['givenCurrencyCard']">
       <mat-form-field class="form__group">
-         <mat-label>Номер кошелька</mat-label>
+         <mat-label
+            >Номер
+            {{
+               exchange.givenCurrency.name.startsWith('Webmoney')
+                  ? 'кошелька ' + exchange.givenCurrency.stringId
+                  : 'карты'
+            }}
+         </mat-label>
          <input matInput required formControlName="givenCurrencyCard" />
       </mat-form-field>
    </div>
 
    <div class="row" *ngIf="fields['takenCurrencyCard']">
       <mat-form-field class="form__group">
-         <mat-label>Номер кошелька</mat-label>
+         <mat-label
+            >Номер
+            {{
+               exchange.takenCurrency.name.startsWith('Webmoney')
+                  ? 'кошелька ' + exchange.takenCurrency.stringId
+                  : 'карты'
+            }}</mat-label
+         >
          <input matInput required formControlName="takenCurrencyCard" />
       </mat-form-field>
    </div>
