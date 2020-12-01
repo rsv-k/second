@@ -55,8 +55,7 @@ export class ExchangesCreateComponent implements OnInit {
       },
    ];
 
-   selectedFields = [];
-
+   private selectedFields: string[] = [];
    private mode = 'create';
    private exchangeToEdit: Exchange = null;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -78,11 +77,11 @@ export class ExchangesCreateComponent implements OnInit {
          .pipe(first())
          .subscribe((data) => {
             this.exchangeToEdit = data.exchange;
-            console.log(data.exchange);
             if (this.exchangeToEdit) {
                this.mode = 'edit';
                this.setForm(this.exchangeToEdit);
                this.setSlidersToTrue(this.exchangeToEdit);
+               this.selectedFields = data.exchange.fields;
             }
          });
    }
@@ -153,10 +152,10 @@ export class ExchangesCreateComponent implements OnInit {
 
       field.isSelected = !field.isSelected;
       if (field.isSelected) {
-         this.selectedFields.push(field.controlName);
+         this.selectedFields = [...this.selectedFields, controlName];
       } else {
          this.selectedFields = this.selectedFields.filter(
-            (f) => f === controlName
+            (f) => f !== controlName
          );
       }
    }
