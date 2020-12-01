@@ -9,7 +9,10 @@
          [attr.min]="[exchange.minGivenCurrency]"
          [attr.max]="[exchange.maxGivenCurrency]"
       >
-         <mat-label>Отдаете в {{ givenCurrencyName }}</mat-label>
+         <mat-label
+            >Отдаете в
+            {{ exchange.givenCurrency.currencyCode | getMoneyIn }}</mat-label
+         >
          <input
             matInput
             required
@@ -22,7 +25,10 @@
          class="form__group reserve"
          [attr.reserve]="[exchange.takenCurrency.reserve]"
       >
-         <mat-label>Получаете в {{ takenCurrencyName }}</mat-label>
+         <mat-label
+            >Получаете в
+            {{ exchange.takenCurrency.currencyCode | getMoneyIn }}</mat-label
+         >
          <input
             matInput
             required

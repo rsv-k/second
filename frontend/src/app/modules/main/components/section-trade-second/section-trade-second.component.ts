@@ -25,17 +25,7 @@ export class SectionTradeSecondComponent implements OnInit {
    form: FormGroup;
    exchange: Exchange;
 
-   givenCurrencyName: string;
-   takenCurrencyName: string;
-
    showNameAndSurname = true;
-
-   private currencyNames = {
-      EUR: 'евро',
-      UAH: 'гривнах',
-      USD: 'долларах',
-      RUB: 'рублях',
-   };
 
    constructor(
       private store: Store<fromApp.AppState>,
@@ -59,12 +49,6 @@ export class SectionTradeSecondComponent implements OnInit {
             }
 
             this.exchange = exchange;
-            this.givenCurrencyName = this.currencyNames[
-               this.exchange.givenCurrency.currencyCode
-            ];
-            this.takenCurrencyName = this.currencyNames[
-               this.exchange.takenCurrency.currencyCode
-            ];
 
             this.initForm();
             if (
