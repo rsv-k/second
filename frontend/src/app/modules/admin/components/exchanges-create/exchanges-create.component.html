@@ -92,7 +92,9 @@
    </mat-tab>
    <mat-tab label="Поля">
       <div class="row" *ngFor="let field of fieldNames">
-         <mat-slide-toggle>{{ field.text }}</mat-slide-toggle>
+         <mat-slide-toggle [checked]="field.isSelected">{{
+            field.text
+         }}</mat-slide-toggle>
       </div>
    </mat-tab>
 </mat-tab-group>

@@ -26,26 +26,32 @@ export class ExchangesCreateComponent implements OnInit {
       {
          text: 'Реквизиты отдаваемой валюты',
          controlName: 'givenCurrencyCard',
+         isSelected: false,
       },
       {
          text: 'Реквизиты получаемой валюты',
          controlName: 'takenCurrencyCard',
+         isSelected: false,
       },
       {
          text: 'Электронная почта',
          controlName: 'email',
+         isSelected: false,
       },
       {
          text: 'Имя',
          controlName: 'name',
+         isSelected: false,
       },
       {
          text: 'Фамилия',
          controlName: 'surname',
+         isSelected: false,
       },
       {
          text: 'Номер телефона',
          controlName: 'phone',
+         isSelected: false,
       },
    ];
 
