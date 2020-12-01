@@ -22,6 +22,33 @@ export class ExchangesCreateComponent implements OnInit {
    givenCurrencyId: string;
    takenCurrencyId: string;
 
+   fieldNames = [
+      {
+         text: 'Реквизиты отдаваемой валюты',
+         controlName: 'givenCurrencyCard',
+      },
+      {
+         text: 'Реквизиты получаемой валюты',
+         controlName: 'takenCurrencyCard',
+      },
+      {
+         text: 'Электронная почта',
+         controlName: 'email',
+      },
+      {
+         text: 'Имя',
+         controlName: 'name',
+      },
+      {
+         text: 'Фамилия',
+         controlName: 'surname',
+      },
+      {
+         text: 'Номер телефона',
+         controlName: 'phone',
+      },
+   ];
+
    private mode = 'create';
    private exchangeToEdit: Exchange = null;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
@@ -66,13 +93,12 @@ export class ExchangesCreateComponent implements OnInit {
          delete exchange.takenCurrencyId;
          delete exchange.givenCurrency;
          delete exchange.takenCurrency;
-         if (this.isNecessaryToUpdate(exchange)) {
-            this.store.dispatch(
-               ExchangeActions.editExchangeStart({
-                  payload: { id: this.exchangeToEdit.id, exchange },
-               })
-            );
-         }
+
+         this.store.dispatch(
+            ExchangeActions.editExchangeStart({
+               payload: { id: this.exchangeToEdit.id, exchange },
+            })
+         );
 
          this.router.navigate(['admin-dashboard/exchanges-show']);
       }
@@ -131,15 +157,5 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.form.get('givenCurrency').disable();
       this.form.get('takenCurrency').disable();
-   }
-
-   private isNecessaryToUpdate(exchange: any): boolean {
-      for (const key in exchange) {
-         if (this.exchangeToEdit[key] !== exchange[key]) {
-            return true;
-         }
-      }
-
-      return false;
    }
 }
