@@ -19,8 +19,10 @@ export class ExchangesCreateComponent implements OnInit {
    form: FormGroup;
    currencies$: Observable<Currency[]>;
 
-   givenCurrencyId: string;
-   takenCurrencyId: string;
+   givenCurrency: Currency;
+   takenCurrency: Currency;
+
+   displayWMInterfaceOption = false;
 
    fieldNames = [
       {
@@ -85,14 +87,19 @@ export class ExchangesCreateComponent implements OnInit {
             this.setForm(this.exchangeToEdit);
             this.setSlidersToTrue(this.exchangeToEdit);
             this.selectedFields = data.exchange.fields;
+
+            this.givenCurrency = data.exchange.givenCurrency;
+            this.takenCurrency = data.exchange.takenCurrency;
+
+            this.shouldDisplayWmInterfaceOption();
          });
    }
 
    onSubmit(): void {
       const exchange: Exchange = {
          ...this.form.value,
-         givenCurrencyId: this.givenCurrencyId,
-         takenCurrencyId: this.takenCurrencyId,
+         givenCurrencyId: this.givenCurrency.id,
+         takenCurrencyId: this.takenCurrency.id,
          fields: this.selectedFields,
       };
 
@@ -122,13 +129,15 @@ export class ExchangesCreateComponent implements OnInit {
       if (this.mode === 'edit') {
          return;
       }
-      this.givenCurrencyId = option.id;
+
+      this.givenCurrency = option;
       this.form.get('givenCurrency').setValue(option.name);
+
+      this.shouldDisplayWmInterfaceOption();
+
       this.currencies$ = this.store.pipe(
          select(fromCurrency.selectAdminCurrencies),
-         map((currency) =>
-            currency.filter((c) => c.id !== this.givenCurrencyId)
-         )
+         map((currency) => currency.filter((c) => c.id !== option.id))
       );
    }
 
@@ -136,13 +145,15 @@ export class ExchangesCreateComponent implements OnInit {
       if (this.mode === 'edit') {
          return;
       }
-      this.takenCurrencyId = option.id;
+
+      this.takenCurrency = option;
       this.form.get('takenCurrency').setValue(option.name);
+
+      this.shouldDisplayWmInterfaceOption();
+
       this.currencies$ = this.store.pipe(
          select(fromCurrency.selectAdminCurrencies),
-         map((currency) =>
-            currency.filter((c) => c.id !== this.takenCurrencyId)
-         )
+         map((currency) => currency.filter((c) => c.id !== option.id))
       );
    }
 
@@ -173,6 +184,7 @@ export class ExchangesCreateComponent implements OnInit {
          minGivenCurrency: new FormControl(''),
          minTakenCurrency: new FormControl(''),
          comment: new FormControl(''),
+         enableWMInterface: new FormControl(''),
       });
    }
 
@@ -199,5 +211,11 @@ export class ExchangesCreateComponent implements OnInit {
             f.isSelected = true;
          }
       }
+   }
+
+   private shouldDisplayWmInterfaceOption(): void {
+      this.displayWMInterfaceOption =
+         this.givenCurrency.name.includes('Webmoney') ||
+         this.takenCurrency.name.includes('Webmoney');
    }
 }

@@ -81,6 +81,12 @@
             </mat-form-field>
          </div>
 
+         <div class="row" *ngIf="displayWMInterfaceOption">
+            <mat-slide-toggle formControlName="enableWMInterface"
+               >Проверять соответствие персональных данных</mat-slide-toggle
+            >
+         </div>
+
          <div class="row">
             <mat-form-field class="form__group form__group--comment">
                <mat-label>Комментарий</mat-label>
