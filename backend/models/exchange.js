@@ -22,5 +22,6 @@ module.exports = mongoose.model(
       comment: { type: String, required: false },
       isActive: { type: Boolean, default: false },
       fields: { type: [String], require: false },
+      enableWMInterface: { type: Boolean, default: false },
    })
 );

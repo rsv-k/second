@@ -14,4 +14,5 @@ export interface Exchange {
    comment: string;
    isActive?: boolean;
    fields: string[];
+   enableWMInterface: boolean;
 }
