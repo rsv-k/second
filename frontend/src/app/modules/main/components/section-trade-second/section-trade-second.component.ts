@@ -62,12 +62,24 @@ export class SectionTradeSecondComponent implements OnInit {
          return this.form.get(property).patchValue('');
       }
 
+      console.log(
+         this.exchange.givenCurrencyCourse,
+         this.exchange.takenCurrencyCourse
+      );
+
       let calculatedCurrency;
 
       if (property.startsWith('taken')) {
          calculatedCurrency = this.exchange.takenCurrencyCourse * value;
       } else {
          calculatedCurrency = value / this.exchange.takenCurrencyCourse;
+      }
+
+      if (
+         property.startsWith('taken') &&
+         this.exchange.givenCurrencyCourse > this.exchange.takenCurrencyCourse
+      ) {
+         calculatedCurrency = value / this.exchange.givenCurrencyCourse;
       }
 
       this.form.get(property).patchValue(calculatedCurrency);
