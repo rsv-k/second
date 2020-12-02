@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
 import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as CurrencyActions from '../../store/actions/currency.actions';
@@ -74,15 +74,17 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.store
          .select('exchange')
-         .pipe(first())
+         .pipe(
+            first(),
+            filter((data) => !!data.exchange)
+         )
          .subscribe((data) => {
             this.exchangeToEdit = data.exchange;
-            if (this.exchangeToEdit) {
-               this.mode = 'edit';
-               this.setForm(this.exchangeToEdit);
-               this.setSlidersToTrue(this.exchangeToEdit);
-               this.selectedFields = data.exchange.fields;
-            }
+
+            this.mode = 'edit';
+            this.setForm(this.exchangeToEdit);
+            this.setSlidersToTrue(this.exchangeToEdit);
+            this.selectedFields = data.exchange.fields;
          });
    }
 
