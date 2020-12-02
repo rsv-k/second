@@ -122,8 +122,11 @@ export class SectionTradeSecondComponent implements OnInit {
 
       this.form = new FormGroup(controls, {
          updateOn: 'submit',
-         asyncValidators: [this.webmoneyValidator.bind(this)],
       });
+
+      if (this.exchange.enableWMInterface) {
+         this.form.setAsyncValidators(this.webmoneyValidator.bind(this));
+      }
    }
 
    private getOptionalControls(givenCurrency, takenCurrency) {
