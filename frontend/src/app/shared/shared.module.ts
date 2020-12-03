@@ -5,9 +5,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StatusPipe } from './pipes/status.pipe';
 import { CurrencyImgComponent } from './components/currency-img/currency-img.component';
 import { GetMoneyInPipe } from './pipes/get-money-in.pipe';
+import { ErrorMessageComponent } from './components/error-message/error-message.component';
 
 @NgModule({
-   declarations: [StatusPipe, CurrencyImgComponent, GetMoneyInPipe],
+   declarations: [
+      StatusPipe,
+      CurrencyImgComponent,
+      GetMoneyInPipe,
+      ErrorMessageComponent,
+   ],
    imports: [CommonModule, MaterialModule],
    exports: [
       CommonModule,
@@ -17,6 +23,7 @@ import { GetMoneyInPipe } from './pipes/get-money-in.pipe';
       CurrencyImgComponent,
       FormsModule,
       GetMoneyInPipe,
+      ErrorMessageComponent,
    ],
 })
 export class SharedModule {}

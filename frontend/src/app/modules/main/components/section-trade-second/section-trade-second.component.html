@@ -2,6 +2,11 @@
    Обмен {{ exchange.givenCurrency.name }} на {{ exchange.takenCurrency.name }}
 </h2>
 
+<app-error-message
+   *ngIf="form.hasError('invalidData')"
+   [message]="webmoneyErrorMessage"
+></app-error-message>
+
 <form *ngIf="form" class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
    <div class="row">
       <mat-form-field

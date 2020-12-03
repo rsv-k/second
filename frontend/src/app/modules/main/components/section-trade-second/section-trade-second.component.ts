@@ -27,6 +27,9 @@ export class SectionTradeSecondComponent implements OnInit {
    exchange: Exchange;
 
    fields: { [key: string]: boolean } = {};
+   webmoneyErrorMessage = `Платежная система WebMoney не разрешает данный обмен. Возможно, это связано с
+   тем, что кошельки не принадлежат одному WMID, не связаны, или данные
+   участника системы Webmoney не совпадают с указанными.`;
 
    constructor(
       private store: Store<fromApp.AppState>,

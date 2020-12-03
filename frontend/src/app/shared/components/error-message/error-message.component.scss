@@ -1,0 +1,11 @@
+.error {
+   padding: 2rem;
+   border-bottom: 1px solid red;
+   background: linear-gradient(
+      180deg,
+      rgba(34, 193, 195, 0) 0%,
+      rgba(255, 0, 0, 0.2024160005799195) 100%
+   );
+
+   border-radius: 15px 15px 0 0;
+}
