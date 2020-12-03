@@ -1,3 +1,4 @@
+import { Currency } from './../../../../core/models/currency.model';
 import { WebmoneyService } from './../../../../core/services/webmoney.service';
 import { Exchange } from './../../../../core/models/exchange.model';
 import { Component, OnInit } from '@angular/core';
@@ -61,11 +62,6 @@ export class SectionTradeSecondComponent implements OnInit {
       if (!value || value < 0) {
          return this.form.get(property).patchValue('');
       }
-
-      console.log(
-         this.exchange.givenCurrencyCourse,
-         this.exchange.takenCurrencyCourse
-      );
 
       let calculatedCurrency;
 
@@ -141,7 +137,10 @@ export class SectionTradeSecondComponent implements OnInit {
       }
    }
 
-   private getOptionalControls(givenCurrency, takenCurrency) {
+   private getOptionalControls(
+      givenCurrency: Currency,
+      takenCurrency: Currency
+   ): { [key: string]: FormControl } {
       return {
          givenCurrencyCard: new FormControl('', {
             validators: [
@@ -186,7 +185,7 @@ export class SectionTradeSecondComponent implements OnInit {
 
       return this.webmoneyService.check(order).pipe(
          map((result) => (result ? null : { invalidData: true })),
-         catchError(() => of(null))
+         catchError(() => of({ invalidData: true }))
       );
    }
 }
