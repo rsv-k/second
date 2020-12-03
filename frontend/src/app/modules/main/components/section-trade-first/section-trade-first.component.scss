@@ -42,9 +42,9 @@
       z-index: -1;
       transition: transform 0.3s;
       background: linear-gradient(
-         to bottom,
-         transparent 40%,
-         rgba($color-accent, 0.3) 100%
+         180deg,
+         rgba(34, 193, 195, 0) 0%,
+         rgba(114, 38, 146, 0.4) 100%
       );
    }
 
@@ -68,9 +68,9 @@
 
 .selected {
    background: linear-gradient(
-      to bottom,
-      transparent 40%,
-      rgba($color-accent, 0.3) 100%
+      180deg,
+      rgba(34, 193, 195, 0) 0%,
+      rgba(114, 38, 146, 0.4) 100%
    );
 }
 
@@ -81,4 +81,8 @@
 .inActive {
    opacity: 0.5;
    cursor: default;
+   &::after {
+      content: '';
+      background: none;
+   }
 }
