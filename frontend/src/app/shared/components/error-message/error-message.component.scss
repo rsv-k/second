@@ -1,10 +1,12 @@
+@import '../../../variables.scss';
+
 .error {
    padding: 2rem;
-   border-bottom: 1px solid red;
+   border-bottom: 1px solid $color-warn;
    background: linear-gradient(
       180deg,
       rgba(34, 193, 195, 0) 0%,
-      rgba(255, 0, 0, 0.2024160005799195) 100%
+      rgba($color-warn, 0.2024160005799195) 100%
    );
 
    border-radius: 15px 15px 0 0;

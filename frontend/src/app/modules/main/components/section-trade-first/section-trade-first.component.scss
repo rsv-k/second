@@ -18,7 +18,7 @@
    align-items: center;
    width: 25rem;
    height: 5rem;
-   border-bottom: 1px solid rgba($color-white, $alpha: 0.2);
+   border-bottom: 1px solid $color-primary;
    padding-bottom: 2rem;
    position: relative;
 
@@ -44,7 +44,7 @@
       background: linear-gradient(
          180deg,
          rgba(34, 193, 195, 0) 0%,
-         rgba(114, 38, 146, 0.4) 100%
+         rgba($color-primary, 0.4) 100%
       );
    }
 
