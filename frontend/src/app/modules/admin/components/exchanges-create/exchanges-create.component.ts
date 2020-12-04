@@ -9,6 +9,7 @@ import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Router } from '@angular/router';
+import * as fromAdminModule from '../../store/index';
 
 @Component({
    selector: 'app-exchanges-create',
@@ -63,7 +64,7 @@ export class ExchangesCreateComponent implements OnInit {
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
    constructor(
-      private store: Store<fromCurrency.AppState>,
+      private store: Store<fromAdminModule.AppState>,
       private router: Router
    ) {}
 

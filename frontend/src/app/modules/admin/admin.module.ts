@@ -23,6 +23,7 @@ import { ValidatorsCreateComponent } from './components/validators-create/valida
 import { ValidatorTestComponent } from './components/validator-test/validator-test.component';
 import { MerchantsShowComponent } from './components/merchants-show/merchants-show.component';
 import { MerchantService } from './services/merchant.service';
+import * as fromAdminModule from './store/index';
 
 @NgModule({
    declarations: [
@@ -45,7 +46,10 @@ import { MerchantService } from './services/merchant.service';
    imports: [
       AdminRoutingModule,
       SharedModule,
-      StoreModule.forFeature(fromCurrency.FEATURE_NAME, fromCurrency.reducer),
+      StoreModule.forFeature(
+         fromAdminModule.FEATURE_NAME,
+         fromAdminModule.adminReducers
+      ),
       EffectsModule.forFeature([CurrencyEffects]),
    ],
    providers: [CurrencyService, MerchantService],

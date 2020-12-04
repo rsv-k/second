@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, pluck } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
-import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as CurrencyActions from '../../store/actions/currency.actions';
+import * as fromAdminModule from '../../store/index';
 
 @Component({
    selector: 'app-orders-search',
@@ -20,12 +20,13 @@ export class OrdersSearchComponent implements OnInit {
    statuses = ['done', 'paid', 'pending', 'freezed', 'canceled'];
    constructor(
       public dialogRef: MatDialogRef<OrdersSearchComponent>,
-      private store: Store<fromCurrency.AppState>
+      private store: Store<fromAdminModule.AppState>
    ) {}
 
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
-      this.currencies$ = this.store.select('currency').pipe(
+      this.currencies$ = this.store.select('adminModule').pipe(
+         pluck('currency'),
          pluck('currencies'),
          filter((currencies) => !!currencies.length)
       );

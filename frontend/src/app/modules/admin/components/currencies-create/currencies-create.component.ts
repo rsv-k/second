@@ -9,6 +9,7 @@ import * as ValidatorActions from '../../../../store/actions/validator.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, pluck } from 'rxjs/operators';
+import * as fromAdminModule from '../../store/index';
 
 @Component({
    selector: 'app-currencies-create',
@@ -24,7 +25,7 @@ export class CurrenciesCreateComponent implements OnInit {
    private currencyToEdit: Currency;
    @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
    constructor(
-      private store: Store<fromCurrency.AppState>,
+      private store: Store<fromAdminModule.AppState>,
       private route: ActivatedRoute,
       private router: Router
    ) {}

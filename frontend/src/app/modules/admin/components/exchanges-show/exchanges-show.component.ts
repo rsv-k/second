@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from 'src/app/core/models/exchange.model';
 import { pluck } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import * as fromAdminModule from '../../store/index';
 
 @Component({
    selector: 'app-exchanges-show',
@@ -25,7 +25,7 @@ export class ExchangesShowComponent implements OnInit {
    ];
 
    constructor(
-      private store: Store<fromCurrency.AppState>,
+      private store: Store<fromAdminModule.AppState>,
       private router: Router
    ) {}
 

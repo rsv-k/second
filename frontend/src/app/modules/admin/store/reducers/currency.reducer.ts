@@ -7,17 +7,17 @@ import {
    createFeatureSelector,
    createSelector,
 } from '@ngrx/store';
-import * as fromApp from '../../../../store/index';
+import * as fromAdminModule from '../index';
 
 export const FEATURE_NAME = 'currency';
 
-export interface CurrencyModuleState {
+export interface State {
    currencies: Currency[];
    currencyError: string;
    currency: Currency;
 }
 
-const initialState: CurrencyModuleState = {
+const initialState: State = {
    currencies: [],
    currencyError: null,
    currency: null,
@@ -82,21 +82,15 @@ const currencyReducer = createReducer(
    }))
 );
 
-export function reducer(
-   state: CurrencyModuleState,
-   action: Action
-): CurrencyModuleState {
+export function reducer(state: State, action: Action): State {
    return currencyReducer(state, action);
 }
 
-export interface AppState extends fromApp.AppState {
-   currency: CurrencyModuleState;
-}
-
-export const selectAdmin = createFeatureSelector<AppState, CurrencyModuleState>(
-   FEATURE_NAME
-);
+export const selectAdmin = createFeatureSelector<
+   fromAdminModule.AppState,
+   State
+>('adminModule');
 export const selectAdminCurrencies = createSelector(
    selectAdmin,
-   (state: CurrencyModuleState) => state.currencies
+   (state: State) => state.currencies
 );
