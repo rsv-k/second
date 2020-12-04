@@ -9,10 +9,6 @@
    margin-right: 4rem;
 }
 
-.table__column-title {
-   font-size: 3rem;
-}
-
 .currency {
    display: flex;
    align-items: center;
@@ -70,12 +66,8 @@
    background: linear-gradient(
       180deg,
       rgba(34, 193, 195, 0) 0%,
-      rgba(114, 38, 146, 0.4) 100%
+      rgba($color-primary, 0.4) 100%
    );
-}
-
-.no-margin {
-   margin: 0;
 }
 
 .inActive {
