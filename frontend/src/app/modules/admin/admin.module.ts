@@ -21,6 +21,7 @@ import { OrdersSearchComponent } from './components/orders-search/orders-search.
 import { ValidatorsShowComponent } from './components/validators-show/validators-show.component';
 import { ValidatorsCreateComponent } from './components/validators-create/validators-create.component';
 import { ValidatorTestComponent } from './components/validator-test/validator-test.component';
+import { MerchantsShowComponent } from './components/merchants-show/merchants-show.component';
 
 @NgModule({
    declarations: [
@@ -38,6 +39,7 @@ import { ValidatorTestComponent } from './components/validator-test/validator-te
       ValidatorsShowComponent,
       ValidatorsCreateComponent,
       ValidatorTestComponent,
+      MerchantsShowComponent,
    ],
    imports: [
       AdminRoutingModule,
