@@ -1,5 +1,5 @@
 const axios = require('axios');
-const webmoneyHelper = require('../utils/webmoney');
+const webmoneyHelper = require('./webmoney');
 const xml2js = require('xml2js');
 
 module.exports.interfaceX19 = async (
