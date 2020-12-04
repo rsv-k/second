@@ -27,6 +27,11 @@ export class AdminSideMenuComponent implements OnInit {
          icon: 'check',
          text: 'Валидаторы',
       },
+      {
+         linkTo: './merchants-show',
+         icon: 'link',
+         text: 'Мерчанты',
+      },
    ];
 
    constructor() {}

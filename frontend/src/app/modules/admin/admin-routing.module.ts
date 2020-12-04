@@ -1,3 +1,4 @@
+import { MerchantsShowComponent } from './components/merchants-show/merchants-show.component';
 import { OrderResolver } from './../../core/resolvers/order-resolver.service';
 import { ExchangeResolver } from './../../core/resolvers/exchange-resolver.service';
 import { CurrencyResolver } from './../../core/resolvers/currency-resolver.service';
@@ -75,6 +76,10 @@ const routes: Routes = [
          {
             path: 'validators-show',
             component: ValidatorsShowComponent,
+         },
+         {
+            path: 'merchants-show',
+            component: MerchantsShowComponent,
          },
       ],
    },

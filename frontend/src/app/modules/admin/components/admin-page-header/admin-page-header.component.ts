@@ -41,6 +41,9 @@ export class AdminPageHeaderComponent implements OnInit {
       'validators-show': {
          title: 'Валидаторы',
       },
+      'merchants-show': {
+         title: 'Мерчанты',
+      },
    };
    constructor(private router: Router) {}
 
