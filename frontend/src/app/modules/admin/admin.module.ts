@@ -22,6 +22,7 @@ import { ValidatorsShowComponent } from './components/validators-show/validators
 import { ValidatorsCreateComponent } from './components/validators-create/validators-create.component';
 import { ValidatorTestComponent } from './components/validator-test/validator-test.component';
 import { MerchantsShowComponent } from './components/merchants-show/merchants-show.component';
+import { MerchantService } from './services/merchant.service';
 
 @NgModule({
    declarations: [
@@ -47,6 +48,6 @@ import { MerchantsShowComponent } from './components/merchants-show/merchants-sh
       StoreModule.forFeature(fromCurrency.FEATURE_NAME, fromCurrency.reducer),
       EffectsModule.forFeature([CurrencyEffects]),
    ],
-   providers: [CurrencyService],
+   providers: [CurrencyService, MerchantService],
 })
 export class AdminModule {}
