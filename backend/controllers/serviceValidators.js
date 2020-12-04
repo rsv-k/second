@@ -1,4 +1,4 @@
-const merchantHelper = require('../utils/merchant');
+const serviceValidatorsHelper = require('../utils/serviceValidators');
 
 exports.webmoney = async (req, res, next) => {
    try {
@@ -6,14 +6,14 @@ exports.webmoney = async (req, res, next) => {
       const direction = 2;
       const purse = 'WMZ';
 
-      const userWMID = await merchantHelper.interfaceX8();
+      const userWMID = await serviceValidatorsHelper.interfaceX8();
       if (!userWMID) {
          const error = new Error('Invalid webmoney purse');
          error.statusCode = 422;
          return next(error);
       }
 
-      const response = await merchantHelper.interfaceX19(
+      const response = await serviceValidatorsHelper.interfaceX19(
          operation,
          direction,
          purse,
