@@ -1,3 +1,4 @@
+import { MerchantEffects } from './store/effects/merchant.effects';
 import { NgModule } from '@angular/core';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -24,6 +25,7 @@ import { ValidatorTestComponent } from './components/validator-test/validator-te
 import { MerchantsShowComponent } from './components/merchants-show/merchants-show.component';
 import { MerchantService } from './services/merchant.service';
 import * as fromAdminModule from './store/index';
+import { MerchantsCreateComponent } from './components/merchants-create/merchants-create.component';
 
 @NgModule({
    declarations: [
@@ -42,6 +44,7 @@ import * as fromAdminModule from './store/index';
       ValidatorsCreateComponent,
       ValidatorTestComponent,
       MerchantsShowComponent,
+      MerchantsCreateComponent,
    ],
    imports: [
       AdminRoutingModule,
@@ -50,7 +53,7 @@ import * as fromAdminModule from './store/index';
          fromAdminModule.FEATURE_NAME,
          fromAdminModule.adminReducers
       ),
-      EffectsModule.forFeature([CurrencyEffects]),
+      EffectsModule.forFeature([CurrencyEffects, MerchantEffects]),
    ],
    providers: [CurrencyService, MerchantService],
 })

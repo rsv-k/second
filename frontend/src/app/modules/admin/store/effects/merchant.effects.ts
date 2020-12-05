@@ -26,7 +26,7 @@ export class MerchantEffects {
    getMerchants$ = createEffect(() =>
       this.actions$.pipe(
          ofType(MerchantActions.getMerchantsStart),
-         mergeMap((action) =>
+         mergeMap(() =>
             this.merchantService.getMerchants().pipe(
                map((merchant) =>
                   MerchantActions.getMerchantsSuccess({

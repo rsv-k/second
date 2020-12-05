@@ -18,38 +18,38 @@ const merchantReducer = createReducer(
    initialState,
    on(MerchantActions.createMerchantStart, (state) => ({
       ...state,
-      validatorError: null,
+      merchantError: null,
    })),
    on(MerchantActions.createMerchantSuccess, (state, { payload }) => ({
       ...state,
-      validators: [...state.merchants, payload],
+      merchant: [...state.merchants, payload],
    })),
 
    on(MerchantActions.getMerchantsStart, (state) => ({
       ...state,
-      validatorError: null,
+      merchantError: null,
    })),
    on(MerchantActions.getMerchantsSuccess, (state, { payload }) => ({
       ...state,
-      validators: [...payload],
+      merchants: [...payload],
    })),
 
    on(MerchantActions.deleteMerchantStart, (state) => ({
       ...state,
-      validatorError: null,
+      merchantError: null,
    })),
    on(MerchantActions.deleteMerchantSuccess, (state, { payload }) => ({
       ...state,
-      validators: state.merchants.filter((v) => v.id !== payload.id),
+      merchants: state.merchants.filter((v) => v.id !== payload.id),
    })),
 
    on(MerchantActions.editMerchantStart, (state) => ({
       ...state,
-      validatorError: null,
+      merchantError: null,
    })),
    on(MerchantActions.editMerchantSuccess, (state, { payload }) => ({
       ...state,
-      validators: state.merchants.map((v) => {
+      merchants: state.merchants.map((v) => {
          if (v.id === payload.id) {
             return payload;
          }
@@ -60,7 +60,7 @@ const merchantReducer = createReducer(
 
    on(MerchantActions.merchantError, (state, { payload }) => ({
       ...state,
-      validatorError: payload,
+      merchantError: payload,
    }))
 );
 
