@@ -80,6 +80,28 @@
                <input matInput formControlName="minTakenCurrency" />
             </mat-form-field>
          </div>
+         <div class="row">
+            <mat-form-field class="form__group">
+               <mat-label>Мерчант обработки входящих платежей</mat-label>
+               <input
+                  matInput
+                  formControlName="merchant"
+                  [matAutocomplete]="auto"
+               />
+
+               <mat-autocomplete
+                  #auto="matAutocomplete"
+                  (optionSelected)="onMerchantSelect($event.option.value)"
+               >
+                  <mat-option
+                     *ngFor="let option of merchants$ | async"
+                     [value]="option"
+                  >
+                     {{ option.name }}
+                  </mat-option>
+               </mat-autocomplete>
+            </mat-form-field>
+         </div>
 
          <div class="row" *ngIf="displayWMInterfaceOption">
             <mat-slide-toggle formControlName="enableWMInterface"

@@ -13,6 +13,11 @@ module.exports = mongoose.model(
          ref: 'Currency',
          required: true,
       },
+      merchant: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Merchant',
+         required: false,
+      },
       givenCurrencyCourse: { type: Number, required: true, min: 0 },
       takenCurrencyCourse: { type: Number, required: true, min: 0 },
       maxGivenCurrency: { type: Number, required: false },

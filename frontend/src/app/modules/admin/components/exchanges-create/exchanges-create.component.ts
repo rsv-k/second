@@ -1,15 +1,16 @@
+import { Merchant } from './../../../../core/models/merchant.model';
 import { Exchange } from './../../../../core/models/exchange.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { filter, first, map, pluck } from 'rxjs/operators';
 import { Currency } from 'src/app/core/models/currency.model';
-import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Router } from '@angular/router';
 import * as fromAdminModule from '../../store/index';
+import * as MerchantActions from '../../store/actions/merchants.actions';
 
 @Component({
    selector: 'app-exchanges-create',
@@ -19,6 +20,7 @@ import * as fromAdminModule from '../../store/index';
 export class ExchangesCreateComponent implements OnInit {
    form: FormGroup;
    currencies$: Observable<Currency[]>;
+   merchants$: Observable<Merchant[]>;
 
    givenCurrency: Currency;
    takenCurrency: Currency;
@@ -58,6 +60,7 @@ export class ExchangesCreateComponent implements OnInit {
       },
    ];
 
+   private merchant: Merchant;
    private selectedFields: string[] = [];
    private mode = 'create';
    private exchangeToEdit: Exchange = null;
@@ -71,9 +74,21 @@ export class ExchangesCreateComponent implements OnInit {
    ngOnInit(): void {
       this.initForm();
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
-      this.currencies$ = this.store.pipe(
-         select(fromCurrency.selectAdminCurrencies)
+
+      this.currencies$ = this.store
+         .select('adminModule')
+         .pipe(pluck('currency'), pluck('currencies'));
+
+      this.store.dispatch(MerchantActions.getMerchantsStart());
+      this.merchants$ = this.store.select('adminModule').pipe(
+         pluck('merchant'),
+         pluck('merchants'),
+         map((currencies) => [
+            { name: 'Ручная обработка платежа', id: '0', link: '' },
+            ...currencies,
+         ])
       );
+      this.form.get('merchant').setValue('Ручная обработка платежа');
 
       this.store
          .select('exchange')
@@ -91,6 +106,11 @@ export class ExchangesCreateComponent implements OnInit {
 
             this.givenCurrency = data.exchange.givenCurrency;
             this.takenCurrency = data.exchange.takenCurrency;
+            this.merchant = data.exchange.merchant;
+
+            this.form
+               .get('merchant')
+               .setValue(this.merchant && this.merchant.name);
 
             this.shouldDisplayWmInterfaceOption();
          });
@@ -102,6 +122,7 @@ export class ExchangesCreateComponent implements OnInit {
          givenCurrencyId: this.givenCurrency.id,
          takenCurrencyId: this.takenCurrency.id,
          fields: this.selectedFields,
+         merchant: this.merchant && this.merchant.id,
       };
 
       if (this.mode === 'create') {
@@ -126,6 +147,14 @@ export class ExchangesCreateComponent implements OnInit {
       this.formGroupDirective.reset();
    }
 
+   onMerchantSelect(option: Merchant): void {
+      if (option.id !== '0') {
+         this.merchant = option;
+      }
+
+      this.form.get('merchant').setValue(option.name);
+   }
+
    onGivenCurrencySelect(option: Currency): void {
       if (this.mode === 'edit') {
          return;
@@ -136,8 +165,9 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.shouldDisplayWmInterfaceOption();
 
-      this.currencies$ = this.store.pipe(
-         select(fromCurrency.selectAdminCurrencies),
+      this.currencies$ = this.store.select('adminModule').pipe(
+         pluck('currency'),
+         pluck('currencies'),
          map((currency) => currency.filter((c) => c.id !== option.id))
       );
    }
@@ -152,8 +182,9 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.shouldDisplayWmInterfaceOption();
 
-      this.currencies$ = this.store.pipe(
-         select(fromCurrency.selectAdminCurrencies),
+      this.currencies$ = this.store.select('adminModule').pipe(
+         pluck('currency'),
+         pluck('currencies'),
          map((currency) => currency.filter((c) => c.id !== option.id))
       );
    }
@@ -186,6 +217,7 @@ export class ExchangesCreateComponent implements OnInit {
          minTakenCurrency: new FormControl(''),
          comment: new FormControl(''),
          enableWMInterface: new FormControl(''),
+         merchant: new FormControl(''),
       });
    }
 
@@ -194,6 +226,7 @@ export class ExchangesCreateComponent implements OnInit {
          ...exchange,
          givenCurrency: exchange.givenCurrency.name,
          takenCurrency: exchange.takenCurrency.name,
+         merchant: exchange,
       });
 
       this.form.get('givenCurrency').disable();
@@ -215,8 +248,13 @@ export class ExchangesCreateComponent implements OnInit {
    }
 
    private shouldDisplayWmInterfaceOption(): void {
-      this.displayWMInterfaceOption =
-         this.givenCurrency.name.includes('Webmoney') ||
-         this.takenCurrency.name.includes('Webmoney');
+      if (this.givenCurrency && this.givenCurrency.name.includes('Webmoney')) {
+         this.displayWMInterfaceOption = true;
+      } else if (
+         this.takenCurrency &&
+         this.takenCurrency.name.includes('Webmoney')
+      ) {
+         this.displayWMInterfaceOption = true;
+      }
    }
 }

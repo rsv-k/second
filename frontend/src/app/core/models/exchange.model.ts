@@ -1,3 +1,4 @@
+import { Merchant } from './merchant.model';
 import { Currency } from './currency.model';
 export interface Exchange {
    id?: string;
@@ -5,6 +6,7 @@ export interface Exchange {
    takenCurrencyId?: string;
    givenCurrency?: Currency;
    takenCurrency?: Currency;
+   merchant?: Merchant;
    givenCurrencyCourse: number;
    takenCurrencyCourse: number;
    maxGivenCurrency: number;
