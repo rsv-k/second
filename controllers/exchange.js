@@ -21,6 +21,7 @@ exports.getExchanges = async (req, res, next) => {
                path: 'validator',
             },
          })
+         .populate('merchant')
          .sort(sortOptions);
       if (exchanges.length === 0) {
          const error = new Error('Exchanges not found');
@@ -103,7 +104,8 @@ exports.getExchange = async (req, res, next) => {
 
       const exchange = await Exchange.findById(id)
          .populate('takenCurrency')
-         .populate('givenCurrency');
+         .populate('givenCurrency')
+         .populate('merchant');
       if (!exchange) {
          const error = new Error('Exchange not found');
          error.statusCode = 404;
