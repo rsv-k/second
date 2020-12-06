@@ -141,14 +141,17 @@ exports.getActiveOrder = async (req, res, next) => {
          return next(error);
       }
 
+      const minutes = 15 * 60 * 1000;
+
       const order = await Order.findOne({
          _id: id,
          date: {
-            $gt: new Date(Date.now() - 15 * 60 * 1000),
+            $gt: new Date(Date.now() - minutes),
          },
       })
          .populate('givenCurrency')
-         .populate('takenCurrency');
+         .populate('takenCurrency')
+         .populate('merchant');
 
       if (!order) {
          const error = new Error('Order not found');
