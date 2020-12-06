@@ -6,6 +6,7 @@
    method="POST"
    action="https://merchant.webmoney.ru/lmi/payment.asp"
    accept-charset="windows-1251"
+   *ngIf="(order$ | async).merchant"
 >
    <input type="hidden" name="LMI_PAYMENT_AMOUNT" value="12.08" />
    <input type="hidden" name="LMI_PAYMENT_DESC" value="платеж по счету" />
@@ -17,7 +18,20 @@
 
 <section class="section-payment">
    <h2 class="title">
-      Ожидание оплаты по заявке № ${{ (order$ | async).number }} от
-      {{ (order$ | async).date | date: 'dd:mm:yyyy' }}
+      Ожидание оплаты по заявке № {{ (order$ | async).number }} от
+      {{ (order$ | async).date | date: 'dd.M.yyyy' }}
    </h2>
+
+   <p class="text">
+      Для успешного завершения обмена необходимо оплатить
+      {{ (order$ | async).givenCurrencyAmount }}
+      {{ (order$ | async).givenCurrency.currencyCode }}
+   </p>
+
+   <p class="timer">
+      Совершите перевод до окончания таймера
+      <span class="dark-bg">
+         {{ timeLeft | date: 'mm:ss' }}
+      </span>
+   </p>
 </section>
