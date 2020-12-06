@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { pluck, tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
+import * as ProgressActions from '../../../../store/actions/progress.actions';
 
 @Component({
    selector: 'app-section-trade-third',
@@ -18,6 +19,7 @@ export class SectionTradeThirdComponent implements OnInit {
    constructor(private store: Store<fromRoot.AppState>) {}
 
    ngOnInit(): void {
+      this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 3 }));
       this.order$ = this.store.select('order').pipe(
          pluck('order'),
          tap((data) => {
