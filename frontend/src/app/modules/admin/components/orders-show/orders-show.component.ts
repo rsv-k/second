@@ -6,7 +6,7 @@ import * as fromApp from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
 import { pluck, takeUntil } from 'rxjs/operators';
 import { Order } from 'src/app/core/models/order.model';
-import { SocketioService } from './../../../../core/services/socketio.service';
+import { SocketioService } from '../../services/socketio.service';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';

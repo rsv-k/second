@@ -1,3 +1,4 @@
+import { SocketioService } from './services/socketio.service';
 import { ValidatorEffects } from './store/effects/validator.effects';
 import { ValidatorService } from './services/validator.service';
 import { MerchantEffects } from './store/effects/merchant.effects';
@@ -60,6 +61,11 @@ import { MerchantsCreateComponent } from './components/merchants-create/merchant
          ValidatorEffects,
       ]),
    ],
-   providers: [CurrencyService, MerchantService, ValidatorService],
+   providers: [
+      CurrencyService,
+      MerchantService,
+      ValidatorService,
+      SocketioService,
+   ],
 })
 export class AdminModule {}
