@@ -94,6 +94,7 @@ export class SectionTradeSecondComponent implements OnInit {
          phone: this.form.value.phone,
          givenCurrencyId: this.exchange.givenCurrency.id,
          takenCurrencyId: this.exchange.takenCurrency.id,
+         merchant: this.exchange.merchant,
       };
 
       this.store.dispatch(OrderActions.createOrderStart({ payload: order }));

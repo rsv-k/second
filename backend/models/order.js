@@ -28,5 +28,10 @@ module.exports = mongoose.model(
          enum: ['freezed', 'canceled', 'pending', 'paid', 'done'],
          default: 'pending',
       },
+      merchant: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Merchant',
+         required: false,
+      },
    })
 );
