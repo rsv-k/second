@@ -1,3 +1,5 @@
+import { ValidatorEffects } from './store/effects/validator.effects';
+import { ValidatorService } from './services/validator.service';
 import { MerchantEffects } from './store/effects/merchant.effects';
 import { NgModule } from '@angular/core';
 
@@ -12,7 +14,6 @@ import { AdminPageHeaderComponent } from './components/admin-page-header/admin-p
 import { CurrenciesCreateComponent } from './components/currencies-create/currencies-create.component';
 import { ExchangesCreateComponent } from './components/exchanges-create/exchanges-create.component';
 import { StoreModule } from '@ngrx/store';
-import * as fromCurrency from './store/reducers/currency.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { CurrencyEffects } from './store/effects/currency.effects';
 import { CurrencyService } from './services/currency.service';
@@ -53,8 +54,12 @@ import { MerchantsCreateComponent } from './components/merchants-create/merchant
          fromAdminModule.FEATURE_NAME,
          fromAdminModule.adminReducers
       ),
-      EffectsModule.forFeature([CurrencyEffects, MerchantEffects]),
+      EffectsModule.forFeature([
+         CurrencyEffects,
+         MerchantEffects,
+         ValidatorEffects,
+      ]),
    ],
-   providers: [CurrencyService, MerchantService],
+   providers: [CurrencyService, MerchantService, ValidatorService],
 })
 export class AdminModule {}

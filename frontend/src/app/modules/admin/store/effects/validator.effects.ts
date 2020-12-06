@@ -1,4 +1,4 @@
-import { ValidatorService } from './../../core/services/validator.service';
+import { ValidatorService } from '../../services/validator.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';

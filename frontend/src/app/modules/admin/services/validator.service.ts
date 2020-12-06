@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
-import { Validator } from './../models/validator.model';
-import { CommonService } from './common.service';
+import { Validator } from '../../../core/models/validator.model';
+import { CommonService } from '../../../core/services/common.service';
 
 const ENDPOINT_URL = '/api/validator/';
 
@@ -13,9 +13,7 @@ interface Response {
    validators?: any[];
 }
 
-@Injectable({
-   providedIn: 'root',
-})
+@Injectable()
 export class ValidatorService {
    constructor(
       private http: HttpClient,

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Validator } from '../../core/models/validator.model';
+import { Validator } from '../../../../core/models/validator.model';
 
 export const addValidatorStart = createAction(
    '[VALIDATOR] ADD VALIDATOR START',

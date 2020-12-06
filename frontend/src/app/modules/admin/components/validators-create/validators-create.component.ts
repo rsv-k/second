@@ -4,7 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
-import * as ValidatorActions from '../../../../store/actions/validator.actions';
+import * as ValidatorActions from '../../store/actions/validator.actions';
 
 @Component({
    selector: 'app-validators-create',

@@ -1,4 +1,4 @@
-import { Validator } from '../../core/models/validator.model';
+import { Validator } from '../../../../core/models/validator.model';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as ValidatorActions from '../actions/validator.actions';
 

@@ -4,8 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CurrencyActions from '../../store/actions/currency.actions';
-import * as fromCurrency from '../../store/reducers/currency.reducer';
-import * as ValidatorActions from '../../../../store/actions/validator.actions';
+import * as ValidatorActions from '../../store/actions/validator.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, pluck } from 'rxjs/operators';
@@ -42,7 +41,8 @@ export class CurrenciesCreateComponent implements OnInit {
       });
 
       this.store.dispatch(ValidatorActions.getValidatorsStart());
-      this.validators$ = this.store.select('validator').pipe(
+      this.validators$ = this.store.select('adminModule').pipe(
+         pluck('validator'),
          pluck('validators'),
          filter((validators) => !!validators.length)
       );

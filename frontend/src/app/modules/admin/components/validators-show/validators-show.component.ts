@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ValidatorsCreateComponent } from '../validators-create/validators-create.component';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../../../../store/index';
-import * as ValidatorActions from '../../../../store/actions/validator.actions';
+import * as fromAdminModule from '../../store/index';
+import * as ValidatorActions from '../../store/actions/validator.actions';
 import { pluck } from 'rxjs/operators';
 import { ValidatorTestComponent } from '../validator-test/validator-test.component';
 
@@ -19,13 +19,13 @@ export class ValidatorsShowComponent implements OnInit {
    displayedColumns = ['name', 'pattern', 'edit', 'delete'];
    constructor(
       public dialog: MatDialog,
-      private store: Store<fromRoot.AppState>
+      private store: Store<fromAdminModule.AppState>
    ) {}
 
    ngOnInit(): void {
       this.validators$ = this.store
-         .select('validator')
-         .pipe(pluck('validators'));
+         .select('adminModule')
+         .pipe(pluck('validator'), pluck('validators'));
 
       this.store.dispatch(ValidatorActions.getValidatorsStart());
    }
