@@ -2,10 +2,9 @@ import { pluck, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as CurrencyActions from '../../store/actions/currency.actions';
-import * as fromCurrency from '../../store/reducers/currency.reducer';
 import * as fromAdminModule from '../../store/index';
 
 @Component({

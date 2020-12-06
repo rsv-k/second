@@ -4,7 +4,7 @@ import { filter, first, pluck } from 'rxjs/operators';
 import * as fromApp from '../../../../store/index';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Observable } from 'rxjs';
-import { Exchange } from 'src/app/core/models/exchange.model';
+import { Exchange } from '@models/exchange.model';
 import { Router } from '@angular/router';
 
 @Component({

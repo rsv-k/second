@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MerchantsShowComponent } from '../merchants-show/merchants-show.component';
 import * as fromAdminModule from '../../store/index';
 import { Store } from '@ngrx/store';
-import { Merchant } from 'src/app/core/models/merchant.model';
+import { Merchant } from '@models/merchant.model';
 import * as MerchantActions from '../../store/actions/merchants.actions';
 
 @Component({

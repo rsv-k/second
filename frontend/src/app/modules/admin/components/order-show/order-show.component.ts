@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, first, pluck } from 'rxjs/operators';
-import { Order } from 'src/app/core/models/order.model';
+import { Order } from '@models/order.model';
 import * as fromApp from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
 import { Router } from '@angular/router';

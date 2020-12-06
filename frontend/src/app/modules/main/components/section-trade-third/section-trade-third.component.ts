@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
+import { Order } from '@models/order.model';
+import * as fromRoot from '../../../../store/index';
 
 @Component({
    selector: 'app-section-trade-third',
@@ -7,9 +12,11 @@ import { ActivatedRoute } from '@angular/router';
    styleUrls: ['./section-trade-third.component.scss'],
 })
 export class SectionTradeThirdComponent implements OnInit {
-   constructor(private route: ActivatedRoute) {}
+   order$: Observable<Order>;
+
+   constructor(private store: Store<fromRoot.AppState>) {}
 
    ngOnInit(): void {
-      this.route.data.subscribe((data) => console.log(data));
+      this.order$ = this.store.select('order').pipe(pluck('order'));
    }
 }

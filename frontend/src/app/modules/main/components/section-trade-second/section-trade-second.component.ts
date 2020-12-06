@@ -14,7 +14,7 @@ import { catchError, first, map, pluck } from 'rxjs/operators';
 import * as fromApp from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { Order } from 'src/app/core/models/order.model';
+import { Order } from '@models/order.model';
 import { Observable, of } from 'rxjs';
 
 @Component({

@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, pluck } from 'rxjs/operators';
-import { Currency } from 'src/app/core/models/currency.model';
+import { Currency } from '@models/currency.model';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as fromAdminModule from '../../store/index';
 

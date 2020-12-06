@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { Merchant } from 'src/app/core/models/merchant.model';
+import { Merchant } from '@models/merchant.model';
 import { Store } from '@ngrx/store';
 import * as fromAdminModule from '../../store/index';
 import { pluck, tap } from 'rxjs/operators';

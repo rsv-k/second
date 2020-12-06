@@ -14,3 +14,10 @@
    <input type="hidden" name="LMI_SIM_MODE" value="0" />
    <input type="submit" value="submit" />
 </form>
+
+<section class="section-payment">
+   <h2 class="title">
+      Ожидание оплаты по заявке № ${{ (order$ | async).number }} от
+      {{ (order$ | async).date | date: 'dd:mm:yyyy' }}
+   </h2>
+</section>
