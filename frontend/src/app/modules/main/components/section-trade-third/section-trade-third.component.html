@@ -34,4 +34,51 @@
          {{ timeLeft | date: 'mm:ss' }}
       </span>
    </p>
+
+   <mat-divider></mat-divider>
+
+   <div class="details">
+      <p class="attention">Внимание!</p>
+      <p class="message">Курс мог измениться. Обмен будет произведен:</p>
+
+      <div class="info">
+         <p class="row">
+            <span class="color-grey">По курсу</span>
+            <span class="value">
+               <div>
+                  {{ (order$ | async).givenCurrencyCourse }}
+                  {{ (order$ | async).givenCurrency.currencyCode }} :
+                  {{ (order$ | async).takenCurrencyCourse }}
+                  {{ (order$ | async).takenCurrency.currencyCode }}
+               </div>
+            </span>
+         </p>
+         <p class="row">
+            <span class="color-grey">Отдаете</span>
+            <span class="value">
+               <div>
+                  {{ (order$ | async).givenCurrencyAmount }}
+                  {{ (order$ | async).givenCurrency.currencyCode }}
+               </div>
+               <div>
+                  {{ (order$ | async).givenCurrency.name }}
+                  {{ (order$ | async).givenCurrency.card }}
+               </div>
+            </span>
+         </p>
+         <p class="row">
+            <span class="color-grey">Получаете</span>
+            <span class="value">
+               <div>
+                  {{ (order$ | async).takenCurrencyAmount }}
+                  {{ (order$ | async).takenCurrency.currencyCode }}
+               </div>
+               <div>
+                  {{ (order$ | async).takenCurrency.name }}
+                  {{ (order$ | async).takenCurrency.card }}
+               </div>
+            </span>
+         </p>
+      </div>
+   </div>
 </section>

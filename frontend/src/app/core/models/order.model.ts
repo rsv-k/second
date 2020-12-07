@@ -10,6 +10,8 @@ export interface Order {
    takenCurrency?: Currency;
    givenCurrencyId?: string;
    takenCurrencyId?: string;
+   givenCurrencyCourse: number;
+   takenCurrencyCourse: number;
    name?: string;
    surname?: string;
    phone: string;

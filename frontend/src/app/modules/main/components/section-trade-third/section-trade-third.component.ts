@@ -23,7 +23,12 @@ export class SectionTradeThirdComponent implements OnInit {
       this.order$ = this.store.select('order').pipe(
          pluck('order'),
          tap((data) => {
-            this.setTimer(new Date(data.date).getTime() + 15 * 60 * 1000);
+            const dueTime = new Date(data.date).getTime() + 15 * 60 * 1000;
+
+            if (!this.timer) {
+               this.timeLeft = dueTime - Date.now();
+               this.setTimer(dueTime);
+            }
          })
       );
    }
@@ -31,6 +36,12 @@ export class SectionTradeThirdComponent implements OnInit {
    private setTimer(dueTime: number): void {
       this.timer = setTimeout(() => {
          this.timeLeft = dueTime - Date.now();
+         console.log(dueTime - Date.now());
+
+         if (this.timeLeft <= 0) {
+            clearTimeout(this.timer);
+         }
+
          this.setTimer(dueTime);
       }, 1000);
    }
