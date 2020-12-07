@@ -33,5 +33,7 @@ module.exports = mongoose.model(
          ref: 'Merchant',
          required: false,
       },
+      givenCurrencyCourse: { type: Number, required: true },
+      takenCurrencyCourse: { type: Number, required: true },
    })
 );
