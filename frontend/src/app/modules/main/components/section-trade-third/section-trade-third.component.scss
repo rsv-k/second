@@ -33,3 +33,14 @@
 .row {
    display: flex;
 }
+
+.content {
+   display: flex;
+}
+
+.right {
+   margin-left: 20px;
+   background: rgba($color: #000000, $alpha: 0.25);
+   padding: 20px;
+   border-radius: 15px;
+}
