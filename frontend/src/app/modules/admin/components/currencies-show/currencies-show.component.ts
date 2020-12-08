@@ -1,4 +1,3 @@
-import { pluck, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit } from '@angular/core';
@@ -22,9 +21,7 @@ export class CurrenciesShowComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.currencies$ = this.store
-         .select('adminModule')
-         .pipe(pluck('currency'), pluck('currencies'));
+      this.currencies$ = this.store.select(fromAdminModule.getAllCurrencies);
    }
 
    onDeleteCurrency(id: string): void {

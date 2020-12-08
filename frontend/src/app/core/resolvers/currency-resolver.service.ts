@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import * as CurrencyActions from '../../modules/admin/store/actions/currency.actions';
-import { filter, map, take, pluck, tap } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import * as fromAdminModule from '../../modules/admin/store/index';
 
 @Injectable({
@@ -18,17 +18,14 @@ export class CurrencyResolver implements Resolve<any> {
          this.store.dispatch(
             CurrencyActions.currencyLoadStart({ payload: id })
          );
-         return this.store.select('adminModule').pipe(
-            pluck('currency'),
-            map((data) => data.currency),
+
+         return this.store.select(fromAdminModule.getCurrency).pipe(
             filter((currency) => !!currency),
             take(1)
          );
       } else {
          this.store.dispatch(CurrencyActions.currenciesLoadStart());
-         return this.store.select('adminModule').pipe(
-            pluck('currency'),
-            pluck('currencies'),
+         return this.store.select(fromAdminModule.getAllCurrencies).pipe(
             filter((currencies) => !!currencies.length),
             take(1)
          );

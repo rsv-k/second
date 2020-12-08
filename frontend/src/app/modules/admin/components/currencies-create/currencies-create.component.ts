@@ -1,7 +1,7 @@
 import { Validator } from './../../../../core/models/validator.model';
 import { Currency } from './../../../../core/models/currency.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ValidatorActions from '../../store/actions/validator.actions';
@@ -22,7 +22,6 @@ export class CurrenciesCreateComponent implements OnInit {
 
    private mode = 'create';
    private currencyToEdit: Currency;
-   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
    constructor(
       private store: Store<fromAdminModule.AppState>,
       private route: ActivatedRoute,
@@ -31,6 +30,7 @@ export class CurrenciesCreateComponent implements OnInit {
 
    ngOnInit(): void {
       this.initiForm();
+
       this.route.data.subscribe((data: { currency: Currency }) => {
          this.currencyToEdit = data.currency;
          if (this.currencyToEdit) {
@@ -60,7 +60,7 @@ export class CurrenciesCreateComponent implements OnInit {
          this.store.dispatch(
             CurrencyActions.addCurrencyStart({ payload: currency })
          );
-      } else if (this.mode === 'edit') {
+      } else {
          if (this.isNecessaryToUpdate(currency)) {
             this.store.dispatch(
                CurrencyActions.currencyUpdateStart({
@@ -68,10 +68,8 @@ export class CurrenciesCreateComponent implements OnInit {
                })
             );
          }
-         this.router.navigate(['admin-dashboard/currencies-show']);
       }
-
-      this.formGroupDirective.reset();
+      this.router.navigate(['admin-dashboard/currencies-show']);
    }
 
    private isNecessaryToUpdate(currency: Currency): boolean {
