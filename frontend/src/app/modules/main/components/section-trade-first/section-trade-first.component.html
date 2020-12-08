@@ -6,7 +6,7 @@
          class="currency"
          *ngFor="let exchange of givenCurrencies"
          (click)="selectCurrentExchange(exchange)"
-         [class.selected]="exchange.id === currentExchange.id"
+         [class.selected]="exchange.id === selectedId"
       >
          <app-currency-img
             [icon]="exchange.givenCurrency.icon"
@@ -18,7 +18,7 @@
    <div class="right">
       <h2 class="title">Получаете</h2>
 
-      <ng-container *ngIf="currentExchange">
+      <ng-container *ngIf="selectedId">
          <div
             [class]="{
                currency: true,

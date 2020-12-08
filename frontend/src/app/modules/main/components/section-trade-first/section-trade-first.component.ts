@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
-import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from './../../../../core/models/exchange.model';
 import { filter, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -15,7 +14,7 @@ import * as ProgressActions from '../../../../store/actions/progress.actions';
 export class SectionTradeFirstComponent implements OnInit {
    givenCurrencies: Exchange[] = [];
    takenCurrencies: Exchange[] = [];
-   currentExchange: Exchange;
+   selectedId: string;
 
    private exchanges: Exchange[];
    constructor(
@@ -24,7 +23,6 @@ export class SectionTradeFirstComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.store.dispatch(ExchangeActions.loadExchangesStart());
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 1 }));
 
       this.store
@@ -41,7 +39,7 @@ export class SectionTradeFirstComponent implements OnInit {
    }
 
    selectCurrentExchange(exchange: Exchange): void {
-      this.currentExchange = exchange;
+      this.selectedId = exchange.id;
       this.getTakenCurrencies(exchange);
    }
 
