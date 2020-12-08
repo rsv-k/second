@@ -1,4 +1,4 @@
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, createSelector } from '@ngrx/store';
 import * as fromExchange from './reducers/exchange.reducer';
 import * as fromProgress from './reducers/progress.reducer';
 import * as fromOrder from './reducers/order.reducer';
@@ -13,3 +13,17 @@ export const appReducers: ActionReducerMap<AppState> = {
    progress: fromProgress.reducer,
    order: fromOrder.reducer,
 };
+
+export const exchangeState = (state: AppState) => state.exchange;
+export const getAllExchanges = createSelector(
+   exchangeState,
+   fromExchange.getAllExchanges
+);
+export const getExchange = createSelector(
+   exchangeState,
+   fromExchange.getExchange
+);
+export const getExchangeError = createSelector(
+   exchangeState,
+   fromExchange.getExchangeError
+);

@@ -78,3 +78,7 @@ const exchangeReducer = createReducer(
 export function reducer(state: State, action: Action): State {
    return exchangeReducer(state, action);
 }
+
+export const getAllExchanges = (state: State) => state.exchanges;
+export const getExchange = (state: State) => state.exchange;
+export const getExchangeError = (state: State) => state.exchangeError;
