@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
-import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Observable } from 'rxjs';
 import { Exchange } from '@models/exchange.model';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
    selector: 'app-section-tariffs',
@@ -20,11 +20,9 @@ export class SectionTariffsComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.store.dispatch(
-         ExchangeActions.loadExchangesStart({ payload: { isSorted: true } })
-      );
-
-      this.exchanges$ = this.store.select(fromRoot.getAllExchanges);
+      this.exchanges$ = this.store
+         .select(fromRoot.getAllExchanges)
+         .pipe(map((exchanges) => exchanges.slice().sort(this.sort)));
    }
 
    onNavigate(exchange: Exchange): void {
@@ -33,5 +31,15 @@ export class SectionTariffsComponent implements OnInit {
       }
 
       this.router.navigate(['/exchanges', exchange.id]);
+   }
+
+   private sort(a: Exchange, b: Exchange): number {
+      if (a.givenCurrency.name > b.givenCurrency.name) {
+         return 1;
+      } else if (a.givenCurrency.name < b.givenCurrency.name) {
+         return -1;
+      }
+
+      return 0;
    }
 }

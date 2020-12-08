@@ -37,13 +37,8 @@ export class ExchangeService {
       );
    }
 
-   getExchanges(isSorted: boolean): Observable<Exchange[]> {
-      let sort = '';
-      if (isSorted) {
-         sort = '?isSorted=true';
-      }
-
-      return this.http.get<Response>(ENDPOINT_URL + sort).pipe(
+   getExchanges(): Observable<Exchange[]> {
+      return this.http.get<Response>(ENDPOINT_URL).pipe(
          pluck('exchanges'),
          map((exchanges) => exchanges.map(this.commonService.changeId)),
          map((exchanges) => {

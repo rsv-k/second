@@ -58,6 +58,9 @@ const routes: Routes = [
          {
             path: 'tariffs',
             component: SectionTariffsComponent,
+            resolve: {
+               exchanges: ExchangeResolver,
+            },
          },
          {
             path: 'moneybackPolicy',

@@ -24,9 +24,7 @@ export class ExchangeResolver implements Resolve<any> {
             take(1)
          );
       } else {
-         this.store.dispatch(
-            ExchangeActions.loadExchangesStart({ payload: { isSorted: false } })
-         );
+         this.store.dispatch(ExchangeActions.loadExchangesStart());
 
          return this.store.select(fromRoot.getAllExchanges).pipe(
             filter((exchanges) => !!exchanges.length),
