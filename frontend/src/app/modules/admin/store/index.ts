@@ -26,7 +26,8 @@ export const adminReducers: ActionReducerMap<State> = {
    validator: fromValidator.reducer,
 };
 
-export const getAdminState = createFeatureSelector<State>('adminModule');
+export const getAdminState = createFeatureSelector<State>(FEATURE_NAME);
+
 export const getCurrencyState = createSelector(
    getAdminState,
    (state: State) => state.currency
@@ -42,4 +43,17 @@ export const getCurrency = createSelector(
 export const getCurrencyError = createSelector(
    getCurrencyState,
    fromCurrency.getCurrencyError
+);
+
+export const getValidatorState = createSelector(
+   getAdminState,
+   (state: State) => state.validator
+);
+export const getAllValidators = createSelector(
+   getValidatorState,
+   fromValidator.getAllValidators
+);
+export const getValidatorError = createSelector(
+   getValidatorState,
+   fromValidator.getValidatorError
 );

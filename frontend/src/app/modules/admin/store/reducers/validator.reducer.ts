@@ -67,3 +67,6 @@ const validatorReducer = createReducer(
 export function reducer(state: State, action: Action): State {
    return validatorReducer(state, action);
 }
+
+export const getAllValidators = (state: State) => state.validators;
+export const getValidatorError = (state: State) => state.validatorError;
