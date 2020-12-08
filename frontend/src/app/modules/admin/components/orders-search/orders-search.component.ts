@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, pluck } from 'rxjs/operators';
 import { Currency } from '@models/currency.model';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as fromAdminModule from '../../store/index';
@@ -25,11 +24,7 @@ export class OrdersSearchComponent implements OnInit {
 
    ngOnInit(): void {
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
-      this.currencies$ = this.store.select('adminModule').pipe(
-         pluck('currency'),
-         pluck('currencies'),
-         filter((currencies) => !!currencies.length)
-      );
+      this.currencies$ = this.store.select(fromAdminModule.getAllCurrencies);
 
       this.form = new FormGroup({
          status: new FormControl(''),

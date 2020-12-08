@@ -1,60 +1,67 @@
-<section class="section-order" *ngIf="order">
+<section class="section-order">
    <div class="row">
-      <h3 class="title">Номер</h3>
-      <span class="text">{{ order.number }}</span>
+      <h2>Номер</h2>
+      <span class="text">{{ (order$ | async).number }}</span>
    </div>
    <div class="row">
-      <h3 class="title">Дата создания</h3>
-      <span class="text">{{ order.date | date: 'd/M/yyyy, h:mm' }}</span>
+      <h2>Дата создания</h2>
+      <span class="text">{{
+         (order$ | async).date | date: 'd/M/yyyy, h:mm'
+      }}</span>
    </div>
    <div class="row">
-      <h3 class="title">Статус</h3>
-      <span class="text">{{ order.status | status }}</span>
+      <h2>Статус</h2>
+      <span class="text">{{ (order$ | async).status | status }}</span>
    </div>
    <div class="row">
-      <h3 class="title">Курс обмена</h3>
+      <h2>Курс обмена</h2>
       <span class="text text--currency">
-         {{ order.takenCurrencyAmount / order.givenCurrencyAmount }}
+         {{
+            (order$ | async).takenCurrencyAmount /
+               (order$ | async).givenCurrencyAmount
+         }}
          <mat-icon class="icon">arrow_right_alt</mat-icon>
          1
       </span>
    </div>
    <div class="currency">
       <app-currency-img
-         [icon]="order.givenCurrency.icon"
-         [alt]="order.givenCurrency.stringId"
+         [icon]="(order$ | async).givenCurrency.icon"
+         [alt]="(order$ | async).givenCurrency.stringId"
       ></app-currency-img>
-      <h2 class="currency__title">{{ order.givenCurrency.name }}</h2>
+      <h2 class="currency__title">{{ (order$ | async).givenCurrency.name }}</h2>
    </div>
    <div class="row">
-      <h3 class="title">Отдает</h3>
+      <h2>Отдает</h2>
       <span class="text text--currency">
-         {{ order.givenCurrencyAmount }} {{ order.givenCurrency.currencyCode }}
+         {{ (order$ | async).givenCurrencyAmount }}
+         {{ (order$ | async).givenCurrency.currencyCode }}
       </span>
    </div>
    <div class="row">
-      <h3 class="title">Номер кошелька</h3>
+      <h2>Номер кошелька</h2>
       <span class="text text--currency">
-         {{ order.givenCurrencyCard }}
+         {{ (order$ | async).givenCurrencyCard }}
       </span>
    </div>
    <div class="currency">
       <app-currency-img
-         [icon]="order.takenCurrency.icon"
-         [alt]="order.takenCurrency.stringId"
+         [icon]="(order$ | async).takenCurrency.icon"
+         [alt]="(order$ | async).takenCurrency.stringId"
       ></app-currency-img>
-      <h2 class="currency__title">{{ order.takenCurrency.name }}</h2>
+      <h2 class="currency__title">{{ (order$ | async).takenCurrency.name }}</h2>
    </div>
    <div class="row">
-      <h3 class="title">Получает</h3>
+      <h2>Получает</h2>
       <span class="text text--currency">
-         {{ order.takenCurrencyAmount }} {{ order.takenCurrency.currencyCode }}
+         {{ (order$ | async).takenCurrencyAmount }}
+         {{ (order$ | async).takenCurrency.currencyCode }}
       </span>
    </div>
    <div class="row">
-      <h3 class="title">Номер кошелька</h3>
+      <h2>Номер кошелька</h2>
       <span class="text text--currency">
-         {{ order.takenCurrencyCard }}
+         {{ (order$ | async).takenCurrencyCard }}
       </span>
    </div>
 
@@ -63,9 +70,9 @@
    </div>
 
    <div class="row">
-      <h3 class="title">Электронная почта</h3>
+      <h2>Электронная почта</h2>
       <span class="text text--currency">
-         {{ order.email }}
+         {{ (order$ | async).email }}
       </span>
    </div>
 

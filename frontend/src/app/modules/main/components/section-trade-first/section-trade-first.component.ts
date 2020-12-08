@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from './../../../../core/models/exchange.model';
-import { filter, first, pluck } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 

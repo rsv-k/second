@@ -1,16 +1,17 @@
 import { Merchant } from './../../../../core/models/merchant.model';
 import { Exchange } from './../../../../core/models/exchange.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, first, map, pluck } from 'rxjs/operators';
+import { first, map } from 'rxjs/operators';
 import { Currency } from '@models/currency.model';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Router } from '@angular/router';
 import * as fromAdminModule from '../../store/index';
 import * as MerchantActions from '../../store/actions/merchants.actions';
+import * as fromRoot from '../../../../store/index';
 
 @Component({
    selector: 'app-exchanges-create',
@@ -64,7 +65,6 @@ export class ExchangesCreateComponent implements OnInit {
    private selectedFields: string[] = [];
    private mode = 'create';
    private exchangeToEdit: Exchange = null;
-   @ViewChild(FormGroupDirective) formGroupDirective: FormGroupDirective;
 
    constructor(
       private store: Store<fromAdminModule.AppState>,
@@ -89,22 +89,19 @@ export class ExchangesCreateComponent implements OnInit {
       this.form.get('merchant').setValue('Ручная обработка платежа');
 
       this.store
-         .select('exchange')
-         .pipe(
-            first(),
-            filter((data) => !!data.exchange)
-         )
-         .subscribe((data) => {
-            this.exchangeToEdit = data.exchange;
+         .select(fromRoot.getExchange)
+         .pipe(first())
+         .subscribe((exchange) => {
+            this.exchangeToEdit = exchange;
 
             this.mode = 'edit';
             this.setForm(this.exchangeToEdit);
             this.setSlidersToTrue(this.exchangeToEdit);
-            this.selectedFields = data.exchange.fields;
+            this.selectedFields = exchange.fields;
 
-            this.givenCurrency = data.exchange.givenCurrency;
-            this.takenCurrency = data.exchange.takenCurrency;
-            this.merchant = data.exchange.merchant;
+            this.givenCurrency = exchange.givenCurrency;
+            this.takenCurrency = exchange.takenCurrency;
+            this.merchant = exchange.merchant;
 
             this.form
                .get('merchant')
@@ -138,11 +135,8 @@ export class ExchangesCreateComponent implements OnInit {
                payload: { id: this.exchangeToEdit.id, exchange },
             })
          );
-
-         this.router.navigate(['admin-dashboard/exchanges-show']);
       }
-
-      this.formGroupDirective.reset();
+      this.router.navigate(['admin-dashboard/exchanges-show']);
    }
 
    onMerchantSelect(option: Merchant): void {

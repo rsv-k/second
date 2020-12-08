@@ -2,7 +2,7 @@ import { OrdersOptions } from './../../../../core/models/ordersOptions.model';
 import { OrdersStatusDialogComponent } from './../orders-status-dialog/orders-status-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../../../../store/index';
+import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
 import { pluck, takeUntil } from 'rxjs/operators';
 import { Order } from '@models/order.model';
@@ -51,7 +51,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    };
 
    constructor(
-      private store: Store<fromApp.AppState>,
+      private store: Store<fromRoot.AppState>,
       private socketService: SocketioService,
       private dialog: MatDialog,
       private router: Router
@@ -77,8 +77,8 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
       this.getOrders();
       this.store
-         .select('order')
-         .pipe(pluck('orders'), takeUntil(this.destroyed))
+         .select(fromRoot.getAllOrders)
+         .pipe(takeUntil(this.destroyed))
          .subscribe((orders) => {
             this.dataSource.data = orders;
          });

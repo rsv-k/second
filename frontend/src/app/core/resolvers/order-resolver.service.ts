@@ -2,23 +2,22 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, pluck, take } from 'rxjs/operators';
-import * as fromApp from '../../store/index';
+import { filter, take } from 'rxjs/operators';
+import * as fromRoot from '../../store/index';
 import * as OrderActions from '../../store/actions/order.actions';
 
 @Injectable({
    providedIn: 'root',
 })
 export class OrderResolver implements Resolve<any> {
-   constructor(private store: Store<fromApp.AppState>) {}
+   constructor(private store: Store<fromRoot.AppState>) {}
 
    resolve(route: ActivatedRouteSnapshot): Observable<any> {
       const id = route.paramMap.get('id');
       if (id) {
          this.store.dispatch(OrderActions.getOrderStart({ payload: { id } }));
 
-         return this.store.select('order').pipe(
-            pluck('order'),
+         return this.store.select(fromRoot.getOrder).pipe(
             filter((order) => !!order),
             take(1)
          );
@@ -36,8 +35,7 @@ export class OrderResolver implements Resolve<any> {
             })
          );
 
-         return this.store.select('order').pipe(
-            pluck('orders'),
+         return this.store.select(fromRoot.getAllOrders).pipe(
             filter((orders) => !!orders.length),
             take(1)
          );

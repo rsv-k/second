@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
@@ -20,10 +20,9 @@ export class SectionTradeThirdComponent implements OnInit {
 
    ngOnInit(): void {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 3 }));
-      this.order$ = this.store.select('order').pipe(
-         pluck('order'),
-         tap((data) => {
-            const dueTime = new Date(data.date).getTime() + 15 * 60 * 1000;
+      this.order$ = this.store.select(fromRoot.getOrder).pipe(
+         tap((order) => {
+            const dueTime = new Date(order.date).getTime() + 15 * 60 * 1000;
 
             if (!this.timer) {
                this.timeLeft = dueTime - Date.now();

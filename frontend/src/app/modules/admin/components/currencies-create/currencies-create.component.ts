@@ -7,7 +7,6 @@ import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ValidatorActions from '../../store/actions/validator.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import * as fromAdminModule from '../../store/index';
 
 @Component({
@@ -41,9 +40,7 @@ export class CurrenciesCreateComponent implements OnInit {
       });
 
       this.store.dispatch(ValidatorActions.getValidatorsStart());
-      this.validators$ = this.store
-         .select(fromAdminModule.getAllValidators)
-         .pipe(filter((validators) => !!validators.length));
+      this.validators$ = this.store.select(fromAdminModule.getAllValidators);
 
       this.form.get('icon').disable();
    }

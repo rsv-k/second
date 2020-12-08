@@ -11,7 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { catchError, first, map, pluck } from 'rxjs/operators';
-import * as fromApp from '../../../../store/index';
+import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 import * as OrderActions from '../../../../store/actions/order.actions';
 import { Order } from '@models/order.model';
@@ -32,7 +32,7 @@ export class SectionTradeSecondComponent implements OnInit {
    участника системы Webmoney не совпадают с указанными.`;
 
    constructor(
-      private store: Store<fromApp.AppState>,
+      private store: Store<fromRoot.AppState>,
       private route: ActivatedRoute,
       private router: Router,
       private webmoneyService: WebmoneyService
@@ -42,11 +42,11 @@ export class SectionTradeSecondComponent implements OnInit {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 2 }));
 
       this.store
-         .select('exchange')
-         .pipe(pluck('exchanges'), first())
-         .subscribe((data) => {
+         .select(fromRoot.getAllExchanges)
+         .pipe(first())
+         .subscribe((exchanges) => {
             const id = this.route.snapshot.paramMap.get('id');
-            const exchange = data.find((ex) => ex.id === id);
+            const exchange = exchanges.find((ex) => ex.id === id);
 
             if (!exchange) {
                return this.router.navigate(['/exchanges']);

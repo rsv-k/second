@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, first, pluck } from 'rxjs/operators';
+import { filter, first, tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
-import * as fromApp from '../../../../store/index';
+import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdersStatusDialogComponent } from '../orders-status-dialog/orders-status-dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
    selector: 'app-order-show',
@@ -14,28 +15,23 @@ import { OrdersStatusDialogComponent } from '../orders-status-dialog/orders-stat
    styleUrls: ['./order-show.component.scss'],
 })
 export class OrderShowComponent implements OnInit {
-   order: Order;
-
+   order$: Observable<Order>;
+   private orderId: string;
    constructor(
-      private store: Store<fromApp.AppState>,
+      private store: Store<fromRoot.AppState>,
       private router: Router,
       private dialog: MatDialog
    ) {}
 
    ngOnInit(): void {
-      this.store
-         .select('order')
-         .pipe(
-            pluck('order'),
-            filter((order) => !!order),
-            first()
-         )
-         .subscribe((order) => (this.order = order));
+      this.order$ = this.store
+         .select(fromRoot.getOrder)
+         .pipe(tap((order) => (this.orderId = order.id)));
    }
 
    onDelete(): void {
       this.store.dispatch(
-         OrderActions.deleteOrdersStart({ payload: { ids: [this.order.id] } })
+         OrderActions.deleteOrdersStart({ payload: { ids: [this.orderId] } })
       );
       this.router.navigate(['/admin-dashboard/orders-show']);
    }
@@ -54,7 +50,7 @@ export class OrderShowComponent implements OnInit {
 
          this.store.dispatch(
             OrderActions.updateOrdersStart({
-               payload: { ids: [this.order.id], status },
+               payload: { ids: [this.orderId], status },
             })
          );
          this.router.navigate(['/admin-dashboard/orders-show']);

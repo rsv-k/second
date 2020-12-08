@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, first, pluck } from 'rxjs/operators';
-import * as fromApp from '../../../../store/index';
+import * as fromRoot from '../../../../store/index';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Observable } from 'rxjs';
 import { Exchange } from '@models/exchange.model';
@@ -16,7 +15,7 @@ export class SectionTariffsComponent implements OnInit {
    exchanges$: Observable<Exchange[]>;
    columnsToDisplay = ['givenCurrency', 'takenCurrency', 'reserve'];
    constructor(
-      private store: Store<fromApp.AppState>,
+      private store: Store<fromRoot.AppState>,
       private router: Router
    ) {}
 
@@ -25,11 +24,7 @@ export class SectionTariffsComponent implements OnInit {
          ExchangeActions.loadExchangesStart({ payload: { isSorted: true } })
       );
 
-      this.exchanges$ = this.store.select('exchange').pipe(
-         pluck('exchanges'),
-         filter((exchanges) => exchanges.length > 0),
-         first()
-      );
+      this.exchanges$ = this.store.select(fromRoot.getAllExchanges);
    }
 
    onNavigate(exchange: Exchange): void {
