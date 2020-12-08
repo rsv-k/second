@@ -67,3 +67,6 @@ const merchantReducer = createReducer(
 export function reducer(state: State, action: Action): State {
    return merchantReducer(state, action);
 }
+
+export const getAllMerchants = (state: State) => state.merchants;
+export const getMerchantError = (state: State) => state.merchantError;

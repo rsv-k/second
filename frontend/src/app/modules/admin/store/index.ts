@@ -57,3 +57,16 @@ export const getValidatorError = createSelector(
    getValidatorState,
    fromValidator.getValidatorError
 );
+
+export const getMerchantState = createSelector(
+   getAdminState,
+   (state: State) => state.merchant
+);
+export const getAllMerchant = createSelector(
+   getMerchantState,
+   fromMerchant.getAllMerchants
+);
+export const getMerchantError = createSelector(
+   getMerchantState,
+   fromMerchant.getMerchantError
+);
