@@ -78,3 +78,7 @@ const orderReducer = createReducer(
 export function reducer(state: State, action: Action): State {
    return orderReducer(state, action);
 }
+
+export const getAllOrders = (state: State) => state.orders;
+export const getOrder = (state: State) => state.order;
+export const getOrderError = (state: State) => state.error;

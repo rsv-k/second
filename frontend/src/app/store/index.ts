@@ -27,3 +27,11 @@ export const getExchangeError = createSelector(
    exchangeState,
    fromExchange.getExchangeError
 );
+
+export const orderState = (state: AppState) => state.order;
+export const getAllOrders = createSelector(orderState, fromOrder.getAllOrders);
+export const getOrder = createSelector(orderState, fromOrder.getOrder);
+export const getOrderError = createSelector(
+   orderState,
+   fromOrder.getOrderError
+);
