@@ -75,19 +75,17 @@ export class ExchangesCreateComponent implements OnInit {
       this.initForm();
       this.store.dispatch(CurrencyActions.currenciesLoadStart());
 
-      this.currencies$ = this.store
-         .select('adminModule')
-         .pipe(pluck('currency'), pluck('currencies'));
+      this.currencies$ = this.store.select(fromAdminModule.getAllCurrencies);
 
       this.store.dispatch(MerchantActions.getMerchantsStart());
-      this.merchants$ = this.store.select('adminModule').pipe(
-         pluck('merchant'),
-         pluck('merchants'),
-         map((currencies) => [
-            { name: 'Ручная обработка платежа', id: '0', link: '' },
-            ...currencies,
-         ])
-      );
+      this.merchants$ = this.store
+         .select(fromAdminModule.getAllMerchant)
+         .pipe(
+            map((currencies) => [
+               { name: 'Ручная обработка платежа', id: '0', link: '' },
+               ...currencies,
+            ])
+         );
       this.form.get('merchant').setValue('Ручная обработка платежа');
 
       this.store
@@ -165,11 +163,9 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.shouldDisplayWmInterfaceOption();
 
-      this.currencies$ = this.store.select('adminModule').pipe(
-         pluck('currency'),
-         pluck('currencies'),
-         map((currency) => currency.filter((c) => c.id !== option.id))
-      );
+      this.currencies$ = this.store
+         .select(fromAdminModule.getAllCurrencies)
+         .pipe(map((currency) => currency.filter((c) => c.id !== option.id)));
    }
 
    onTakenCurrencySelect(option: Currency): void {
@@ -182,11 +178,9 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.shouldDisplayWmInterfaceOption();
 
-      this.currencies$ = this.store.select('adminModule').pipe(
-         pluck('currency'),
-         pluck('currencies'),
-         map((currency) => currency.filter((c) => c.id !== option.id))
-      );
+      this.currencies$ = this.store
+         .select(fromAdminModule.getAllCurrencies)
+         .pipe(map((currency) => currency.filter((c) => c.id !== option.id)));
    }
 
    onSlideChange(controlName: string): void {

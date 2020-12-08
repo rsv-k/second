@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Merchant } from '@models/merchant.model';
 import { Store } from '@ngrx/store';
 import * as fromAdminModule from '../../store/index';
-import { pluck, tap } from 'rxjs/operators';
 import * as MerchantActions from '../../store/actions/merchants.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { MerchantsCreateComponent } from '../merchants-create/merchants-create.component';
@@ -23,10 +22,7 @@ export class MerchantsShowComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.merchants$ = this.store
-         .select('adminModule')
-         .pipe(pluck('merchant'), pluck('merchants'));
-
+      this.merchants$ = this.store.select(fromAdminModule.getAllMerchant);
       this.store.dispatch(MerchantActions.getMerchantsStart());
    }
 
