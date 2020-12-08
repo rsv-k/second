@@ -1,4 +1,8 @@
-import { ActionReducerMap } from '@ngrx/store';
+import {
+   ActionReducerMap,
+   createFeatureSelector,
+   createSelector,
+} from '@ngrx/store';
 import * as fromCurrency from './reducers/currency.reducer';
 import * as fromMerchant from './reducers/merchant.reducer';
 import * as fromValidator from './reducers/validator.reducer';
@@ -21,3 +25,21 @@ export const adminReducers: ActionReducerMap<State> = {
    merchant: fromMerchant.reducer,
    validator: fromValidator.reducer,
 };
+
+export const getAdminState = createFeatureSelector<State>('adminModule');
+export const getCurrencyState = createSelector(
+   getAdminState,
+   (state: State) => state.currency
+);
+export const getAllCurrencies = createSelector(
+   getCurrencyState,
+   fromCurrency.getCurrencies
+);
+export const getCurrency = createSelector(
+   getCurrencyState,
+   fromCurrency.getCurrency
+);
+export const getCurrencyError = createSelector(
+   getCurrencyState,
+   fromCurrency.getCurrencyError
+);

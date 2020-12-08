@@ -9,8 +9,6 @@ import {
 } from '@ngrx/store';
 import * as fromAdminModule from '../index';
 
-export const FEATURE_NAME = 'currency';
-
 export interface State {
    currencies: Currency[];
    currencyError: string;
@@ -86,11 +84,15 @@ export function reducer(state: State, action: Action): State {
    return currencyReducer(state, action);
 }
 
-export const selectAdmin = createFeatureSelector<
-   fromAdminModule.AppState,
-   State
->('adminModule');
-export const selectAdminCurrencies = createSelector(
-   selectAdmin,
-   (state: State) => state.currencies
-);
+export const getCurrencies = (state: State) => state.currencies;
+export const getCurrency = (state: State) => state.currency;
+export const getCurrencyError = (state: State) => state.currencyError;
+
+// export const selectAdmin = createFeatureSelector<
+//    fromAdminModule.AppState,
+//    State
+// >('adminModule');
+// export const selectAdminCurrencies = createSelector(
+//    selectAdmin,
+//    (state: State) => state.currencies
+// );
