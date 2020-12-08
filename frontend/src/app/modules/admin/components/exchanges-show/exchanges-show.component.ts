@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from '@models/exchange.model';
-import { pluck } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import * as fromAdminModule from '../../store/index';
+import * as fromRoot from '../../../../store/index';
 
 @Component({
    selector: 'app-exchanges-show',
@@ -14,7 +14,6 @@ import * as fromAdminModule from '../../store/index';
 })
 export class ExchangesShowComponent implements OnInit {
    exchanges$: Observable<Exchange[]>;
-   test = ['1', '2', '3'];
    displayedColumns = [
       'givenCurrency',
       'takenCurrency',
@@ -34,7 +33,7 @@ export class ExchangesShowComponent implements OnInit {
          ExchangeActions.loadExchangesStart({ payload: { isSorted: false } })
       );
 
-      this.exchanges$ = this.store.select('exchange').pipe(pluck('exchanges'));
+      this.exchanges$ = this.store.select(fromRoot.getAllExchanges);
    }
 
    onDeleteExchange(id: string): void {
