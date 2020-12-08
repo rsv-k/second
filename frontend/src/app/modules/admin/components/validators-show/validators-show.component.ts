@@ -6,7 +6,6 @@ import { ValidatorsCreateComponent } from '../validators-create/validators-creat
 import { Store } from '@ngrx/store';
 import * as fromAdminModule from '../../store/index';
 import * as ValidatorActions from '../../store/actions/validator.actions';
-import { pluck } from 'rxjs/operators';
 import { ValidatorTestComponent } from '../validator-test/validator-test.component';
 
 @Component({
@@ -23,10 +22,7 @@ export class ValidatorsShowComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.validators$ = this.store
-         .select('adminModule')
-         .pipe(pluck('validator'), pluck('validators'));
-
+      this.validators$ = this.store.select(fromAdminModule.getAllValidators);
       this.store.dispatch(ValidatorActions.getValidatorsStart());
    }
 

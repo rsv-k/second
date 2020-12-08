@@ -7,7 +7,7 @@ import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ValidatorActions from '../../store/actions/validator.actions';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, pluck } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import * as fromAdminModule from '../../store/index';
 
 @Component({
@@ -41,11 +41,9 @@ export class CurrenciesCreateComponent implements OnInit {
       });
 
       this.store.dispatch(ValidatorActions.getValidatorsStart());
-      this.validators$ = this.store.select('adminModule').pipe(
-         pluck('validator'),
-         pluck('validators'),
-         filter((validators) => !!validators.length)
-      );
+      this.validators$ = this.store
+         .select(fromAdminModule.getAllValidators)
+         .pipe(filter((validators) => !!validators.length));
 
       this.form.get('icon').disable();
    }
@@ -72,6 +70,14 @@ export class CurrenciesCreateComponent implements OnInit {
       this.router.navigate(['admin-dashboard/currencies-show']);
    }
 
+   onChangeFile(files: FileList): void {
+      if (files.length === 0) {
+         return;
+      }
+      this.file = files[0];
+      this.form.get('icon').setValue(this.file.name);
+   }
+
    private isNecessaryToUpdate(currency: Currency): boolean {
       for (const key in currency) {
          if (this.currencyToEdit[key] !== currency[key]) {
@@ -80,14 +86,6 @@ export class CurrenciesCreateComponent implements OnInit {
       }
 
       return false;
-   }
-
-   onChangeFile(files: FileList): void {
-      if (files.length === 0) {
-         return;
-      }
-      this.file = files[0];
-      this.form.get('icon').setValue(this.file.name);
    }
 
    private initiForm(): void {

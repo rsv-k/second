@@ -27,13 +27,13 @@ export class ValidatorsCreateComponent implements OnInit {
       }
 
       this.form = new FormGroup({
-         name: new FormControl((this.data && this.data.validator.name) || '', [
-            Validators.required,
-            Validators.minLength(3),
-         ]),
+         name: new FormControl(
+            (this.data && this.data.validator.name) || '',
+            Validators.required
+         ),
          regex: new FormControl(
             (this.data && this.data.validator.regex) || '',
-            [Validators.required, Validators.minLength(3)]
+            Validators.required
          ),
       });
    }
