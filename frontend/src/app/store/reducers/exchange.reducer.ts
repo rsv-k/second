@@ -5,13 +5,13 @@ import * as ExchangeActions from '../actions/exchange.actions';
 export const FEATURE_NAME = 'exchange';
 
 export interface State {
-   exchanges: Exchange[];
+   entities: { [id: string]: Exchange };
    exchange: Exchange;
    exchangeError: string;
 }
 
 export const initialState: State = {
-   exchanges: [],
+   entities: {},
    exchange: null,
    exchangeError: null,
 };
@@ -23,28 +23,48 @@ const exchangeReducer = createReducer(
       exchangeError: null,
       exchange: null,
    })),
-   on(ExchangeActions.addExchangeSuccess, (state, { payload }) => ({
-      ...state,
-      exchanges: [...state.exchanges, payload],
-   })),
+   on(ExchangeActions.addExchangeSuccess, (state, { payload }) => {
+      state.entities[payload.id] = payload;
+
+      return {
+         ...state,
+      };
+   }),
 
    on(ExchangeActions.loadExchangesStart, (state) => ({
       ...state,
       exchangeError: null,
       exchange: null,
    })),
-   on(ExchangeActions.loadExchangesSuccess, (state, { payload }) => ({
-      ...state,
-      exchanges: [...payload],
-   })),
+   on(ExchangeActions.loadExchangesSuccess, (state, { payload }) => {
+      const exchanges = payload;
+
+      const entities = exchanges.reduce(
+         (entities: { [id: string]: Exchange }, exchange: Exchange) => {
+            return {
+               ...entities,
+               [exchange.id]: exchange,
+            };
+         },
+         { ...state.entities }
+      );
+
+      return {
+         ...state,
+         entities,
+      };
+   }),
 
    on(ExchangeActions.deleteExchangeStart, (state) => ({
       ...state,
    })),
-   on(ExchangeActions.deleteExchangeSuccess, (state, { payload }) => ({
-      ...state,
-      exchanges: state.exchanges.filter((ex) => ex.id !== payload.id),
-   })),
+   on(ExchangeActions.deleteExchangeSuccess, (state, { payload }) => {
+      state.entities[payload.id] = null;
+
+      return {
+         ...state,
+      };
+   }),
 
    on(ExchangeActions.loadExchangeStart, (state) => ({
       ...state,
@@ -57,17 +77,14 @@ const exchangeReducer = createReducer(
    on(ExchangeActions.editExchangeStart, (state) => ({
       ...state,
    })),
-   on(ExchangeActions.editExchangeSuccess, (state, { payload }) => ({
-      ...state,
-      exchanges: state.exchanges.map((ex) => {
-         if (ex.id === payload.id) {
-            return payload;
-         }
+   on(ExchangeActions.editExchangeSuccess, (state, { payload }) => {
+      state.entities[payload.id] = payload;
 
-         return ex;
-      }),
-      exchange: null,
-   })),
+      return {
+         ...state,
+         exchange: null,
+      };
+   }),
 
    on(ExchangeActions.exchangeError, (state, { payload }) => ({
       ...state,
@@ -79,6 +96,7 @@ export function reducer(state: State, action: Action): State {
    return exchangeReducer(state, action);
 }
 
-export const getAllExchanges = (state: State) => state.exchanges;
+export const getExchangesEntities = (state: State) => state.entities;
+
 export const getExchange = (state: State) => state.exchange;
 export const getExchangeError = (state: State) => state.exchangeError;

@@ -15,10 +15,18 @@ export const appReducers: ActionReducerMap<AppState> = {
 };
 
 export const exchangeState = (state: AppState) => state.exchange;
-export const getAllExchanges = createSelector(
+export const getExchangesEntities = createSelector(
    exchangeState,
-   fromExchange.getAllExchanges
+   fromExchange.getExchangesEntities
 );
+
+export const getAllExchanges = createSelector(
+   getExchangesEntities,
+   (entities) => {
+      return Object.keys(entities).map((id) => entities[id]);
+   }
+);
+
 export const getExchange = createSelector(
    exchangeState,
    fromExchange.getExchange
