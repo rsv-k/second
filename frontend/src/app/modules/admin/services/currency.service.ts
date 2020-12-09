@@ -1,43 +1,36 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { Currency } from './../../../core/models/currency.model';
 import { Observable } from 'rxjs';
+import { CommonService } from '@core/services/common.service';
 
 const ENDPOINT_URL = 'currency/';
 
+interface Response {
+   msg: string;
+   currency?: any;
+   currencies?: any[];
+}
+
 @Injectable()
 export class CurrencyService {
-   constructor(private http: HttpClient) {}
+   constructor(
+      private http: HttpClient,
+      private commonService: CommonService
+   ) {}
 
    getCurrencies(): Observable<Currency[]> {
-      return this.http
-         .get<{ msg: string; currencies: any[]; currenciesAmount: number }>(
-            '/api/' + ENDPOINT_URL
-         )
-         .pipe(
-            map((response) =>
-               response.currencies.map((c) => {
-                  c.id = c._id;
-                  delete c._id;
-                  return c;
-               })
-            )
-         );
+      return this.http.get<Response>('/api/' + ENDPOINT_URL).pipe(
+         pluck('currencies'),
+         map((currencies) => currencies.map(this.commonService.changeId))
+      );
    }
 
    getCurrency(id: string): Observable<Currency> {
       return this.http
-         .get<{ msg: string; currency: any }>('/api/currency/' + id)
-         .pipe(
-            map((response) => {
-               const currency = response.currency;
-               currency.id = currency._id;
-               delete currency._id;
-
-               return currency;
-            })
-         );
+         .get<Response>('/api/currency/' + id)
+         .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 
    createCurrency(currency: Currency): Observable<Currency> {
@@ -50,30 +43,14 @@ export class CurrencyService {
       formData.append('data', JSON.stringify(data));
 
       return this.http
-         .post<{ msg: string; currency: any }>('/api/' + ENDPOINT_URL, formData)
-         .pipe(
-            map((response) => {
-               const c = response.currency;
-               c.id = c._id;
-               delete c._id;
-
-               return c;
-            })
-         );
+         .post<Response>('/api/' + ENDPOINT_URL, formData)
+         .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 
    deleteCurrency(id: string): Observable<Currency> {
       return this.http
-         .delete<{ msg: string; currency: any }>('/api/' + ENDPOINT_URL + id)
-         .pipe(
-            map((response) => {
-               const currency = response.currency;
-               currency.id = currency._id;
-               delete currency._id;
-
-               return currency;
-            })
-         );
+         .delete<Response>('/api/' + ENDPOINT_URL + id)
+         .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 
    updateCurrency(id: string, currency: any): Observable<Currency> {
@@ -86,18 +63,7 @@ export class CurrencyService {
       formData.append('data', JSON.stringify(data));
 
       return this.http
-         .put<{ msg: string; currency: any }>(
-            '/api/' + ENDPOINT_URL + id,
-            formData
-         )
-         .pipe(
-            map((response) => {
-               const c = response.currency;
-               c.id = c._id;
-               delete c._id;
-
-               return c;
-            })
-         );
+         .put<Response>('/api/' + ENDPOINT_URL + id, formData)
+         .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 }
