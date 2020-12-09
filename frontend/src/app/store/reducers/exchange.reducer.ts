@@ -2,8 +2,6 @@ import { Exchange } from '../../core/models/exchange.model';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as ExchangeActions from '../actions/exchange.actions';
 
-export const FEATURE_NAME = 'exchange';
-
 export interface State {
    entities: { [id: string]: Exchange };
    exchange: Exchange;
