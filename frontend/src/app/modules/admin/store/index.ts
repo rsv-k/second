@@ -54,9 +54,13 @@ export const getValidatorState = createSelector(
    getAdminState,
    (state: State) => state.validator
 );
-export const getAllValidators = createSelector(
+export const getValidatorsEntities = createSelector(
    getValidatorState,
-   fromValidator.getAllValidators
+   fromValidator.getValidatorsEntities
+);
+export const getAllValidators = createSelector(
+   getValidatorsEntities,
+   (entities) => Object.keys(entities).map((id) => entities[id])
 );
 export const getValidatorError = createSelector(
    getValidatorState,

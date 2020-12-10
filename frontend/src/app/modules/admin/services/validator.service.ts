@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Update } from '@ngrx/entity';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { Validator } from '../../../core/models/validator.model';
@@ -39,7 +40,10 @@ export class ValidatorService {
          .pipe(pluck('validator'), map(this.commonService.changeId));
    }
 
-   editValidator(id: string, validator: Validator): Observable<Validator> {
+   editValidator(
+      id: string,
+      validator: Validator
+   ): Observable<Update<Validator>> {
       return this.http
          .put<Response>(ENDPOINT_URL + id, validator)
          .pipe(pluck('validator'), map(this.commonService.changeId));
