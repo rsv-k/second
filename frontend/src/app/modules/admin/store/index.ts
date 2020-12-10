@@ -43,7 +43,8 @@ export const getAllCurrencies = createSelector(
 );
 export const getCurrency = createSelector(
    getCurrenciesEntities,
-   (entities, props) => entities[props.id]
+   fromRoot.getRouterState,
+   (entities, router) => router.state && entities[router.state.params.id]
 );
 export const getCurrencyError = createSelector(
    getCurrencyState,

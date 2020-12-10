@@ -11,6 +11,7 @@ import { ExchangeEffects } from './store/effects/exchange.effects';
 import { OrderEffects } from './store/effects/order.effects';
 import * as fromApp from './store/index';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CustomSerializer } from './store/custom-route-serializer';
 
 @NgModule({
    declarations: [AppComponent],
@@ -21,7 +22,9 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
       StoreModule.forRoot(fromApp.appReducers),
       EffectsModule.forRoot([ExchangeEffects, OrderEffects]),
       CoreModule,
-      StoreRouterConnectingModule.forRoot(),
+      StoreRouterConnectingModule.forRoot({
+         serializer: CustomSerializer,
+      }),
    ],
    providers: [],
    bootstrap: [AppComponent],

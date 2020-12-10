@@ -19,15 +19,19 @@ export interface AppState {
    exchange: fromExchange.State;
    progress: fromProgress.State;
    order: fromOrder.State;
-   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
+   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
 export const appReducers: ActionReducerMap<AppState> = {
    exchange: fromExchange.reducer,
    progress: fromProgress.reducer,
    order: fromOrder.reducer,
-   routerReducer: fromRouter.routerReducer,
+   router: fromRouter.routerReducer,
 };
+
+export const getRouterState = createFeatureSelector<
+   fromRouter.RouterReducerState<RouterStateUrl>
+>('router');
 
 export const exchangeState = (state: AppState) => state.exchange;
 export const getExchangesEntities = createSelector(
@@ -36,14 +40,14 @@ export const getExchangesEntities = createSelector(
 );
 export const getAllExchanges = createSelector(
    getExchangesEntities,
-   (entities) => {
-      return Object.keys(entities).map((id) => entities[id]);
-   }
+   (entities) => Object.keys(entities).map((id) => entities[id])
 );
 export const getExchange = createSelector(
-   exchangeState,
-   (state, props) => state.entities[props.id]
+   getExchangesEntities,
+   getRouterState,
+   (entities, router) => router.state && entities[router.state.params.id]
 );
+
 export const getExchangeError = createSelector(
    exchangeState,
    fromExchange.getExchangeError
@@ -63,13 +67,10 @@ export const getAllOrders = createSelector(orderState, (state) => {
 });
 export const getOrder = createSelector(
    getOrdersEntities,
-   (entities, props) => entities[props.id]
+   getRouterState,
+   (entities, router) => router.state && entities[router.state.params.id]
 );
 export const getOrderError = createSelector(
    orderState,
    fromOrder.getOrderError
 );
-
-export const getRouterState = createFeatureSelector<
-   fromRouter.RouterReducerState<RouterStateUrl>
->('routerReducer');

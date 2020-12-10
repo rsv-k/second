@@ -5,9 +5,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ValidatorActions from '../../store/actions/validator.actions';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as fromAdminModule from '../../store/index';
+import { filter, first } from 'rxjs/operators';
 
 @Component({
    selector: 'app-currencies-create',
@@ -19,25 +20,26 @@ export class CurrenciesCreateComponent implements OnInit {
    file: File;
    validators$: Observable<Validator[]>;
 
-   private mode = 'create';
    private currencyToEdit: Currency;
    constructor(
       private store: Store<fromAdminModule.AppState>,
-      private route: ActivatedRoute,
       private router: Router
    ) {}
 
    ngOnInit(): void {
       this.initiForm();
 
-      this.route.data.subscribe((data: { currency: Currency }) => {
-         this.currencyToEdit = data.currency;
-         if (this.currencyToEdit) {
-            this.mode = 'edit';
-         }
+      this.store
+         .select(fromAdminModule.getCurrency)
+         .pipe(
+            filter((currency) => !!currency),
+            first()
+         )
+         .subscribe((currency) => {
+            this.currencyToEdit = currency;
 
-         this.setForm(data.currency);
-      });
+            this.setForm(currency);
+         });
 
       this.store.dispatch(ValidatorActions.getValidatorsStart());
       this.validators$ = this.store.select(fromAdminModule.getAllValidators);
@@ -52,7 +54,7 @@ export class CurrenciesCreateComponent implements OnInit {
          icon: this.file,
       };
 
-      if (this.mode === 'create') {
+      if (this.currencyToEdit) {
          this.store.dispatch(
             CurrencyActions.addCurrencyStart({ payload: currency })
          );

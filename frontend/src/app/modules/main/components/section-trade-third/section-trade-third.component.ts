@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { pluck, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
    selector: 'app-section-trade-third',
@@ -17,15 +16,11 @@ export class SectionTradeThirdComponent implements OnInit {
    timeLeft: number;
    private timer: any;
 
-   constructor(
-      private store: Store<fromRoot.AppState>,
-      private route: ActivatedRoute
-   ) {}
+   constructor(private store: Store<fromRoot.AppState>) {}
 
    ngOnInit(): void {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 3 }));
-      this.order$ = this.route.data.pipe(
-         pluck('order'),
+      this.order$ = this.store.select(fromRoot.getOrder).pipe(
          tap((order) => {
             const dueTime = new Date(order.date).getTime() + 15 * 60 * 1000;
 
@@ -40,7 +35,6 @@ export class SectionTradeThirdComponent implements OnInit {
    private setTimer(dueTime: number): void {
       this.timer = setTimeout(() => {
          this.timeLeft = dueTime - Date.now();
-         console.log(dueTime - Date.now());
 
          if (this.timeLeft <= 0) {
             clearTimeout(this.timer);

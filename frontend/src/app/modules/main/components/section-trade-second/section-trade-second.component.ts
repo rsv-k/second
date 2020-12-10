@@ -8,9 +8,8 @@ import {
    ValidationErrors,
    Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { catchError, first, map, pluck } from 'rxjs/operators';
+import { catchError, filter, first, map } from 'rxjs/operators';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 import * as OrderActions from '../../../../store/actions/order.actions';
@@ -33,8 +32,6 @@ export class SectionTradeSecondComponent implements OnInit {
 
    constructor(
       private store: Store<fromRoot.AppState>,
-      private route: ActivatedRoute,
-      private router: Router,
       private webmoneyService: WebmoneyService
    ) {}
 
@@ -42,16 +39,12 @@ export class SectionTradeSecondComponent implements OnInit {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 2 }));
 
       this.store
-         .select(fromRoot.getAllExchanges)
-         .pipe(first())
-         .subscribe((exchanges) => {
-            const id = this.route.snapshot.paramMap.get('id');
-            const exchange = exchanges.find((ex) => ex.id === id);
-
-            if (!exchange) {
-               return this.router.navigate(['/exchanges']);
-            }
-
+         .select(fromRoot.getExchange)
+         .pipe(
+            filter((exchange) => !!exchange),
+            first()
+         )
+         .subscribe((exchange) => {
             this.exchange = exchange;
             for (const control of exchange.fields) {
                this.fields[control] = true;

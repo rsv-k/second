@@ -37,6 +37,9 @@ const routes: Routes = [
                {
                   path: ':id',
                   component: SectionTradeSecondComponent,
+                  resolve: {
+                     exchange: ExchangeResolver,
+                  },
                },
                {
                   path: 'transaction/:id',
