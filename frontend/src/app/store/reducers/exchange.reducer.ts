@@ -1,89 +1,35 @@
 import { Exchange } from '../../core/models/exchange.model';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as ExchangeActions from '../actions/exchange.actions';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-export interface State {
-   entities: { [id: string]: Exchange };
-   exchange: Exchange;
+export interface State extends EntityState<Exchange> {
    exchangeError: string;
 }
 
-export const initialState: State = {
-   entities: {},
-   exchange: null,
+export const adapter: EntityAdapter<Exchange> = createEntityAdapter<Exchange>();
+
+export const initialState: State = adapter.getInitialState({
    exchangeError: null,
-};
+});
 
 const exchangeReducer = createReducer(
    initialState,
-   on(ExchangeActions.addExchangeStart, (state) => ({
-      ...state,
-      exchangeError: null,
-      exchange: null,
-   })),
-   on(ExchangeActions.addExchangeSuccess, (state, { payload }) => {
-      state.entities[payload.id] = payload;
-
-      return {
-         ...state,
-      };
-   }),
-
-   on(ExchangeActions.loadExchangesStart, (state) => ({
-      ...state,
-      exchangeError: null,
-      exchange: null,
-   })),
-   on(ExchangeActions.loadExchangesSuccess, (state, { payload }) => {
-      const exchanges = payload;
-
-      const entities = exchanges.reduce(
-         (entities: { [id: string]: Exchange }, exchange: Exchange) => {
-            return {
-               ...entities,
-               [exchange.id]: exchange,
-            };
-         },
-         { ...state.entities }
-      );
-
-      return {
-         ...state,
-         entities,
-      };
-   }),
-
-   on(ExchangeActions.deleteExchangeStart, (state) => ({
-      ...state,
-   })),
-   on(ExchangeActions.deleteExchangeSuccess, (state, { payload }) => {
-      state.entities[payload.id] = null;
-
-      return {
-         ...state,
-      };
-   }),
-
-   on(ExchangeActions.loadExchangeStart, (state) => ({
-      ...state,
-   })),
-   on(ExchangeActions.loadExchangeSuccess, (state, { payload }) => ({
-      ...state,
-      exchange: payload,
-   })),
-
-   on(ExchangeActions.editExchangeStart, (state) => ({
-      ...state,
-   })),
-   on(ExchangeActions.editExchangeSuccess, (state, { payload }) => {
-      state.entities[payload.id] = payload;
-
-      return {
-         ...state,
-         exchange: null,
-      };
-   }),
-
+   on(ExchangeActions.addExchangeSuccess, (state, { payload }) =>
+      adapter.addOne(payload, state)
+   ),
+   on(ExchangeActions.loadExchangesSuccess, (state, { payload }) =>
+      adapter.addMany(payload, state)
+   ),
+   on(ExchangeActions.deleteExchangeSuccess, (state, { payload }) =>
+      adapter.removeOne(payload.id, state)
+   ),
+   on(ExchangeActions.loadExchangeSuccess, (state, { payload }) =>
+      adapter.setOne(payload, state)
+   ),
+   on(ExchangeActions.editExchangeSuccess, (state, { payload }) =>
+      adapter.setOne(payload, state)
+   ),
    on(ExchangeActions.exchangeError, (state, { payload }) => ({
       ...state,
       exchangeError: payload,
@@ -95,6 +41,4 @@ export function reducer(state: State, action: Action): State {
 }
 
 export const getExchangesEntities = (state: State) => state.entities;
-
-export const getExchange = (state: State) => state.exchange;
 export const getExchangeError = (state: State) => state.exchangeError;

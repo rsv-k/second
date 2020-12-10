@@ -4,14 +4,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Currency } from '@models/currency.model';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as fromAdminModule from '../../store/index';
 import * as MerchantActions from '../../store/actions/merchants.actions';
-import * as fromRoot from '../../../../store/index';
 
 @Component({
    selector: 'app-exchanges-create',
@@ -68,13 +67,14 @@ export class ExchangesCreateComponent implements OnInit {
 
    constructor(
       private store: Store<fromAdminModule.AppState>,
-      private router: Router
+      private router: Router,
+      private route: ActivatedRoute
    ) {}
 
    ngOnInit(): void {
       this.initForm();
-      this.store.dispatch(CurrencyActions.currenciesLoadStart());
 
+      this.store.dispatch(CurrencyActions.currenciesLoadStart());
       this.currencies$ = this.store.select(fromAdminModule.getAllCurrencies);
 
       this.store.dispatch(MerchantActions.getMerchantsStart());
@@ -86,29 +86,32 @@ export class ExchangesCreateComponent implements OnInit {
                ...currencies,
             ])
          );
+
       this.form.get('merchant').setValue('Ручная обработка платежа');
 
-      this.store
-         .select(fromRoot.getExchange)
-         .pipe(first())
-         .subscribe((exchange) => {
-            this.exchangeToEdit = exchange;
+      this.route.data.subscribe((data: { exchange: Exchange }) => {
+         const exchange = data.exchange;
+         if (!exchange) {
+            return;
+         }
 
-            this.mode = 'edit';
-            this.setForm(this.exchangeToEdit);
-            this.setSlidersToTrue(this.exchangeToEdit);
-            this.selectedFields = exchange.fields;
+         this.exchangeToEdit = exchange;
 
-            this.givenCurrency = exchange.givenCurrency;
-            this.takenCurrency = exchange.takenCurrency;
-            this.merchant = exchange.merchant;
+         this.mode = 'edit';
+         this.setForm(this.exchangeToEdit);
+         this.setSlidersToTrue(this.exchangeToEdit);
+         this.selectedFields = exchange.fields;
 
-            this.form
-               .get('merchant')
-               .setValue(this.merchant && this.merchant.name);
+         this.givenCurrency = exchange.givenCurrency;
+         this.takenCurrency = exchange.takenCurrency;
+         this.merchant = exchange.merchant;
 
-            this.shouldDisplayWmInterfaceOption();
-         });
+         this.form
+            .get('merchant')
+            .setValue(this.merchant && this.merchant.name);
+
+         this.shouldDisplayWmInterfaceOption();
+      });
    }
 
    onSubmit(): void {

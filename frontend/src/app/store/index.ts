@@ -29,7 +29,7 @@ export const getAllExchanges = createSelector(
 
 export const getExchange = createSelector(
    exchangeState,
-   fromExchange.getExchange
+   (state, props) => state.entities[props.id]
 );
 export const getExchangeError = createSelector(
    exchangeState,

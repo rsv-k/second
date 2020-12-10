@@ -19,17 +19,17 @@ export class ExchangeResolver implements Resolve<any> {
             ExchangeActions.loadExchangeStart({ payload: id })
          );
 
-         return this.store.select(fromRoot.getExchange).pipe(
+         return this.store.select(fromRoot.getExchange, { id }).pipe(
             filter((exchange) => !!exchange),
             take(1)
          );
-      } else {
-         this.store.dispatch(ExchangeActions.loadExchangesStart());
-
-         return this.store.select(fromRoot.getAllExchanges).pipe(
-            filter((exchanges) => !!exchanges.length),
-            take(1)
-         );
       }
+
+      this.store.dispatch(ExchangeActions.loadExchangesStart());
+
+      return this.store.select(fromRoot.getAllExchanges).pipe(
+         filter((exchanges) => !!exchanges.length),
+         take(1)
+      );
    }
 }
