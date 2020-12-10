@@ -1,3 +1,4 @@
+import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { Merchant } from '../../../../core/models/merchant.model';
 
@@ -31,7 +32,7 @@ export const editMerchantStart = createAction(
 );
 export const editMerchantSuccess = createAction(
    '[MERCHANT] EDIT MERCHANT SUCCESS',
-   props<{ payload: Merchant }>()
+   props<{ payload: Update<Merchant> }>()
 );
 
 export const merchantError = createAction(

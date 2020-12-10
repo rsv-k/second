@@ -67,9 +67,12 @@ export const getMerchantState = createSelector(
    getAdminState,
    (state: State) => state.merchant
 );
-export const getAllMerchant = createSelector(
+export const getMerchantEntities = createSelector(
    getMerchantState,
-   fromMerchant.getAllMerchants
+   fromMerchant.getMerchantsEntities
+);
+export const getAllMerchant = createSelector(getMerchantEntities, (entities) =>
+   Object.keys(entities).map((id) => entities[id])
 );
 export const getMerchantError = createSelector(
    getMerchantState,
