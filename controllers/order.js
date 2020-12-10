@@ -182,7 +182,11 @@ exports.updateOrders = async (req, res, next) => {
          { multi: true }
       );
 
-      res.status(200).json({ msg: 'orders updated successfully' });
+      const orders = await Order.find({
+         _id: { $in: ids },
+      });
+
+      res.status(200).json({ msg: 'orders updated successfully', orders });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
@@ -200,7 +204,7 @@ exports.deleteOrders = async (req, res, next) => {
 
       await Order.deleteMany({ _id: { $in: ids } });
 
-      res.status(200).json({ msg: 'orders deleted successfully' });
+      res.status(200).json({ msg: 'orders deleted successfully', ids });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
