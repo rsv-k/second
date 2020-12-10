@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { pluck, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import { SocketioService } from '../../services/socketio.service';
 import { animate, style, transition, trigger } from '@angular/animations';
@@ -75,11 +75,14 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          }
       });
 
-      this.getOrders();
       this.store
          .select(fromRoot.getAllOrders)
-         .pipe(takeUntil(this.destroyed))
+         .pipe(
+            filter((orders) => !!orders.length),
+            takeUntil(this.destroyed)
+         )
          .subscribe((orders) => {
+            console.log(orders);
             this.dataSource.data = orders;
          });
    }
@@ -146,7 +149,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          return;
       }
 
-      this.ordersOptions.page++;
+      this.ordersOptions = {
+         ...this.ordersOptions,
+         page: this.ordersOptions.page + 1,
+      };
       this.getOrders();
    }
 
@@ -155,7 +161,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          return;
       }
 
-      this.ordersOptions.page--;
+      this.ordersOptions = {
+         ...this.ordersOptions,
+         page: this.ordersOptions.page - 1,
+      };
       this.getOrders();
    }
 
@@ -172,6 +181,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    private getOrders(): void {
+      this.store.dispatch(
+         OrderActions.setPage({ payload: { page: this.ordersOptions.page } })
+      );
+
       this.store.dispatch(
          OrderActions.getOrdersStart({
             payload: this.ordersOptions,

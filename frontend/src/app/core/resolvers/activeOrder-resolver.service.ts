@@ -18,6 +18,6 @@ export class ActiveOrderResolver implements Resolve<any> {
          OrderActions.getActiveOrderStart({ payload: { id } })
       );
 
-      return this.store.select(fromRoot.getOrder).pipe(take(1));
+      return this.store.select(fromRoot.getOrder, { id }).pipe(take(1));
    }
 }

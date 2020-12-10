@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { filter, first, tap } from 'rxjs/operators';
+import { pluck, tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdersStatusDialogComponent } from '../orders-status-dialog/orders-status-dialog.component';
 import { Observable } from 'rxjs';
@@ -20,12 +20,13 @@ export class OrderShowComponent implements OnInit {
    constructor(
       private store: Store<fromRoot.AppState>,
       private router: Router,
-      private dialog: MatDialog
+      private dialog: MatDialog,
+      private route: ActivatedRoute
    ) {}
 
    ngOnInit(): void {
-      this.order$ = this.store
-         .select(fromRoot.getOrder)
+      this.order$ = this.route.data
+         .pipe(pluck('order'))
          .pipe(tap((order) => (this.orderId = order.id)));
    }
 

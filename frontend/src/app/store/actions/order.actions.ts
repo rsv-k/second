@@ -1,6 +1,7 @@
 import { OrdersOptions } from './../../core/models/ordersOptions.model';
 import { Order } from './../../core/models/order.model';
 import { createAction, props } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
 
 export const createOrderStart = createAction(
    '[ORDER] CREATE START',
@@ -43,7 +44,8 @@ export const deleteOrdersStart = createAction(
    props<{ payload: { ids: string[] } }>()
 );
 export const deleteOrdersSuccess = createAction(
-   '[ORDER] DELETE ORDERS SUCCESS'
+   '[ORDER] DELETE ORDERS SUCCESS',
+   props<{ payload: { ids: string[] } }>()
 );
 
 export const updateOrdersStart = createAction(
@@ -55,14 +57,19 @@ export const updateOrdersStart = createAction(
       };
    }>()
 );
-
 export const updateOrdersSuccess = createAction(
-   '[ORDER] UPDATE ORDERS SUCCESS'
+   '[ORDER] UPDATE ORDERS SUCCESS',
+   props<{ payload: { orders: Update<Order>[] } }>()
 );
 
 export const addOrder = createAction(
    '[ORDER] ADD ORDER',
    props<{ payload: Order }>()
+);
+
+export const setPage = createAction(
+   '[ORDER] SET ORDER PAGE',
+   props<{ payload: { page: number } }>()
 );
 
 export const orderError = createAction(

@@ -5,11 +5,13 @@ import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { Order } from './../models/order.model';
 import { CommonService } from './common.service';
+import { Update } from '@ngrx/entity';
 
 interface Response {
    msg: string;
    order?: any;
    orders?: any[];
+   ids?: string[];
 }
 
 @Injectable({
@@ -36,7 +38,6 @@ export class OrderService {
             options.params = options.params.set(key, opt[key]);
          }
       }
-
       return this.http.get<Response>('/api/order', options).pipe(
          pluck('orders'),
          map((orders) => orders.map(this.commonService.changeId))
@@ -55,17 +56,21 @@ export class OrderService {
          .pipe(pluck('order'), map(this.commonService.changeId));
    }
 
-   deleteOrder(ids: string[]): Observable<any> {
-      return this.http.post('/api/order/deleteManyById', ids);
+   deleteOrder(ids: string[]): Observable<string[]> {
+      return this.http
+         .post<Response>('/api/order/deleteManyById', ids)
+         .pipe(pluck('ids'));
    }
 
    updateOrder(
       ids: string[],
       status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed'
-   ): Observable<any> {
-      return this.http.put<Response>('/api/order/updateManyById', {
-         ids,
-         status,
-      });
+   ): Observable<Update<Order>[]> {
+      return this.http
+         .put<Response>('/api/order/updateManyById', {
+            ids,
+            status,
+         })
+         .pipe(pluck('orders'));
    }
 }

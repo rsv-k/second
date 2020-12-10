@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import * as OrderActions from '../actions/order.actions';
 import { Order } from '../../core/models/order.model';
 import { Router } from '@angular/router';
+import { Update } from '@ngrx/entity';
 
 @Injectable()
 export class OrderEffects {
@@ -85,7 +86,9 @@ export class OrderEffects {
          ofType(OrderActions.deleteOrdersStart),
          mergeMap((action) =>
             this.orderService.deleteOrder(action.payload.ids).pipe(
-               map(() => OrderActions.deleteOrdersSuccess()),
+               map((ids) =>
+                  OrderActions.deleteOrdersSuccess({ payload: { ids } })
+               ),
                catchError((error) =>
                   of(OrderActions.orderError({ payload: error.message }))
                )
@@ -101,7 +104,11 @@ export class OrderEffects {
             this.orderService
                .updateOrder(action.payload.ids, action.payload.status)
                .pipe(
-                  map(() => OrderActions.updateOrdersSuccess()),
+                  map((orders) =>
+                     OrderActions.updateOrdersSuccess({
+                        payload: { orders },
+                     })
+                  ),
                   catchError((error) =>
                      of(OrderActions.orderError({ payload: error.message }))
                   )

@@ -1,73 +1,48 @@
 import { Order } from '../../core/models/order.model';
 import { createReducer, on, Action } from '@ngrx/store';
 import * as OrderActions from '../actions/order.actions';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export const FEATURE_NAME = 'exchange';
 
-export interface State {
-   orders: Order[];
-   order: Order;
+export interface State extends EntityState<Order> {
    error: string;
+   currentPage: number;
 }
 
-export const initialState: State = {
-   orders: [],
-   order: null,
+export const adapter: EntityAdapter<Order> = createEntityAdapter<Order>();
+
+export const initialState: State = adapter.getInitialState({
    error: null,
-};
+   currentPage: 1,
+});
 
 const orderReducer = createReducer(
    initialState,
-   on(OrderActions.createOrderStart, (state) => ({
+   on(OrderActions.createOrderSuccess, (state, { payload }) =>
+      adapter.addOne(payload, state)
+   ),
+   on(OrderActions.getOrdersSuccess, (state, { payload }) =>
+      adapter.addMany(payload, state)
+   ),
+   on(OrderActions.getOrderSuccess, (state, { payload }) =>
+      adapter.setOne(payload, state)
+   ),
+   on(OrderActions.getActiveOrderSuccess, (state, { payload }) =>
+      adapter.setOne(payload, state)
+   ),
+   on(OrderActions.deleteOrdersSuccess, (state, { payload }) =>
+      adapter.removeMany(payload.ids, state)
+   ),
+   on(OrderActions.addOrder, (state, { payload }) =>
+      adapter.upsertOne(payload, state)
+   ),
+   on(OrderActions.updateOrdersSuccess, (state, { payload }) =>
+      adapter.updateMany(payload.orders, state)
+   ),
+   on(OrderActions.setPage, (state, { payload }) => ({
       ...state,
-      error: null,
-   })),
-   on(OrderActions.createOrderSuccess, (state, { payload }) => ({
-      ...state,
-      orders: [...state.orders, payload],
-   })),
-   on(OrderActions.getOrdersStart, (state) => ({
-      ...state,
-      order: null,
-      error: null,
-   })),
-   on(OrderActions.getOrdersSuccess, (state, { payload }) => ({
-      ...state,
-      orders: [...payload],
-   })),
-   on(OrderActions.getOrderStart, (state) => ({
-      ...state,
-      error: null,
-   })),
-   on(OrderActions.getOrderSuccess, (state, { payload }) => ({
-      ...state,
-      order: payload,
-   })),
-   on(OrderActions.getActiveOrderStart, (state) => ({
-      ...state,
-      error: null,
-   })),
-   on(OrderActions.getActiveOrderSuccess, (state, { payload }) => ({
-      ...state,
-      order: payload,
-   })),
-   on(OrderActions.deleteOrdersStart, (state) => ({
-      ...state,
-      error: null,
-   })),
-   on(OrderActions.deleteOrdersSuccess, (state) => ({
-      ...state,
-   })),
-   on(OrderActions.addOrder, (state, { payload }) => ({
-      ...state,
-      orders: [payload, ...state.orders.slice(0, 9)],
-   })),
-   on(OrderActions.updateOrdersStart, (state) => ({
-      ...state,
-      error: null,
-   })),
-   on(OrderActions.updateOrdersSuccess, (state) => ({
-      ...state,
+      currentPage: payload.page,
    })),
    on(OrderActions.orderError, (state, { payload }) => ({
       ...state,
@@ -79,6 +54,5 @@ export function reducer(state: State, action: Action): State {
    return orderReducer(state, action);
 }
 
-export const getAllOrders = (state: State) => state.orders;
-export const getOrder = (state: State) => state.order;
+export const getOrdersEntities = (state: State) => state.entities;
 export const getOrderError = (state: State) => state.error;

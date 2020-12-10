@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import * as fromRoot from '../../store/index';
 import * as OrderActions from '../../store/actions/order.actions';
 
@@ -17,7 +17,7 @@ export class OrderResolver implements Resolve<any> {
       if (id) {
          this.store.dispatch(OrderActions.getOrderStart({ payload: { id } }));
 
-         return this.store.select(fromRoot.getOrder).pipe(
+         return this.store.select(fromRoot.getOrder, { id }).pipe(
             filter((order) => !!order),
             take(1)
          );

@@ -19,14 +19,12 @@ export const getExchangesEntities = createSelector(
    exchangeState,
    fromExchange.getExchangesEntities
 );
-
 export const getAllExchanges = createSelector(
    getExchangesEntities,
    (entities) => {
       return Object.keys(entities).map((id) => entities[id]);
    }
 );
-
 export const getExchange = createSelector(
    exchangeState,
    (state, props) => state.entities[props.id]
@@ -37,8 +35,21 @@ export const getExchangeError = createSelector(
 );
 
 export const orderState = (state: AppState) => state.order;
-export const getAllOrders = createSelector(orderState, fromOrder.getAllOrders);
-export const getOrder = createSelector(orderState, fromOrder.getOrder);
+export const getOrdersEntities = createSelector(
+   orderState,
+   fromOrder.getOrdersEntities
+);
+
+export const getAllOrders = createSelector(orderState, (state) => {
+   const ids = [
+      ...state.ids.slice((state.currentPage - 1) * 10, state.currentPage * 10),
+   ];
+   return ids.map((id) => state.entities[id]);
+});
+export const getOrder = createSelector(
+   getOrdersEntities,
+   (entities, props) => entities[props.id]
+);
 export const getOrderError = createSelector(
    orderState,
    fromOrder.getOrderError
