@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ExchangeEffects } from './store/effects/exchange.effects';
 import { OrderEffects } from './store/effects/order.effects';
 import * as fromApp from './store/index';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 @NgModule({
    declarations: [AppComponent],
@@ -20,6 +21,7 @@ import * as fromApp from './store/index';
       StoreModule.forRoot(fromApp.appReducers),
       EffectsModule.forRoot([ExchangeEffects, OrderEffects]),
       CoreModule,
+      StoreRouterConnectingModule.forRoot(),
    ],
    providers: [],
    bootstrap: [AppComponent],

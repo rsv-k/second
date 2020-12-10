@@ -1,17 +1,32 @@
-import { ActionReducerMap, createSelector } from '@ngrx/store';
+import {
+   ActionReducerMap,
+   createFeatureSelector,
+   createSelector,
+} from '@ngrx/store';
 import * as fromExchange from './reducers/exchange.reducer';
 import * as fromProgress from './reducers/progress.reducer';
 import * as fromOrder from './reducers/order.reducer';
+import * as fromRouter from '@ngrx/router-store';
+import { Params } from '@angular/router';
+
+export interface RouterStateUrl {
+   url: string;
+   queryParams: Params;
+   params: Params;
+}
 
 export interface AppState {
    exchange: fromExchange.State;
    progress: fromProgress.State;
    order: fromOrder.State;
+   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
+
 export const appReducers: ActionReducerMap<AppState> = {
    exchange: fromExchange.reducer,
    progress: fromProgress.reducer,
    order: fromOrder.reducer,
+   routerReducer: fromRouter.routerReducer,
 };
 
 export const exchangeState = (state: AppState) => state.exchange;
@@ -54,3 +69,7 @@ export const getOrderError = createSelector(
    orderState,
    fromOrder.getOrderError
 );
+
+export const getRouterState = createFeatureSelector<
+   fromRouter.RouterReducerState<RouterStateUrl>
+>('routerReducer');
