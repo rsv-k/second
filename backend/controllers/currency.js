@@ -104,7 +104,6 @@ exports.updateCurrency = async (req, res, next) => {
          error.statusCode = 422;
          return next(error);
       }
-
       let currency = await Currency.findById(id);
 
       if (!currency) {
@@ -117,11 +116,10 @@ exports.updateCurrency = async (req, res, next) => {
          fileHelper.deleteFile(currency.icon);
          body.icon = req.file.path;
       }
-
       currency = await Currency.findByIdAndUpdate(id, body, { new: true });
 
       res.status(202).json({ msg: 'Currency updated successfully', currency });
    } catch (err) {
-      next(error);
+      next(err);
    }
 };

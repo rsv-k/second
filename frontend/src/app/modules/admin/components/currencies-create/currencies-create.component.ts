@@ -48,6 +48,7 @@ export class CurrenciesCreateComponent implements OnInit {
    onSubmit(): void {
       const currency: Currency = {
          ...this.form.value,
+         validator: this.form.value.validator || null,
          icon: this.file,
       };
 
