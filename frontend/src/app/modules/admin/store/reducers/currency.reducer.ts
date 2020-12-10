@@ -1,78 +1,35 @@
 import { Currency } from './../../../../core/models/currency.model';
 import * as CurrencyActions from '../actions/currency.actions';
-import {
-   createReducer,
-   on,
-   Action,
-   createFeatureSelector,
-   createSelector,
-} from '@ngrx/store';
-import * as fromAdminModule from '../index';
+import { createReducer, on, Action } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
-export interface State {
-   currencies: Currency[];
+export interface State extends EntityState<Currency> {
    currencyError: string;
-   currency: Currency;
 }
 
-const initialState: State = {
-   currencies: [],
+export const adapter: EntityAdapter<Currency> = createEntityAdapter<Currency>();
+
+const initialState: State = adapter.getInitialState({
    currencyError: null,
-   currency: null,
-};
+});
 
 const currencyReducer = createReducer(
    initialState,
-   on(CurrencyActions.addCurrencyStart, (state) => ({
-      ...state,
-      currencyError: null,
-      currency: null,
-   })),
-   on(CurrencyActions.addCurrencySuccess, (state, { payload }) => ({
-      ...state,
-      currencies: [...state.currencies, payload],
-   })),
-
-   on(CurrencyActions.currenciesLoadStart, (state) => ({
-      ...state,
-      currencyError: null,
-      currency: null,
-   })),
-   on(CurrencyActions.currenciesLoadSuccess, (state, { payload }) => ({
-      ...state,
-      currencies: [...payload],
-   })),
-
-   on(CurrencyActions.deleteCurrencyStart, (state) => ({
-      ...state,
-      currencyError: null,
-   })),
-   on(CurrencyActions.deleteCurrencySuccess, (state, { payload }) => ({
-      ...state,
-      currencies: state.currencies.filter(
-         (currency) => currency.id !== payload
-      ),
-   })),
-
-   on(CurrencyActions.currencyLoadStart, (state) => ({
-      ...state,
-   })),
-   on(CurrencyActions.currencyLoadSuccess, (state, { payload }) => ({
-      ...state,
-      currency: payload,
-   })),
-
-   on(CurrencyActions.currencyUpdateStart, (state) => ({
-      ...state,
-   })),
-
-   on(CurrencyActions.currencyUpdateSuccess, (state, { payload }) => ({
-      ...state,
-      currencies: state.currencies.map((currency) =>
-         currency.id === payload.id ? payload : currency
-      ),
-      currency: null,
-   })),
+   on(CurrencyActions.addCurrencySuccess, (state, { payload }) =>
+      adapter.addOne(payload, state)
+   ),
+   on(CurrencyActions.currenciesLoadSuccess, (state, { payload }) =>
+      adapter.addMany(payload, state)
+   ),
+   on(CurrencyActions.deleteCurrencySuccess, (state, { payload }) =>
+      adapter.removeOne(payload, state)
+   ),
+   on(CurrencyActions.currencyLoadSuccess, (state, { payload }) =>
+      adapter.setOne(payload, state)
+   ),
+   on(CurrencyActions.currencyUpdateSuccess, (state, { payload }) =>
+      adapter.updateOne(payload, state)
+   ),
 
    on(CurrencyActions.currencyError, (state, { payload }) => ({
       ...state,
@@ -84,15 +41,5 @@ export function reducer(state: State, action: Action): State {
    return currencyReducer(state, action);
 }
 
-export const getCurrencies = (state: State) => state.currencies;
-export const getCurrency = (state: State) => state.currency;
+export const getCurrenciesEntities = (state: State) => state.entities;
 export const getCurrencyError = (state: State) => state.currencyError;
-
-// export const selectAdmin = createFeatureSelector<
-//    fromAdminModule.AppState,
-//    State
-// >('adminModule');
-// export const selectAdminCurrencies = createSelector(
-//    selectAdmin,
-//    (state: State) => state.currencies
-// );

@@ -32,13 +32,18 @@ export const getCurrencyState = createSelector(
    getAdminState,
    (state: State) => state.currency
 );
-export const getAllCurrencies = createSelector(
+
+export const getCurrenciesEntities = createSelector(
    getCurrencyState,
-   fromCurrency.getCurrencies
+   fromCurrency.getCurrenciesEntities
+);
+export const getAllCurrencies = createSelector(
+   getCurrenciesEntities,
+   (entities) => Object.keys(entities).map((id) => entities[id])
 );
 export const getCurrency = createSelector(
-   getCurrencyState,
-   fromCurrency.getCurrency
+   getCurrenciesEntities,
+   (entities, props) => entities[props.id]
 );
 export const getCurrencyError = createSelector(
    getCurrencyState,

@@ -4,6 +4,7 @@ import { map, pluck } from 'rxjs/operators';
 import { Currency } from './../../../core/models/currency.model';
 import { Observable } from 'rxjs';
 import { CommonService } from '@core/services/common.service';
+import { Update } from '@ngrx/entity';
 
 const ENDPOINT_URL = 'currency/';
 
@@ -53,7 +54,7 @@ export class CurrencyService {
          .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 
-   updateCurrency(id: string, currency: any): Observable<Currency> {
+   updateCurrency(id: string, currency: any): Observable<Update<Currency>> {
       const data = {
          ...currency,
       };

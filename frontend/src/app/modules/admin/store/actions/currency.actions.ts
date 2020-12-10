@@ -1,5 +1,6 @@
 import { Currency } from './../../../../core/models/currency.model';
 import { createAction, props } from '@ngrx/store';
+import { Update } from '@ngrx/entity';
 
 export const addCurrencyStart = createAction(
    '[CURRENCY] ADD START',
@@ -44,7 +45,7 @@ export const currencyUpdateStart = createAction(
 
 export const currencyUpdateSuccess = createAction(
    '[CURRENCY] UPDATE CURRENCY SUCCESS',
-   props<{ payload: Currency }>()
+   props<{ payload: Update<Currency> }>()
 );
 
 export const currencyError = createAction(

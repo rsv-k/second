@@ -19,7 +19,7 @@ export class CurrencyResolver implements Resolve<any> {
             CurrencyActions.currencyLoadStart({ payload: id })
          );
 
-         return this.store.select(fromAdminModule.getCurrency).pipe(
+         return this.store.select(fromAdminModule.getCurrency, { id }).pipe(
             filter((currency) => !!currency),
             take(1)
          );

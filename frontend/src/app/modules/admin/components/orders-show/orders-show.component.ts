@@ -82,7 +82,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
             takeUntil(this.destroyed)
          )
          .subscribe((orders) => {
-            console.log(orders);
             this.dataSource.data = orders;
          });
    }

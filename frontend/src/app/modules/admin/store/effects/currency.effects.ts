@@ -13,7 +13,7 @@ export class CurrencyEffects {
          ofType(CurrencyActions.currenciesLoadStart),
          mergeMap((action) =>
             this.currencyService.getCurrencies().pipe(
-               map((currencies: Currency[]) =>
+               map((currencies) =>
                   CurrencyActions.currenciesLoadSuccess({
                      payload: currencies,
                   })
@@ -31,7 +31,7 @@ export class CurrencyEffects {
          ofType(CurrencyActions.addCurrencyStart),
          mergeMap((action) =>
             this.currencyService.createCurrency(action.payload).pipe(
-               map((currency: Currency) =>
+               map((currency) =>
                   CurrencyActions.addCurrencySuccess({ payload: currency })
                ),
                catchError((error) =>
@@ -47,7 +47,7 @@ export class CurrencyEffects {
          ofType(CurrencyActions.deleteCurrencyStart),
          mergeMap((action) =>
             this.currencyService.deleteCurrency(action.payload).pipe(
-               map((currency: Currency) =>
+               map((currency) =>
                   CurrencyActions.deleteCurrencySuccess({
                      payload: currency.id,
                   })
@@ -69,7 +69,7 @@ export class CurrencyEffects {
          ofType(CurrencyActions.currencyLoadStart),
          mergeMap((action) =>
             this.currencyService.getCurrency(action.payload).pipe(
-               map((currency: Currency) =>
+               map((currency) =>
                   CurrencyActions.currencyLoadSuccess({ payload: currency })
                ),
                catchError((error) =>
@@ -87,7 +87,7 @@ export class CurrencyEffects {
             this.currencyService
                .updateCurrency(action.payload.id, action.payload.currency)
                .pipe(
-                  map((currency: Currency) =>
+                  map((currency) =>
                      CurrencyActions.currencyUpdateSuccess({
                         payload: currency,
                      })
