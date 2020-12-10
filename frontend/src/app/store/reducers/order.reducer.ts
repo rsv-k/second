@@ -35,10 +35,10 @@ const orderReducer = createReducer(
       adapter.removeMany(payload.ids, state)
    ),
    on(OrderActions.addOrder, (state, { payload }) =>
-      adapter.upsertOne(payload, state)
+      adapter.setOne(payload, state)
    ),
    on(OrderActions.updateOrdersSuccess, (state, { payload }) =>
-      adapter.updateMany(payload.orders, state)
+      adapter.upsertMany(payload.orders, state)
    ),
    on(OrderActions.setPage, (state, { payload }) => ({
       ...state,

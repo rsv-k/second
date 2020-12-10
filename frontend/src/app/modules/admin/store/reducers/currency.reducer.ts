@@ -28,7 +28,7 @@ const currencyReducer = createReducer(
       adapter.setOne(payload, state)
    ),
    on(CurrencyActions.currencyUpdateSuccess, (state, { payload }) =>
-      adapter.updateOne(payload, state)
+      adapter.setOne(payload, state)
    ),
 
    on(CurrencyActions.currencyError, (state, { payload }) => ({

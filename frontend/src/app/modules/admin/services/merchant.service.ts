@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Update } from '@ngrx/entity';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { Merchant } from '../../../core/models/merchant.model';
@@ -40,7 +39,7 @@ export class MerchantService {
          .pipe(pluck('merchant'), map(this.commonService.changeId));
    }
 
-   editMerchant(id: string, merchant: Merchant): Observable<Update<Merchant>> {
+   editMerchant(id: string, merchant: Merchant): Observable<Merchant> {
       return this.http
          .put<Response>(ENDPOINT_URL + id, merchant)
          .pipe(pluck('merchant'), map(this.commonService.changeId));

@@ -1,7 +1,6 @@
 import { OrdersOptions } from './../../core/models/ordersOptions.model';
 import { Order } from './../../core/models/order.model';
 import { createAction, props } from '@ngrx/store';
-import { Update } from '@ngrx/entity';
 
 export const createOrderStart = createAction(
    '[ORDER] CREATE START',
@@ -59,7 +58,7 @@ export const updateOrdersStart = createAction(
 );
 export const updateOrdersSuccess = createAction(
    '[ORDER] UPDATE ORDERS SUCCESS',
-   props<{ payload: { orders: Update<Order>[] } }>()
+   props<{ payload: { orders: Order[] } }>()
 );
 
 export const addOrder = createAction(

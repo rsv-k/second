@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { Order } from './../models/order.model';
 import { CommonService } from './common.service';
-import { Update } from '@ngrx/entity';
 
 interface Response {
    msg: string;
@@ -65,12 +64,15 @@ export class OrderService {
    updateOrder(
       ids: string[],
       status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed'
-   ): Observable<Update<Order>[]> {
+   ): Observable<Order[]> {
       return this.http
          .put<Response>('/api/order/updateManyById', {
             ids,
             status,
          })
-         .pipe(pluck('orders'));
+         .pipe(
+            pluck('orders'),
+            map((orders) => orders.map(this.commonService.changeId))
+         );
    }
 }

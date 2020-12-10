@@ -25,7 +25,7 @@ const validatorReducer = createReducer(
       adapter.removeOne(payload.id, state)
    ),
    on(ValidatorActions.editValidatorSuccess, (state, { payload }) =>
-      adapter.updateOne(payload, state)
+      adapter.setOne(payload, state)
    ),
 
    on(ValidatorActions.validatorError, (state, { payload }) => ({

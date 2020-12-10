@@ -25,7 +25,7 @@ const merchantReducer = createReducer(
       adapter.removeOne(payload.id, state)
    ),
    on(MerchantActions.editMerchantSuccess, (state, { payload }) =>
-      adapter.updateOne(payload, state)
+      adapter.setOne(payload, state)
    ),
 
    on(MerchantActions.merchantError, (state, { payload }) => ({

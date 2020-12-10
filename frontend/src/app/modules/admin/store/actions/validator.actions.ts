@@ -1,4 +1,3 @@
-import { Update } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { Validator } from '../../../../core/models/validator.model';
 
@@ -34,7 +33,7 @@ export const editValidatorStart = createAction(
 );
 export const editValidatorSuccess = createAction(
    '[VALIDATOR] EDIT VALDIATOR SUCCESS',
-   props<{ payload: Update<Validator> }>()
+   props<{ payload: Validator }>()
 );
 
 export const validatorError = createAction(
