@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import { Exchange } from './../../../../core/models/exchange.model';
-import { filter, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 
@@ -27,10 +27,7 @@ export class SectionTradeFirstComponent implements OnInit {
 
       this.store
          .select(fromRoot.getAllExchanges)
-         .pipe(
-            filter((exchanges) => exchanges.length !== 0),
-            first()
-         )
+         .pipe(first())
          .subscribe((data) => {
             this.exchanges = data;
             this.getUniqueExchanges(data);

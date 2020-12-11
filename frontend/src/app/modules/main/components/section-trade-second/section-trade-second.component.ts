@@ -9,7 +9,7 @@ import {
    Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { catchError, filter, first, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 import * as OrderActions from '../../../../store/actions/order.actions';
@@ -40,10 +40,7 @@ export class SectionTradeSecondComponent implements OnInit {
 
       this.store
          .select(fromRoot.getExchange)
-         .pipe(
-            filter((exchange) => !!exchange),
-            first()
-         )
+         .pipe(first())
          .subscribe((exchange) => {
             this.exchange = exchange;
             for (const control of exchange.fields) {
