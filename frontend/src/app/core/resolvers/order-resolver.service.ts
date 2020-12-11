@@ -15,9 +15,14 @@ export class OrderResolver implements Resolve<any> {
    resolve(route: ActivatedRouteSnapshot): Observable<any> {
       const id = route.paramMap.get('id');
       if (id) {
-         this.store.dispatch(OrderActions.getOrderStart({ payload: { id } }));
-
          return this.store.select(fromRoot.getOrder, { id }).pipe(
+            tap((order) => {
+               if (!order) {
+                  this.store.dispatch(
+                     OrderActions.getOrderStart({ payload: { id } })
+                  );
+               }
+            }),
             filter((order) => !!order),
             take(1)
          );
