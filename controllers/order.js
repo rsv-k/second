@@ -132,7 +132,7 @@ exports.getOrder = async (req, res, next) => {
    }
 };
 
-exports.getActiveOrder = async (req, res, next) => {
+exports.isActiveOrder = async (req, res, next) => {
    try {
       const id = req.params.id;
       if (!mongooseHelper.isValidId(id)) {
@@ -148,10 +148,7 @@ exports.getActiveOrder = async (req, res, next) => {
          date: {
             $gt: new Date(Date.now() - minutes),
          },
-      })
-         .populate('givenCurrency')
-         .populate('takenCurrency')
-         .populate('merchant');
+      });
 
       if (!order) {
          const error = new Error('Order not found');
@@ -159,7 +156,10 @@ exports.getActiveOrder = async (req, res, next) => {
          return next(error);
       }
 
-      res.status(200).json({ msg: 'Order successfully fetched', order });
+      res.status(200).json({
+         msg: 'Order successfully fetched',
+         isActive: true,
+      });
    } catch (err) {
       const error = new Error('Internal server error');
       next(error);
