@@ -37,7 +37,7 @@ export class SectionTradeThirdComponent implements OnInit {
          this.timeLeft = dueTime - Date.now();
 
          if (this.timeLeft <= 0) {
-            clearTimeout(this.timer);
+            return clearTimeout(this.timer);
          }
 
          this.setTimer(dueTime);
