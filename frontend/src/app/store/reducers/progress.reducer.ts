@@ -1,8 +1,6 @@
 import { createReducer, on, Action } from '@ngrx/store';
 import * as ProgressActions from '../actions/progress.actions';
 
-export const FEATURE_NAME = 'progress';
-
 export interface State {
    currentProgress: number;
 }

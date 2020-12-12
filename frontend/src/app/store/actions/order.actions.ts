@@ -29,15 +29,6 @@ export const getOrderSuccess = createAction(
    props<{ payload: Order }>()
 );
 
-export const getActiveOrderStart = createAction(
-   '[ORDER] GET ACTIVE ORDER START',
-   props<{ payload: { id: string } }>()
-);
-export const getActiveOrderSuccess = createAction(
-   '[ORDER] GET ACTIVE ORDER SUCCESS',
-   props<{ payload: Order }>()
-);
-
 export const deleteOrdersStart = createAction(
    '[ORDER] DELETE ORDERS START',
    props<{ payload: { ids: string[] } }>()

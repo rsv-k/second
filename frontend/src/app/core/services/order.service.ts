@@ -11,6 +11,7 @@ interface Response {
    order?: any;
    orders?: any[];
    ids?: string[];
+   isActive: boolean;
 }
 
 @Injectable({
@@ -49,10 +50,10 @@ export class OrderService {
          .pipe(pluck('order'), map(this.commonService.changeId));
    }
 
-   getActiveOrder(id: string): Observable<Order> {
+   isActiveOrder(id: string): Observable<boolean> {
       return this.http
-         .get<Response>('/api/order/getActiveOrder/' + id)
-         .pipe(pluck('order'), map(this.commonService.changeId));
+         .get<Response>('/api/order/isActiveOrder/' + id)
+         .pipe(pluck('isActive'));
    }
 
    deleteOrder(ids: string[]): Observable<string[]> {
