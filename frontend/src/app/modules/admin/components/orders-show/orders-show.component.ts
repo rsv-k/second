@@ -72,6 +72,14 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
             this.store.dispatch(OrderActions.addOrder({ payload: order }));
             this.canAnimate = true;
+         } else if (data.action === 'update') {
+            const order = data.order;
+            order.id = order._id;
+            delete order._id;
+
+            this.store.dispatch(
+               OrderActions.cancelOrderSuccess({ payload: order })
+            );
          }
       });
 

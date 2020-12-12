@@ -62,6 +62,12 @@ export class OrderService {
          .pipe(pluck('ids'));
    }
 
+   cancelOrder(id: string): Observable<Order> {
+      return this.http
+         .get<Response>('/api/order/cancelOrder/' + id)
+         .pipe(pluck('order'), map(this.commonService.changeId));
+   }
+
    updateOrder(
       ids: string[],
       status: 'canceled' | 'pending' | 'paid' | 'done' | 'freezed'

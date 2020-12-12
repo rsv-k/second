@@ -5,6 +5,7 @@ import { tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
+import * as OrderActions from '../../../../store/actions/order.actions';
 
 @Component({
    selector: 'app-section-trade-third',
@@ -15,6 +16,7 @@ export class SectionTradeThirdComponent implements OnInit {
    order$: Observable<Order>;
    timeLeft: number;
    private timer: any;
+   private orderId: string;
 
    constructor(private store: Store<fromRoot.AppState>) {}
 
@@ -23,12 +25,19 @@ export class SectionTradeThirdComponent implements OnInit {
       this.order$ = this.store.select(fromRoot.getOrder).pipe(
          tap((order) => {
             const dueTime = new Date(order.date).getTime() + 15 * 60 * 1000;
+            this.orderId = order.id;
 
             if (!this.timer) {
                this.timeLeft = dueTime - Date.now();
                this.setTimer(dueTime);
             }
          })
+      );
+   }
+
+   onRefuse(): void {
+      this.store.dispatch(
+         OrderActions.cancelOrderStart({ payload: { id: this.orderId } })
       );
    }
 

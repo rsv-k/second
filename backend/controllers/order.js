@@ -193,6 +193,29 @@ exports.updateOrders = async (req, res, next) => {
    }
 };
 
+exports.cancelOrder = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+
+      const order = await Order.findByIdAndUpdate(
+         id,
+         {
+            $set: { status: 'canceled' },
+         },
+         { multi: true }
+      );
+
+      io.getIO().emit('orders', {
+         action: 'update',
+         order,
+      });
+
+      res.status(200).json({ msg: 'orders updated successfully', order });
+   } catch (err) {
+      next(err);
+   }
+};
+
 exports.deleteOrders = async (req, res, next) => {
    try {
       const ids = req.body;

@@ -91,7 +91,9 @@
 
             <div class="actions">
                <button mat-raised-button color="primary">Оплатить</button>
-               <button mat-raised-button color="warn">Отказаться</button>
+               <button mat-raised-button color="warn" (click)="onRefuse()">
+                  Отказаться
+               </button>
             </div>
          </div>
       </div>
