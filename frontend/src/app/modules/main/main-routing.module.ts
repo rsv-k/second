@@ -11,6 +11,7 @@ import { SectionTradeComponent } from './components/section-trade/section-trade.
 import { MoneybackPolicyComponent } from './components/moneyback-policy/moneyback-policy.component';
 import { ExchangeResolver } from '@core/resolvers/exchange-resolver.service';
 import { OrderResolver } from '@core/resolvers/order-resolver.service';
+import { ActiveOrderGuard } from '@core/guards/active-order.guard';
 
 const routes: Routes = [
    {
@@ -25,14 +26,14 @@ const routes: Routes = [
          {
             path: 'exchanges',
             component: SectionTradeComponent,
-            resolve: {
-               exchanges: ExchangeResolver,
-            },
             children: [
                {
                   path: '',
                   pathMatch: 'full',
                   component: SectionTradeFirstComponent,
+                  resolve: {
+                     exchanges: ExchangeResolver,
+                  },
                },
                {
                   path: ':id',
@@ -44,6 +45,7 @@ const routes: Routes = [
                {
                   path: 'transaction/:id',
                   component: SectionTradeThirdComponent,
+                  canActivate: [ActiveOrderGuard],
                   resolve: {
                      order: OrderResolver,
                   },
