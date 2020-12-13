@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
@@ -24,9 +24,10 @@ export class OrderShowComponent implements OnInit {
    ) {}
 
    ngOnInit(): void {
-      this.order$ = this.store
-         .select(fromRoot.getOrder)
-         .pipe(tap((order) => (this.orderId = order.id)));
+      this.order$ = this.store.select(fromRoot.getOrder).pipe(
+         filter((order) => !!order),
+         tap((order) => (this.orderId = order.id))
+      );
    }
 
    onDelete(): void {

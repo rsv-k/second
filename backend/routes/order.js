@@ -9,5 +9,6 @@ router.get('/:id', orderController.getOrder);
 router.get('/isActiveOrder/:id', orderController.isActiveOrder);
 router.post('/deleteManyById', orderController.deleteOrders);
 router.put('/updateManyById', orderController.updateOrders);
+router.get('/cancelOrder/:id', orderController.cancelOrder);
 
 module.exports = router;

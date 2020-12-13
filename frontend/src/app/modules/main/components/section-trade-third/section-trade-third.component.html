@@ -16,7 +16,7 @@
    <input type="submit" value="submit" />
 </form>
 
-<section class="section-payment">
+<section class="section-payment" *ngIf="!isCanceled; else alternative">
    <h2 class="title">
       Ожидание оплаты по заявке № {{ (order$ | async).number }} от
       {{ (order$ | async).date | date: 'dd.M.yyyy' }}
@@ -91,7 +91,9 @@
 
             <div class="actions">
                <button mat-raised-button color="primary">Оплатить</button>
-               <button mat-raised-button color="warn">Отказаться</button>
+               <button mat-raised-button color="warn" (click)="onRefuse()">
+                  Отказаться
+               </button>
             </div>
          </div>
       </div>
@@ -100,3 +102,30 @@
       </div>
    </div>
 </section>
+
+<ng-template #alternative>
+   <section class="section-canceled">
+      <h2 class="title">
+         Обмен оплаты по заявке № {{ (order$ | async).number }} от
+         {{ (order$ | async).date | date: 'dd.M.yyyy' }} отменен
+      </h2>
+
+      <p class="text">
+         Если оплата была произведена после отмены операции, или сервис не видит
+         оплату по другим причинам, не переживайте, мы найдем ваш платеж в
+         ручном режиме.
+      </p>
+
+      <p class="text">
+         Для обращения в службу поддержки создайте тикет в нашем хелп-дес.
+         Операторы обязательно ответят на ваше сообщение, найдут платеж и
+         завершат обмен.
+      </p>
+
+      <div class="actions">
+         <button mat-raised-button color="primary" routerLink="/">
+            Новый обмен
+         </button>
+      </div>
+   </section>
+</ng-template>

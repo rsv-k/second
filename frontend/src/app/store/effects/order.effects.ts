@@ -6,7 +6,8 @@ import { of } from 'rxjs';
 import * as OrderActions from '../actions/order.actions';
 import { Order } from '../../core/models/order.model';
 import { Router } from '@angular/router';
-import { Update } from '@ngrx/entity';
+import * as fromRoot from '../index';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class OrderEffects {
@@ -98,9 +99,29 @@ export class OrderEffects {
       )
    );
 
+   cancelOrder$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(OrderActions.cancelOrderStart),
+         mergeMap(() => this.store.select(fromRoot.selectRouterParamId)),
+         mergeMap((id: string) =>
+            this.orderService.cancelOrder(id).pipe(
+               map(() =>
+                  OrderActions.cancelOrderSuccess({
+                     payload: { id },
+                  })
+               ),
+               catchError((error) =>
+                  of(OrderActions.orderError({ payload: error.message }))
+               )
+            )
+         )
+      )
+   );
+
    constructor(
       private orderService: OrderService,
       private actions$: Actions,
-      private router: Router
+      private router: Router,
+      private store: Store<fromRoot.AppState>
    ) {}
 }

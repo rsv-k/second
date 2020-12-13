@@ -32,6 +32,10 @@ export const appReducers: ActionReducerMap<AppState> = {
 export const getRouterState = createFeatureSelector<
    fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
+export const selectRouterParamId = createSelector(
+   getRouterState,
+   (router) => router.state && router.state.params.id
+);
 
 export const exchangeState = (state: AppState) => state.exchange;
 export const getExchangesEntities = createSelector(
