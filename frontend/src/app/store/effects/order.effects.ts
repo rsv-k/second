@@ -102,8 +102,10 @@ export class OrderEffects {
          ofType(OrderActions.cancelOrderStart),
          mergeMap((action) =>
             this.orderService.cancelOrder(action.payload.id).pipe(
-               map((order) =>
-                  OrderActions.cancelOrderSuccess({ payload: order })
+               map(() =>
+                  OrderActions.cancelOrderSuccess({
+                     payload: { id: action.payload.id },
+                  })
                ),
                catchError((error) =>
                   of(OrderActions.orderError({ payload: error.message }))

@@ -36,7 +36,13 @@ const orderReducer = createReducer(
       adapter.upsertMany(payload.orders, state)
    ),
    on(OrderActions.cancelOrderSuccess, (state, { payload }) =>
-      adapter.setOne(payload, state)
+      adapter.updateOne(
+         {
+            id: payload.id,
+            changes: { ...state.entities[payload.id], status: 'canceled' },
+         },
+         state
+      )
    ),
    on(OrderActions.setPage, (state, { payload }) => ({
       ...state,

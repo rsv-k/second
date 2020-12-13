@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
@@ -15,6 +15,8 @@ import * as OrderActions from '../../../../store/actions/order.actions';
 export class SectionTradeThirdComponent implements OnInit {
    order$: Observable<Order>;
    timeLeft: number;
+   isCanceled = false;
+
    private timer: any;
    private orderId: string;
 
@@ -23,7 +25,13 @@ export class SectionTradeThirdComponent implements OnInit {
    ngOnInit(): void {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 3 }));
       this.order$ = this.store.select(fromRoot.getOrder).pipe(
+         filter((order) => !!order),
          tap((order) => {
+            if (order.status === 'canceled') {
+               this.isCanceled = true;
+               return;
+            }
+
             const dueTime = new Date(order.date).getTime() + 15 * 60 * 1000;
             this.orderId = order.id;
 

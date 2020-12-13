@@ -62,10 +62,10 @@ export class OrderService {
          .pipe(pluck('ids'));
    }
 
-   cancelOrder(id: string): Observable<Order> {
+   cancelOrder(id: string): Observable<boolean> {
       return this.http
          .get<Response>('/api/order/cancelOrder/' + id)
-         .pipe(pluck('order'), map(this.commonService.changeId));
+         .pipe(map(() => true));
    }
 
    updateOrder(

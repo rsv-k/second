@@ -210,7 +210,7 @@ exports.cancelOrder = async (req, res, next) => {
          order,
       });
 
-      res.status(200).json({ msg: 'orders updated successfully', order });
+      res.status(200).json({ msg: 'orders updated successfully' });
    } catch (err) {
       next(err);
    }
