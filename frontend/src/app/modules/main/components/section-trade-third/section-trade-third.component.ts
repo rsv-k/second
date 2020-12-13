@@ -18,7 +18,6 @@ export class SectionTradeThirdComponent implements OnInit {
    isCanceled = false;
 
    private timer: any;
-   private orderId: string;
 
    constructor(private store: Store<fromRoot.AppState>) {}
 
@@ -33,7 +32,6 @@ export class SectionTradeThirdComponent implements OnInit {
             }
 
             const dueTime = new Date(order.date).getTime() + 15 * 60 * 1000;
-            this.orderId = order.id;
 
             if (!this.timer) {
                this.timeLeft = dueTime - Date.now();
@@ -44,9 +42,7 @@ export class SectionTradeThirdComponent implements OnInit {
    }
 
    onRefuse(): void {
-      this.store.dispatch(
-         OrderActions.cancelOrderStart({ payload: { id: this.orderId } })
-      );
+      this.store.dispatch(OrderActions.cancelOrderStart());
    }
 
    private setTimer(dueTime: number): void {
@@ -54,6 +50,7 @@ export class SectionTradeThirdComponent implements OnInit {
          this.timeLeft = dueTime - Date.now();
 
          if (this.timeLeft <= 0) {
+            this.isCanceled = true;
             return clearTimeout(this.timer);
          }
 

@@ -52,10 +52,7 @@ export const updateOrdersSuccess = createAction(
    props<{ payload: { orders: Order[] } }>()
 );
 
-export const cancelOrderStart = createAction(
-   '[ORDER] CANCEL ORDER START',
-   props<{ payload: { id: string } }>()
-);
+export const cancelOrderStart = createAction('[ORDER] CANCEL ORDER START');
 export const cancelOrderSuccess = createAction(
    '[ORDER] CANCEL ORDER SUCCESS',
    props<{ payload: { id: string } }>()
