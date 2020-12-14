@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import * as OrderActions from '../../../../store/actions/order.actions';
    selector: 'app-section-trade-third',
    templateUrl: './section-trade-third.component.html',
    styleUrls: ['./section-trade-third.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionTradeThirdComponent implements OnInit {
    order$: Observable<Order>;
