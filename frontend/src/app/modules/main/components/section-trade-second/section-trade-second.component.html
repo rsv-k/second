@@ -1,121 +1,129 @@
-<h2 class="title" *ngIf="exchange">
-   Обмен {{ exchange.givenCurrency.name }} на {{ exchange.takenCurrency.name }}
-</h2>
+<ng-container *ngIf="exchange$ | async as exchange">
+   <h2 class="title" *ngIf="exchange">
+      Обмен {{ exchange.givenCurrency.name }} на
+      {{ exchange.takenCurrency.name }}
+   </h2>
 
-<app-error-message
-   *ngIf="form.hasError('invalidData')"
-   [message]="webmoneyErrorMessage"
-></app-error-message>
+   <app-error-message
+      *ngIf="form.hasError('invalidData')"
+      [message]="webmoneyErrorMessage"
+   ></app-error-message>
 
-<form *ngIf="form" class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-   <div class="row">
-      <mat-form-field
-         class="form__group min-max"
-         [attr.min]="[exchange.minGivenCurrency]"
-         [attr.max]="[exchange.maxGivenCurrency]"
-      >
-         <mat-label
-            >Отдаете в
-            {{ exchange.givenCurrency.currencyCode | getMoneyIn }}</mat-label
+   <form
+      *ngIf="form"
+      class="form"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit(exchange)"
+   >
+      <div class="row">
+         <mat-form-field
+            class="form__group min-max"
+            [attr.min]="[exchange.minGivenCurrency]"
+            [attr.max]="[exchange.maxGivenCurrency]"
          >
-         <input
-            matInput
-            required
-            (input)="
-               onCurrencyChange('takenCurrencyAmount', $event.target.value)
-            "
-            formControlName="givenCurrencyAmount"
-         />
-      </mat-form-field>
+            <mat-label
+               >Отдаете в
+               {{ exchange.givenCurrency.currencyCode | getMoneyIn }}</mat-label
+            >
+            <input
+               matInput
+               required
+               (input)="
+                  onCurrencyChange('takenCurrencyAmount', $event.target.value)
+               "
+               formControlName="givenCurrencyAmount"
+            />
+         </mat-form-field>
 
-      <mat-form-field
-         class="form__group reserve"
-         [attr.reserve]="[exchange.takenCurrency.reserve]"
-      >
-         <mat-label
-            >Получаете в
-            {{ exchange.takenCurrency.currencyCode | getMoneyIn }}</mat-label
+         <mat-form-field
+            class="form__group reserve"
+            [attr.reserve]="[exchange.takenCurrency.reserve]"
          >
-         <input
-            matInput
-            required
-            (input)="
-               onCurrencyChange('givenCurrencyAmount', $event.target.value)
-            "
-            formControlName="takenCurrencyAmount"
-         />
-      </mat-form-field>
-   </div>
-
-   <div class="row" *ngIf="fields['givenCurrencyCard']">
-      <mat-form-field class="form__group">
-         <mat-label
-            >Номер
-            {{
-               exchange.givenCurrency.name.startsWith('Webmoney')
-                  ? 'кошелька ' + exchange.givenCurrency.stringId
-                  : 'карты'
-            }}
-         </mat-label>
-         <input matInput required formControlName="givenCurrencyCard" />
-      </mat-form-field>
-   </div>
-
-   <div class="row" *ngIf="fields['takenCurrencyCard']">
-      <mat-form-field class="form__group">
-         <mat-label
-            >Номер
-            {{
-               exchange.takenCurrency.name.startsWith('Webmoney')
-                  ? 'кошелька ' + exchange.takenCurrency.stringId
-                  : 'карты'
-            }}</mat-label
-         >
-         <input matInput required formControlName="takenCurrencyCard" />
-      </mat-form-field>
-   </div>
-
-   <div class="row">
-      <mat-form-field class="form__group" *ngIf="fields['name']">
-         <mat-label>Имя</mat-label>
-         <input matInput required formControlName="name" />
-      </mat-form-field>
-      <mat-form-field class="form__group" *ngIf="fields['surname']">
-         <mat-label>Фамилия</mat-label>
-         <input matInput required formControlName="surname" />
-      </mat-form-field>
-   </div>
-
-   <div class="row" *ngIf="fields['phone']">
-      <mat-form-field class="form__group">
-         <mat-label>Номер телефона</mat-label>
-         <span matPrefix>+ &nbsp;</span>
-         <input type="tel" matInput formControlName="phone" required />
-      </mat-form-field>
-   </div>
-
-   <div class="row">
-      <mat-form-field class="form__group" *ngIf="fields['email']">
-         <mat-label>Email</mat-label>
-         <input matInput required formControlName="email" />
-      </mat-form-field>
-   </div>
-
-   <div class="row">
-      <div class="buttons">
-         <button mat-raised-button color="accent" class="submit">
-            Следующий шаг
-         </button>
-         <a routerLink="/" class="link--back">Изменить направление</a>
+            <mat-label
+               >Получаете в
+               {{ exchange.takenCurrency.currencyCode | getMoneyIn }}</mat-label
+            >
+            <input
+               matInput
+               required
+               (input)="
+                  onCurrencyChange('givenCurrencyAmount', $event.target.value)
+               "
+               formControlName="takenCurrencyAmount"
+            />
+         </mat-form-field>
       </div>
-      <div class="terms-of-use">
-         <p class="text">
-            Нажимая кнопку «Следующий шаг» вы подтверждаете свое согласие с
-         </p>
 
-         <a target="_blank" routerLink="/terms-of-use" class="link"
-            >Правилами предоставления услуг сервиса EXWM</a
-         >
+      <div class="row" *ngIf="fields['givenCurrencyCard']">
+         <mat-form-field class="form__group">
+            <mat-label
+               >Номер
+               {{
+                  exchange.givenCurrency.name.startsWith('Webmoney')
+                     ? 'кошелька ' + exchange.givenCurrency.stringId
+                     : 'карты'
+               }}
+            </mat-label>
+            <input matInput required formControlName="givenCurrencyCard" />
+         </mat-form-field>
       </div>
-   </div>
-</form>
+
+      <div class="row" *ngIf="fields['takenCurrencyCard']">
+         <mat-form-field class="form__group">
+            <mat-label
+               >Номер
+               {{
+                  exchange.takenCurrency.name.startsWith('Webmoney')
+                     ? 'кошелька ' + exchange.takenCurrency.stringId
+                     : 'карты'
+               }}</mat-label
+            >
+            <input matInput required formControlName="takenCurrencyCard" />
+         </mat-form-field>
+      </div>
+
+      <div class="row">
+         <mat-form-field class="form__group" *ngIf="fields['name']">
+            <mat-label>Имя</mat-label>
+            <input matInput required formControlName="name" />
+         </mat-form-field>
+         <mat-form-field class="form__group" *ngIf="fields['surname']">
+            <mat-label>Фамилия</mat-label>
+            <input matInput required formControlName="surname" />
+         </mat-form-field>
+      </div>
+
+      <div class="row" *ngIf="fields['phone']">
+         <mat-form-field class="form__group">
+            <mat-label>Номер телефона</mat-label>
+            <span matPrefix>+ &nbsp;</span>
+            <input type="tel" matInput formControlName="phone" required />
+         </mat-form-field>
+      </div>
+
+      <div class="row">
+         <mat-form-field class="form__group" *ngIf="fields['email']">
+            <mat-label>Email</mat-label>
+            <input matInput required formControlName="email" />
+         </mat-form-field>
+      </div>
+
+      <div class="row">
+         <div class="buttons">
+            <button mat-raised-button color="accent" class="submit">
+               Следующий шаг
+            </button>
+            <a routerLink="/" class="link--back">Изменить направление</a>
+         </div>
+         <div class="terms-of-use">
+            <p class="text">
+               Нажимая кнопку «Следующий шаг» вы подтверждаете свое согласие с
+            </p>
+
+            <a target="_blank" routerLink="/terms-of-use" class="link"
+               >Правилами предоставления услуг сервиса EXWM</a
+            >
+         </div>
+      </div>
+   </form>
+</ng-container>

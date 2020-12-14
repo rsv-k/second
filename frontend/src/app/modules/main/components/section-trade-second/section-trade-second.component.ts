@@ -1,7 +1,7 @@
 import { Currency } from './../../../../core/models/currency.model';
 import { WebmoneyService } from './../../../../core/services/webmoney.service';
 import { Exchange } from './../../../../core/models/exchange.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
    FormControl,
    FormGroup,
@@ -9,7 +9,7 @@ import {
    Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { catchError, first, map } from 'rxjs/operators';
+import { catchError, first, map, tap } from 'rxjs/operators';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 import * as OrderActions from '../../../../store/actions/order.actions';
@@ -20,16 +20,19 @@ import { Observable, of } from 'rxjs';
    selector: 'app-section-trade-second',
    templateUrl: './section-trade-second.component.html',
    styleUrls: ['./section-trade-second.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionTradeSecondComponent implements OnInit {
    form: FormGroup;
-   exchange: Exchange;
+   exchange$: Observable<Exchange>;
 
    fields: { [key: string]: boolean } = {};
    webmoneyErrorMessage = `Платежная система WebMoney не разрешает данный обмен. Возможно, это связано с
    тем, что кошельки не принадлежат одному WMID, не связаны, или данные
    участника системы Webmoney не совпадают с указанными.`;
 
+   private takenCourse: number;
+   private givenCourse: number;
    constructor(
       private store: Store<fromRoot.AppState>,
       private webmoneyService: WebmoneyService
@@ -38,17 +41,19 @@ export class SectionTradeSecondComponent implements OnInit {
    ngOnInit(): void {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 2 }));
 
-      this.store
-         .select(fromRoot.getExchange)
-         .pipe(first())
-         .subscribe((exchange) => {
-            this.exchange = exchange;
+      this.exchange$ = this.store.select(fromRoot.getExchange).pipe(
+         first(),
+         tap((exchange) => {
+            this.takenCourse = exchange.takenCurrencyCourse;
+            this.givenCourse = exchange.givenCurrencyCourse;
+
             for (const control of exchange.fields) {
                this.fields[control] = true;
             }
 
-            this.initForm();
-         });
+            this.initForm(exchange);
+         })
+      );
    }
 
    onCurrencyChange(property: string, value: number): void {
@@ -59,22 +64,19 @@ export class SectionTradeSecondComponent implements OnInit {
       let calculatedCurrency;
 
       if (property.startsWith('taken')) {
-         calculatedCurrency = this.exchange.takenCurrencyCourse * value;
+         calculatedCurrency = this.takenCourse * value;
       } else {
-         calculatedCurrency = value / this.exchange.takenCurrencyCourse;
+         calculatedCurrency = value / this.takenCourse;
       }
 
-      if (
-         property.startsWith('taken') &&
-         this.exchange.givenCurrencyCourse > this.exchange.takenCurrencyCourse
-      ) {
-         calculatedCurrency = value / this.exchange.givenCurrencyCourse;
+      if (property.startsWith('taken') && this.givenCourse > this.takenCourse) {
+         calculatedCurrency = value / this.givenCourse;
       }
 
       this.form.get(property).patchValue(calculatedCurrency);
    }
 
-   onSubmit(): void {
+   onSubmit(exchange: Exchange): void {
       if (!this.form.valid) {
          return;
       }
@@ -82,19 +84,19 @@ export class SectionTradeSecondComponent implements OnInit {
       const order: Order = {
          ...this.form.value,
          phone: this.form.value.phone,
-         givenCurrencyId: this.exchange.givenCurrency.id,
-         takenCurrencyId: this.exchange.takenCurrency.id,
-         givenCurrencyCourse: this.exchange.givenCurrencyCourse,
-         takenCurrencyCourse: this.exchange.takenCurrencyCourse,
-         merchant: this.exchange.merchant,
+         givenCurrencyId: exchange.givenCurrency.id,
+         takenCurrencyId: exchange.takenCurrency.id,
+         givenCurrencyCourse: exchange.givenCurrencyCourse,
+         takenCurrencyCourse: exchange.takenCurrencyCourse,
+         merchant: exchange.merchant,
       };
 
       this.store.dispatch(OrderActions.createOrderStart({ payload: order }));
    }
 
-   private initForm(): void {
-      const givenCurrency = this.exchange.givenCurrency;
-      const takenCurrency = this.exchange.takenCurrency;
+   private initForm(exchange: Exchange): void {
+      const givenCurrency = exchange.givenCurrency;
+      const takenCurrency = exchange.takenCurrency;
       const optionalControls = this.getOptionalControls(
          givenCurrency,
          takenCurrency
@@ -104,23 +106,22 @@ export class SectionTradeSecondComponent implements OnInit {
          givenCurrencyAmount: new FormControl('', {
             validators: [
                Validators.required,
-               Validators.min(this.exchange.minGivenCurrency),
-               Validators.max(this.exchange.maxGivenCurrency),
+               Validators.min(exchange.minGivenCurrency),
+               Validators.max(exchange.maxGivenCurrency),
             ],
          }),
          takenCurrencyAmount: new FormControl('', {
             validators: [
                Validators.required,
                Validators.min(
-                  this.exchange.minGivenCurrency *
-                     this.exchange.takenCurrencyCourse
+                  exchange.minGivenCurrency * exchange.takenCurrencyCourse
                ),
-               Validators.max(this.exchange.takenCurrency.reserve),
+               Validators.max(exchange.takenCurrency.reserve),
             ],
          }),
       };
 
-      for (const control of this.exchange.fields) {
+      for (const control of exchange.fields) {
          controls[control] = optionalControls[control];
       }
 
@@ -128,7 +129,7 @@ export class SectionTradeSecondComponent implements OnInit {
          updateOn: 'submit',
       });
 
-      if (this.exchange.enableWMInterface) {
+      if (exchange.enableWMInterface) {
          this.form.setAsyncValidators(this.webmoneyValidator.bind(this));
       }
    }
@@ -175,8 +176,6 @@ export class SectionTradeSecondComponent implements OnInit {
    private webmoneyValidator(): Observable<ValidationErrors | null> {
       const order: Order = {
          ...this.form.value,
-         givenCurrencyId: this.exchange.givenCurrency.id,
-         takenCurrencyId: this.exchange.takenCurrency.id,
       };
 
       return this.webmoneyService.check(order).pipe(
