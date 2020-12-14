@@ -1,131 +1,133 @@
-<form
-   ngNoForm
-   accept-charset="utf-8"
-   id="pay"
-   name="pay"
-   method="POST"
-   action="https://merchant.webmoney.ru/lmi/payment.asp"
-   accept-charset="windows-1251"
-   *ngIf="(order$ | async).merchant"
->
-   <input type="hidden" name="LMI_PAYMENT_AMOUNT" value="12.08" />
-   <input type="hidden" name="LMI_PAYMENT_DESC" value="платеж по счету" />
-   <input type="hidden" name="LMI_PAYMENT_NO" value="1" />
-   <input type="hidden" name="LMI_PAYEE_PURSE" value="Z534212467591" />
-   <input type="hidden" name="LMI_SIM_MODE" value="0" />
-   <input type="submit" value="submit" />
-</form>
+<ng-container *ngIf="order$ | async as order">
+   <form
+      ngNoForm
+      accept-charset="utf-8"
+      id="pay"
+      name="pay"
+      method="POST"
+      action="https://merchant.webmoney.ru/lmi/payment.asp"
+      accept-charset="windows-1251"
+      *ngIf="order.merchant"
+   >
+      <input type="hidden" name="LMI_PAYMENT_AMOUNT" value="12.08" />
+      <input type="hidden" name="LMI_PAYMENT_DESC" value="платеж по счету" />
+      <input type="hidden" name="LMI_PAYMENT_NO" value="1" />
+      <input type="hidden" name="LMI_PAYEE_PURSE" value="Z534212467591" />
+      <input type="hidden" name="LMI_SIM_MODE" value="0" />
+      <input type="submit" value="submit" />
+   </form>
 
-<section class="section-payment" *ngIf="!isCanceled; else alternative">
-   <h2 class="title">
-      Ожидание оплаты по заявке № {{ (order$ | async).number }} от
-      {{ (order$ | async).date | date: 'dd.M.yyyy' }}
-   </h2>
-
-   <div class="content">
-      <div class="left">
-         <p class="text">
-            Для успешного завершения обмена необходимо оплатить
-            <span class="highlight"
-               >{{ (order$ | async).givenCurrencyAmount }}
-               {{ (order$ | async).givenCurrency.currencyCode }}</span
-            >
-         </p>
-
-         <p class="timer">
-            Совершите перевод до окончания таймера
-            <span class="dark-bg">
-               {{ timeLeft | date: 'mm:ss' }}
-            </span>
-         </p>
-
-         <mat-divider></mat-divider>
-
-         <div class="details">
-            <div class="top">
-               <p class="attention">Внимание!</p>
-               <p class="message">
-                  Курс мог измениться. Обмен будет произведен:
-               </p>
-
-               <div class="info">
-                  <p class="row">
-                     <span class="color-grey">По курсу</span>
-                     <span class="value">
-                        <div>
-                           {{ (order$ | async).givenCurrencyCourse }}
-                           {{ (order$ | async).givenCurrency.currencyCode }} :
-                           {{ (order$ | async).takenCurrencyCourse }}
-                           {{ (order$ | async).takenCurrency.currencyCode }}
-                        </div>
-                     </span>
-                  </p>
-                  <p class="row">
-                     <span class="color-grey">Отдаете</span>
-                     <span class="value">
-                        <div>
-                           {{ (order$ | async).givenCurrencyAmount }}
-                           {{ (order$ | async).givenCurrency.currencyCode }}
-                        </div>
-                        <div>
-                           {{ (order$ | async).givenCurrency.name }}
-                           {{ (order$ | async).givenCurrency.card }}
-                        </div>
-                     </span>
-                  </p>
-                  <p class="row">
-                     <span class="color-grey">Получаете</span>
-                     <span class="value">
-                        <div>
-                           {{ (order$ | async).takenCurrencyAmount }}
-                           {{ (order$ | async).takenCurrency.currencyCode }}
-                        </div>
-                        <div>
-                           {{ (order$ | async).takenCurrency.name }}
-                           {{ (order$ | async).takenCurrency.card }}
-                        </div>
-                     </span>
-                  </p>
-               </div>
-            </div>
-
-            <div class="actions">
-               <button mat-raised-button color="primary">Оплатить</button>
-               <button mat-raised-button color="warn" (click)="onRefuse()">
-                  Отказаться
-               </button>
-            </div>
-         </div>
-      </div>
-      <div class="right">
-         <app-section-third-message></app-section-third-message>
-      </div>
-   </div>
-</section>
-
-<ng-template #alternative>
-   <section class="section-canceled">
+   <section class="section-payment" *ngIf="!isCanceled; else alternative">
       <h2 class="title">
-         Обмен оплаты по заявке № {{ (order$ | async).number }} от
-         {{ (order$ | async).date | date: 'dd.M.yyyy' }} отменен
+         Ожидание оплаты по заявке № {{ order.number }} от
+         {{ order.date | date: 'dd.M.yyyy' }}
       </h2>
 
-      <p class="text">
-         Если оплата была произведена после отмены операции, или сервис не видит
-         оплату по другим причинам, не переживайте, мы найдем ваш платеж в
-         ручном режиме.
-      </p>
+      <div class="content">
+         <div class="left">
+            <p class="text">
+               Для успешного завершения обмена необходимо оплатить
+               <span class="highlight"
+                  >{{ order.givenCurrencyAmount }}
+                  {{ order.givenCurrency.currencyCode }}</span
+               >
+            </p>
 
-      <p class="text">
-         Для обращения в службу поддержки создайте тикет в нашем хелп-дес.
-         Операторы обязательно ответят на ваше сообщение, найдут платеж и
-         завершат обмен.
-      </p>
+            <p class="timer">
+               Совершите перевод до окончания таймера
+               <span class="dark-bg">
+                  {{ timeLeft | date: 'mm:ss' }}
+               </span>
+            </p>
 
-      <div class="actions">
-         <button mat-raised-button color="primary" routerLink="/">
-            Новый обмен
-         </button>
+            <mat-divider></mat-divider>
+
+            <div class="details">
+               <div class="top">
+                  <p class="attention">Внимание!</p>
+                  <p class="message">
+                     Курс мог измениться. Обмен будет произведен:
+                  </p>
+
+                  <div class="info">
+                     <p class="row">
+                        <span class="color-grey">По курсу</span>
+                        <span class="value">
+                           <div>
+                              {{ order.givenCurrencyCourse }}
+                              {{ order.givenCurrency.currencyCode }} :
+                              {{ order.takenCurrencyCourse }}
+                              {{ order.takenCurrency.currencyCode }}
+                           </div>
+                        </span>
+                     </p>
+                     <p class="row">
+                        <span class="color-grey">Отдаете</span>
+                        <span class="value">
+                           <div>
+                              {{ order.givenCurrencyAmount }}
+                              {{ order.givenCurrency.currencyCode }}
+                           </div>
+                           <div>
+                              {{ order.givenCurrency.name }}
+                              {{ order.givenCurrency.card }}
+                           </div>
+                        </span>
+                     </p>
+                     <p class="row">
+                        <span class="color-grey">Получаете</span>
+                        <span class="value">
+                           <div>
+                              {{ order.takenCurrencyAmount }}
+                              {{ order.takenCurrency.currencyCode }}
+                           </div>
+                           <div>
+                              {{ order.takenCurrency.name }}
+                              {{ order.takenCurrency.card }}
+                           </div>
+                        </span>
+                     </p>
+                  </div>
+               </div>
+
+               <div class="actions">
+                  <button mat-raised-button color="primary">Оплатить</button>
+                  <button mat-raised-button color="warn" (click)="onRefuse()">
+                     Отказаться
+                  </button>
+               </div>
+            </div>
+         </div>
+         <div class="right">
+            <app-section-third-message></app-section-third-message>
+         </div>
       </div>
    </section>
-</ng-template>
+
+   <ng-template #alternative>
+      <section class="section-canceled">
+         <h2 class="title">
+            Обмен оплаты по заявке № {{ order.number }} от
+            {{ order.date | date: 'dd.M.yyyy' }} отменен
+         </h2>
+
+         <p class="text">
+            Если оплата была произведена после отмены операции, или сервис не
+            видит оплату по другим причинам, не переживайте, мы найдем ваш
+            платеж в ручном режиме.
+         </p>
+
+         <p class="text">
+            Для обращения в службу поддержки создайте тикет в нашем хелп-дес.
+            Операторы обязательно ответят на ваше сообщение, найдут платеж и
+            завершат обмен.
+         </p>
+
+         <div class="actions">
+            <button mat-raised-button color="primary" routerLink="/">
+               Новый обмен
+            </button>
+         </div>
+      </section>
+   </ng-template>
+</ng-container>
