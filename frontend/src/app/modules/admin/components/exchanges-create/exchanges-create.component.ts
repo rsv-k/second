@@ -8,7 +8,6 @@ import { filter, first, map } from 'rxjs/operators';
 import { Currency } from '@models/currency.model';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
-import { Router } from '@angular/router';
 import * as fromAdminModule from '../../store/index';
 import * as MerchantActions from '../../store/actions/merchants.actions';
 import * as fromRoot from '../../../../store/index';
@@ -66,10 +65,7 @@ export class ExchangesCreateComponent implements OnInit {
    private mode = 'create';
    private exchangeToEdit: Exchange = null;
 
-   constructor(
-      private store: Store<fromAdminModule.AppState>,
-      private router: Router
-   ) {}
+   constructor(private store: Store<fromAdminModule.AppState>) {}
 
    ngOnInit(): void {
       this.initForm();
@@ -91,7 +87,10 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.store
          .select(fromRoot.getExchange)
-         .pipe(first())
+         .pipe(
+            filter((exchange) => !!exchange),
+            first()
+         )
          .subscribe((exchange) => {
             this.exchangeToEdit = exchange;
 
@@ -133,7 +132,6 @@ export class ExchangesCreateComponent implements OnInit {
             })
          );
       }
-      this.router.navigate(['admin-dashboard/exchanges-show']);
    }
 
    onMerchantSelect(option: Merchant): void {

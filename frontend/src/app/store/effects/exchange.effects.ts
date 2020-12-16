@@ -2,9 +2,10 @@ import { Exchange } from '../../core/models/exchange.model';
 import { ExchangeService } from '../../core/services/exchange.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as ExchangeActions from '../actions/exchange.actions';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ExchangeEffects {
@@ -14,7 +15,9 @@ export class ExchangeEffects {
          mergeMap((action) =>
             this.exchangeService.createExchange(action.payload).pipe(
                map((exchange: Exchange) =>
-                  ExchangeActions.addExchangeSuccess({ payload: exchange })
+                  ExchangeActions.addExchangeSuccess({
+                     payload: exchange,
+                  })
                ),
                catchError((error) =>
                   of(ExchangeActions.exchangeError({ payload: error.message }))
@@ -22,6 +25,20 @@ export class ExchangeEffects {
             )
          )
       )
+   );
+
+   exchangeNavigate$ = createEffect(
+      () =>
+         this.actions$.pipe(
+            ofType(
+               ExchangeActions.addExchangeSuccess,
+               ExchangeActions.editExchangeSuccess
+            ),
+            tap(() => {
+               this.router.navigate(['admin-dashboard/exchanges-show']);
+            })
+         ),
+      { dispatch: false }
    );
 
    loadExchanges$ = createEffect(() =>
@@ -102,6 +119,7 @@ export class ExchangeEffects {
 
    constructor(
       private exchangeService: ExchangeService,
-      private actions$: Actions
+      private actions$: Actions,
+      private router: Router
    ) {}
 }
