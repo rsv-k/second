@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from '@models/exchange.model';
@@ -10,6 +10,7 @@ import * as fromRoot from '../../../../store/index';
    selector: 'app-exchanges-show',
    templateUrl: './exchanges-show.component.html',
    styleUrls: ['./exchanges-show.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExchangesShowComponent implements OnInit {
    exchanges$: Observable<Exchange[]>;
