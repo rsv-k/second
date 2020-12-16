@@ -7,7 +7,6 @@ import * as OrderActions from '../../../../store/actions/order.actions';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import { SocketioService } from '../../services/socketio.service';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -19,14 +18,6 @@ import { OrdersSearchComponent } from '../orders-search/orders-search.component'
    selector: 'app-orders-show',
    templateUrl: './orders-show.component.html',
    styleUrls: ['./orders-show.component.scss'],
-   animations: [
-      trigger('slideInAnimation', [
-         transition(':enter', [
-            style({ transform: 'translateX(-100%)' }),
-            animate('.5s ease-in', style({ transform: 'translateX(0)' })),
-         ]),
-      ]),
-   ],
 })
 export class OrdersShowComponent extends BaseComponent implements OnInit {
    dataSource = new MatTableDataSource<Order>();
@@ -38,7 +29,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
       'takenCurrency',
    ];
 
-   canAnimate = false;
    selection = new SelectionModel<Order>(true, []);
 
    private ordersOptions: OrdersOptions = {
@@ -71,7 +61,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
             delete order._id;
 
             this.store.dispatch(OrderActions.addOrder({ payload: order }));
-            this.canAnimate = true;
          } else if (data.action === 'update') {
             const order = data.order;
             order.id = order._id;
@@ -95,7 +84,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    openSearchDialog(): void {
-      this.canAnimate = false;
       const dialogRef = this.dialog.open(OrdersSearchComponent, {
          width: '65rem',
       });
@@ -110,7 +98,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    openDialog(): void {
-      this.canAnimate = false;
       const dialogRef = this.dialog.open(OrdersStatusDialogComponent, {
          width: '250px',
          data: '',
@@ -132,7 +119,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    onDeleteOrders(): void {
-      this.canAnimate = false;
       const ids = this.getSelectedIds();
       this.store.dispatch(OrderActions.deleteOrdersStart({ payload: { ids } }));
       this.getOrders();
