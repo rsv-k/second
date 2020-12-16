@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -11,6 +11,7 @@ import * as fromAdminModule from '../../store/index';
    selector: 'app-orders-search',
    templateUrl: './orders-search.component.html',
    styleUrls: ['./orders-search.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersSearchComponent implements OnInit {
    currencies$: Observable<Currency[]>;
@@ -35,17 +36,12 @@ export class OrdersSearchComponent implements OnInit {
       });
    }
 
-   onGivenSelection(currency: Currency): void {
+   onSelection(currency: Currency, property: string): void {
       if (!currency) {
-         return this.form.get('givenCurrency').setValue('');
+         return this.form.get(property).setValue('');
       }
-      this.form.get('givenCurrency').setValue(currency.id);
-   }
-   onTakenSelection(currency: Currency): void {
-      if (!currency) {
-         return this.form.get('takenCurrency').setValue('');
-      }
-      this.form.get('takenCurrency').setValue(currency.id);
+
+      this.form.get(property).setValue(currency.id);
    }
 
    onNoClick(): void {
