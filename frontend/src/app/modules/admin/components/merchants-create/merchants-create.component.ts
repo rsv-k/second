@@ -1,5 +1,10 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+   ChangeDetectionStrategy,
+   Component,
+   Inject,
+   OnInit,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MerchantsShowComponent } from '../merchants-show/merchants-show.component';
 import * as fromAdminModule from '../../store/index';
@@ -11,6 +16,7 @@ import * as MerchantActions from '../../store/actions/merchants.actions';
    selector: 'app-merchants-create',
    templateUrl: './merchants-create.component.html',
    styleUrls: ['./merchants-create.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchantsCreateComponent implements OnInit {
    mode = 'Сохранить';
@@ -37,8 +43,6 @@ export class MerchantsCreateComponent implements OnInit {
             Validators.minLength(3),
          ]),
       });
-
-      this.store.dispatch(MerchantActions.getMerchantsStart());
    }
 
    onSubmit(): void {

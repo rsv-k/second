@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Merchant } from '@models/merchant.model';
 import { Store } from '@ngrx/store';
 import * as fromAdminModule from '../../store/index';
@@ -11,6 +11,7 @@ import { MerchantsCreateComponent } from '../merchants-create/merchants-create.c
    selector: 'app-merchants-show',
    templateUrl: './merchants-show.component.html',
    styleUrls: ['./merchants-show.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MerchantsShowComponent implements OnInit {
    merchants$: Observable<Merchant[]>;
