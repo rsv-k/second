@@ -184,7 +184,9 @@ exports.updateOrders = async (req, res, next) => {
 
       const orders = await Order.find({
          _id: { $in: ids },
-      });
+      })
+         .populate('givenCurrency')
+         .populate('takenCurrency');
 
       res.status(200).json({ msg: 'orders updated successfully', orders });
    } catch (err) {

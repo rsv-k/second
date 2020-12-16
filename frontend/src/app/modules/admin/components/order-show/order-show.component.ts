@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { filter, tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
    selector: 'app-order-show',
    templateUrl: './order-show.component.html',
    styleUrls: ['./order-show.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderShowComponent implements OnInit {
    order$: Observable<Order>;
