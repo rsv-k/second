@@ -1,6 +1,5 @@
 const Order = require('../models/order');
 const Exchange = require('../models/exchange');
-const io = require('../socketio');
 const schedule = require('node-schedule');
 const mongooseHelper = require('../utils/mongoose');
 const mongoose = require('mongoose');
@@ -39,11 +38,6 @@ exports.createOrder = async (req, res, next) => {
       order = await Order.findById(order._id)
          .populate('givenCurrency')
          .populate('takenCurrency');
-
-      io.getIO().emit('orders', {
-         action: 'create',
-         order,
-      });
 
       res.status(200).json({ msg: 'Order created successfully', order });
    } catch (err) {
@@ -206,11 +200,6 @@ exports.cancelOrder = async (req, res, next) => {
          },
          { multi: true }
       );
-
-      io.getIO().emit('orders', {
-         action: 'update',
-         order,
-      });
 
       res.status(200).json({ msg: 'orders updated successfully' });
    } catch (err) {

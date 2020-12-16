@@ -6,7 +6,6 @@ import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Order } from '@models/order.model';
-import { SocketioService } from '../../services/socketio.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -42,7 +41,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
    constructor(
       private store: Store<fromRoot.AppState>,
-      private socketService: SocketioService,
       private dialog: MatDialog,
       private router: Router
    ) {
@@ -50,28 +48,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    ngOnInit(): void {
-      this.socketService.setupSocketConnection();
-      this.socketService.socket.on('orders', (data) => {
-         if (data.action === 'create') {
-            if (this.ordersOptions.page !== 1) {
-               return;
-            }
-            const order = data.order;
-            order.id = order._id;
-            delete order._id;
-
-            this.store.dispatch(OrderActions.addOrder({ payload: order }));
-         } else if (data.action === 'update') {
-            const order = data.order;
-            order.id = order._id;
-            delete order._id;
-
-            this.store.dispatch(
-               OrderActions.cancelOrderSuccess({ payload: order })
-            );
-         }
-      });
-
       this.store
          .select(fromRoot.getAllOrders)
          .pipe(
