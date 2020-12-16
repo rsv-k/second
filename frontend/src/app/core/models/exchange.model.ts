@@ -1,11 +1,9 @@
-import { Merchant } from './merchant.model';
 import { Currency } from './currency.model';
+import { Merchant } from './merchant.model';
 export interface Exchange {
    id?: string;
-   givenCurrencyId?: string;
-   takenCurrencyId?: string;
-   givenCurrency?: Currency;
-   takenCurrency?: Currency;
+   givenCurrency: Currency;
+   takenCurrency: Currency;
    merchant?: Merchant;
    givenCurrencyCourse: number;
    takenCurrencyCourse: number;

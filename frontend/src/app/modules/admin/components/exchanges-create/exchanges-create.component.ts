@@ -91,10 +91,7 @@ export class ExchangesCreateComponent implements OnInit {
 
       this.store
          .select(fromRoot.getExchange)
-         .pipe(
-            filter((exchange) => !!exchange),
-            first()
-         )
+         .pipe(first())
          .subscribe((exchange) => {
             this.exchangeToEdit = exchange;
 
@@ -118,10 +115,11 @@ export class ExchangesCreateComponent implements OnInit {
    onSubmit(): void {
       const exchange: Exchange = {
          ...this.form.value,
-         givenCurrencyId: this.givenCurrency.id,
-         takenCurrencyId: this.takenCurrency.id,
+         givenCurrency: this.givenCurrency.id,
+         takenCurrency: this.takenCurrency.id,
          fields: this.selectedFields,
          merchant: this.merchant && this.merchant.id,
+         enableWMInterface: this.form.value.enableWMInterface || false,
       };
 
       if (this.mode === 'create') {
@@ -129,11 +127,6 @@ export class ExchangesCreateComponent implements OnInit {
             ExchangeActions.addExchangeStart({ payload: exchange })
          );
       } else if (this.mode === 'edit') {
-         delete exchange.givenCurrencyId;
-         delete exchange.takenCurrencyId;
-         delete exchange.givenCurrency;
-         delete exchange.takenCurrency;
-
          this.store.dispatch(
             ExchangeActions.editExchangeStart({
                payload: { id: this.exchangeToEdit.id, exchange },
