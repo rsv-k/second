@@ -34,7 +34,7 @@ export const getRouterState = createFeatureSelector<
 >('router');
 export const selectRouterParamId = createSelector(
    getRouterState,
-   (router) => router.state && router.state.params.id
+   (router) => router && router.state.params.id
 );
 
 export const exchangeState = (state: AppState) => state.exchange;

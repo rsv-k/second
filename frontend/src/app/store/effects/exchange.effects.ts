@@ -2,10 +2,12 @@ import { Exchange } from '../../core/models/exchange.model';
 import { ExchangeService } from '../../core/services/exchange.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as ExchangeActions from '../actions/exchange.actions';
 import { Router } from '@angular/router';
+import * as fromRoot from '../index';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class ExchangeEffects {
@@ -98,21 +100,20 @@ export class ExchangeEffects {
    updatedExchange$ = createEffect(() =>
       this.actions$.pipe(
          ofType(ExchangeActions.editExchangeStart),
-         mergeMap((action) =>
-            this.exchangeService
-               .updateExchange(action.payload.id, action.payload.exchange)
-               .pipe(
-                  map((exchange: Exchange) =>
-                     ExchangeActions.editExchangeSuccess({ payload: exchange })
-                  ),
-                  catchError((error) =>
-                     of(
-                        ExchangeActions.exchangeError({
-                           payload: error.message,
-                        })
-                     )
+         withLatestFrom(this.store.select(fromRoot.selectRouterParamId)),
+         mergeMap(([action, id]) =>
+            this.exchangeService.updateExchange(id, action.payload).pipe(
+               map((exchange: Exchange) =>
+                  ExchangeActions.editExchangeSuccess({ payload: exchange })
+               ),
+               catchError((error) =>
+                  of(
+                     ExchangeActions.exchangeError({
+                        payload: error.message,
+                     })
                   )
                )
+            )
          )
       )
    );
@@ -120,6 +121,7 @@ export class ExchangeEffects {
    constructor(
       private exchangeService: ExchangeService,
       private actions$: Actions,
+      private store: Store<fromRoot.AppState>,
       private router: Router
    ) {}
 }

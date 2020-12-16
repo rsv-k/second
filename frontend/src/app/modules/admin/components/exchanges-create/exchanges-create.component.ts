@@ -125,10 +125,10 @@ export class ExchangesCreateComponent implements OnInit {
          this.store.dispatch(
             ExchangeActions.addExchangeStart({ payload: exchange })
          );
-      } else if (this.mode === 'edit') {
+      } else {
          this.store.dispatch(
             ExchangeActions.editExchangeStart({
-               payload: { id: this.exchangeToEdit.id, exchange },
+               payload: exchange,
             })
          );
       }
