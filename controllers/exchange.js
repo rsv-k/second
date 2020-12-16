@@ -43,11 +43,6 @@ exports.createExchange = async (req, res, next) => {
          return next(error);
       }
 
-      body.givenCurrency = body.givenCurrencyId;
-      body.takenCurrency = body.takenCurrencyId;
-      delete body.givenCurrencyId;
-      delete body.takenCurrencyId;
-
       const exchange = new Exchange(body);
       await exchange.save();
 
@@ -56,8 +51,7 @@ exports.createExchange = async (req, res, next) => {
          exchange: exchange.populate('givenCurrency').populate('takenCurrency'),
       });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
