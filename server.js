@@ -17,10 +17,5 @@ mongoose
    })
    .then(() => {
       console.log('db connected');
-      const server = app.listen(PORT);
-      const io = require('./socketio').init(server);
-
-      io.on('connection', (socket) => {
-         console.log('client connected');
-      });
+      app.listen(PORT);
    });
