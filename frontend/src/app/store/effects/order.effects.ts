@@ -71,6 +71,9 @@ export class OrderEffects {
                map((ids) =>
                   OrderActions.deleteOrdersSuccess({ payload: { ids } })
                ),
+               tap(() =>
+                  this.router.navigate(['/admin-dashboard/orders-show'])
+               ),
                catchError((error) =>
                   of(OrderActions.orderError({ payload: error.message }))
                )
@@ -90,6 +93,9 @@ export class OrderEffects {
                      OrderActions.updateOrdersSuccess({
                         payload: { orders },
                      })
+                  ),
+                  tap(() =>
+                     this.router.navigate(['/admin-dashboard/orders-show'])
                   ),
                   catchError((error) =>
                      of(OrderActions.orderError({ payload: error.message }))

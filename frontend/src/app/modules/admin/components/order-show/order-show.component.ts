@@ -4,7 +4,6 @@ import { filter, tap } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdersStatusDialogComponent } from '../orders-status-dialog/orders-status-dialog.component';
 import { Observable } from 'rxjs';
@@ -19,7 +18,6 @@ export class OrderShowComponent implements OnInit {
    private orderId: string;
    constructor(
       private store: Store<fromRoot.AppState>,
-      private router: Router,
       private dialog: MatDialog
    ) {}
 
@@ -34,7 +32,6 @@ export class OrderShowComponent implements OnInit {
       this.store.dispatch(
          OrderActions.deleteOrdersStart({ payload: { ids: [this.orderId] } })
       );
-      this.router.navigate(['/admin-dashboard/orders-show']);
    }
 
    openDialog(): void {
@@ -54,8 +51,6 @@ export class OrderShowComponent implements OnInit {
                payload: { ids: [this.orderId], status },
             })
          );
-
-         this.router.navigate(['/admin-dashboard/orders-show']);
       });
    }
 }
