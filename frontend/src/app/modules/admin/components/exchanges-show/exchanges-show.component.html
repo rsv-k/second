@@ -57,7 +57,7 @@
          <button
             mat-icon-button
             color="accent"
-            (click)="onEditExchange(exchange.id)"
+            [routerLink]="['/admin-dashboard/exchanges-edit', exchange.id]"
          >
             <mat-icon>edit</mat-icon>
          </button>

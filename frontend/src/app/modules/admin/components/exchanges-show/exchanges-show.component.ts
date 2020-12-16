@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as ExchangeActions from '../../../../store/actions/exchange.actions';
 import { Exchange } from '@models/exchange.model';
-import { Router } from '@angular/router';
 import * as fromAdminModule from '../../store/index';
 import * as fromRoot from '../../../../store/index';
 
@@ -23,10 +22,7 @@ export class ExchangesShowComponent implements OnInit {
       'delete',
    ];
 
-   constructor(
-      private store: Store<fromAdminModule.AppState>,
-      private router: Router
-   ) {}
+   constructor(private store: Store<fromAdminModule.AppState>) {}
 
    ngOnInit(): void {
       this.exchanges$ = this.store.select(fromRoot.getAllExchanges);
@@ -34,10 +30,6 @@ export class ExchangesShowComponent implements OnInit {
 
    onDeleteExchange(id: string): void {
       this.store.dispatch(ExchangeActions.deleteExchangeStart({ payload: id }));
-   }
-
-   onEditExchange(id: string): void {
-      this.router.navigate(['admin-dashboard/exchanges-edit', id]);
    }
 
    onToggleAction(id: string, condition: boolean): void {
