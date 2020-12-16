@@ -117,6 +117,27 @@ export class ExchangeEffects {
          )
       )
    );
+   patchExchange$ = createEffect(() =>
+      this.actions$.pipe(
+         ofType(ExchangeActions.patchExchangeStart),
+         mergeMap((action) =>
+            this.exchangeService
+               .patchExchange(action.payload.id, action.payload.body)
+               .pipe(
+                  map((exchange: Exchange) =>
+                     ExchangeActions.patchExchangeSuccess({ payload: exchange })
+                  ),
+                  catchError((error) =>
+                     of(
+                        ExchangeActions.exchangeError({
+                           payload: error.message,
+                        })
+                     )
+                  )
+               )
+         )
+      )
+   );
 
    constructor(
       private exchangeService: ExchangeService,

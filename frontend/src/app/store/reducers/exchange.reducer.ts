@@ -30,6 +30,9 @@ const exchangeReducer = createReducer(
    on(ExchangeActions.editExchangeSuccess, (state, { payload }) =>
       adapter.setOne(payload, state)
    ),
+   on(ExchangeActions.patchExchangeSuccess, (state, { payload }) =>
+      adapter.setOne(payload, state)
+   ),
    on(ExchangeActions.exchangeError, (state, { payload }) => ({
       ...state,
       exchangeError: payload,

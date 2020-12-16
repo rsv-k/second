@@ -71,4 +71,10 @@ export class ExchangeService {
          .put<Response>(ENDPOINT_URL + id, exchange)
          .pipe(pluck('exchange'), map(this.commonService.changeId));
    }
+
+   patchExchange(id: string, body: any): Observable<Exchange> {
+      return this.http
+         .put<Response>(ENDPOINT_URL + id, body)
+         .pipe(pluck('exchange'), map(this.commonService.changeId));
+   }
 }
