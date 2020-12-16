@@ -6,20 +6,24 @@
                <mat-label>Отдаваемая валюта</mat-label>
                <input
                   matInput
-                  [matAutocomplete]="givenCurrency"
+                  [matAutocomplete]="gCurrency"
                   formControlName="givenCurrency"
                />
 
                <mat-autocomplete
-                  #givenCurrency="matAutocomplete"
-                  (optionSelected)="onGivenCurrencySelect($event.option.value)"
+                  #gCurrency="matAutocomplete"
+                  (optionSelected)="
+                     onCurrencySelect($event.option.value, 'givenCurrency')
+                  "
                >
-                  <mat-option
-                     *ngFor="let currency of currencies$ | async"
-                     [value]="currency"
-                  >
-                     {{ currency.name }}
-                  </mat-option>
+                  <ng-container *ngFor="let currency of currencies$ | async">
+                     <mat-option
+                        *ngIf="currency !== takenCurrency"
+                        [value]="currency"
+                     >
+                        {{ currency.name }}
+                     </mat-option>
+                  </ng-container>
                </mat-autocomplete>
             </mat-form-field>
 
@@ -27,20 +31,24 @@
                <mat-label>Получаемая валюта</mat-label>
                <input
                   matInput
-                  [matAutocomplete]="takenCurrency"
+                  [matAutocomplete]="tCurrency"
                   formControlName="takenCurrency"
                />
 
                <mat-autocomplete
-                  #takenCurrency="matAutocomplete"
-                  (optionSelected)="onTakenCurrencySelect($event.option.value)"
+                  #tCurrency="matAutocomplete"
+                  (optionSelected)="
+                     onCurrencySelect($event.option.value, 'takenCurrency')
+                  "
                >
-                  <mat-option
-                     *ngFor="let currency of currencies$ | async"
-                     [value]="currency"
-                  >
-                     {{ currency.name }}
-                  </mat-option>
+                  <ng-container *ngFor="let currency of currencies$ | async">
+                     <mat-option
+                        *ngIf="currency !== givenCurrency"
+                        [value]="currency"
+                     >
+                        {{ currency.name }}
+                     </mat-option>
+                  </ng-container>
                </mat-autocomplete>
             </mat-form-field>
          </div>

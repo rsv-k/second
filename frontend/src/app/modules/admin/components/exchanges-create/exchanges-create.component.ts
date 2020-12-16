@@ -22,9 +22,6 @@ export class ExchangesCreateComponent implements OnInit {
    currencies$: Observable<Currency[]>;
    merchants$: Observable<Merchant[]>;
 
-   givenCurrency: Currency;
-   takenCurrency: Currency;
-
    displayWMInterfaceOption = false;
 
    fieldNames = [
@@ -63,7 +60,8 @@ export class ExchangesCreateComponent implements OnInit {
    private merchant: Merchant;
    private selectedFields: string[] = [];
    private mode = 'create';
-   private exchangeToEdit: Exchange = null;
+   givenCurrency: Currency;
+   takenCurrency: Currency;
 
    constructor(private store: Store<fromAdminModule.AppState>) {}
 
@@ -92,11 +90,9 @@ export class ExchangesCreateComponent implements OnInit {
             first()
          )
          .subscribe((exchange) => {
-            this.exchangeToEdit = exchange;
-
             this.mode = 'edit';
-            this.setForm(this.exchangeToEdit);
-            this.setSlidersToTrue(this.exchangeToEdit);
+            this.setForm(exchange);
+            this.setSlidersToTrue(exchange);
             this.selectedFields = exchange.fields;
 
             this.givenCurrency = exchange.givenCurrency;
@@ -142,34 +138,14 @@ export class ExchangesCreateComponent implements OnInit {
       this.form.get('merchant').setValue(option.name);
    }
 
-   onGivenCurrencySelect(option: Currency): void {
+   onCurrencySelect(option: Currency, property: string): void {
       if (this.mode === 'edit') {
          return;
       }
 
-      this.givenCurrency = option;
-      this.form.get('givenCurrency').setValue(option.name);
-
+      this[property] = option;
+      this.form.get(property).setValue(option.name);
       this.shouldDisplayWmInterfaceOption();
-
-      this.currencies$ = this.store
-         .select(fromAdminModule.getAllCurrencies)
-         .pipe(map((currency) => currency.filter((c) => c.id !== option.id)));
-   }
-
-   onTakenCurrencySelect(option: Currency): void {
-      if (this.mode === 'edit') {
-         return;
-      }
-
-      this.takenCurrency = option;
-      this.form.get('takenCurrency').setValue(option.name);
-
-      this.shouldDisplayWmInterfaceOption();
-
-      this.currencies$ = this.store
-         .select(fromAdminModule.getAllCurrencies)
-         .pipe(map((currency) => currency.filter((c) => c.id !== option.id)));
    }
 
    onSlideChange(controlName: string): void {
@@ -231,13 +207,8 @@ export class ExchangesCreateComponent implements OnInit {
    }
 
    private shouldDisplayWmInterfaceOption(): void {
-      if (this.givenCurrency && this.givenCurrency.name.includes('Webmoney')) {
-         this.displayWMInterfaceOption = true;
-      } else if (
-         this.takenCurrency &&
-         this.takenCurrency.name.includes('Webmoney')
-      ) {
-         this.displayWMInterfaceOption = true;
-      }
+      this.displayWMInterfaceOption =
+         this.givenCurrency.name.includes('Webmoney') ||
+         this.takenCurrency.name.includes('Webmoney');
    }
 }
