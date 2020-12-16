@@ -61,7 +61,11 @@ export class AdminPageHeaderComponent implements OnInit {
       const arr = this.router.url.split('/');
       const page = arr.length === 4 ? arr[2] : arr.pop();
 
-      this.title = this.pagesData[page].title;
-      this.linkTo = this.pagesData[page].linkTo;
+      for (const key in this.pagesData) {
+         if (page.startsWith(key)) {
+            this.title = this.pagesData[key].title;
+            this.linkTo = this.pagesData[key].linkTo;
+         }
+      }
    }
 }
