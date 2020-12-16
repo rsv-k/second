@@ -147,3 +147,31 @@ exports.editExchange = async (req, res, next) => {
       next(error);
    }
 };
+
+exports.pathExchange = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      const body = req.body;
+
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      let exchange = await Exchange.findById(id);
+      if (!exchange) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      exchange = await Exchange.findByIdAndUpdate(id, body, { new: true })
+         .populate('takenCurrency')
+         .populate('givenCurrency');
+
+      res.status(200).json({ msg: 'Exchange updated successfully', exchange });
+   } catch (err) {
+      next(err);
+   }
+};
