@@ -43,12 +43,16 @@ exports.createExchange = async (req, res, next) => {
          return next(error);
       }
 
-      const exchange = new Exchange(body);
-      await exchange.save();
+      let exchange = new Exchange(body);
+      exchange = await exchange.save();
+
+      exchange = await Exchange.findById(exchange._id)
+         .populate('givenCurrency')
+         .populate('takenCurrency');
 
       res.status(201).json({
          msg: 'exchange created successfully',
-         exchange: exchange.populate('givenCurrency').populate('takenCurrency'),
+         exchange,
       });
    } catch (err) {
       next(err);
