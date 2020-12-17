@@ -55,7 +55,10 @@
       <ng-container matColumnDef="date">
          <th mat-header-cell *matHeaderCellDef>Дата создания</th>
          <td mat-cell *matCellDef="let order" class="orders__column">
-            <p class="orders__id" (click)="onNavigate(order.id)">
+            <p
+               class="orders__id"
+               [routerLink]="['/admin-dashboard/order', order.id]"
+            >
                # {{ order.id }}
             </p>
             <p class="orders__details no-margin">
