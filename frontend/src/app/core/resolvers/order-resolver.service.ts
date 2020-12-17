@@ -27,18 +27,7 @@ export class OrderResolver implements Resolve<any> {
             take(1)
          );
       } else {
-         this.store.dispatch(
-            OrderActions.getOrdersStart({
-               payload: {
-                  page: 1,
-                  status: '',
-                  id: '',
-                  givenCurrency: '',
-                  takenCurrency: '',
-                  number: 0,
-               },
-            })
-         );
+         this.store.dispatch(OrderActions.getOrdersStart());
 
          return this.store.select(fromRoot.getAllOrders).pipe(
             filter((orders) => !!orders.length),

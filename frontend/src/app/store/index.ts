@@ -40,6 +40,10 @@ export const getCurrentUrl = createSelector(
    getRouterState,
    (router) => router && router.state.url
 );
+export const getRouterQueryParams = createSelector(
+   getRouterState,
+   (router) => router && router.state.queryParams
+);
 
 export const exchangeState = (state: AppState) => state.exchange;
 export const getExchangesEntities = createSelector(
@@ -67,12 +71,15 @@ export const getOrdersEntities = createSelector(
    fromOrder.getOrdersEntities
 );
 
-export const getAllOrders = createSelector(orderState, (state) => {
-   const ids = [
-      ...state.ids.slice((state.currentPage - 1) * 10, state.currentPage * 10),
-   ];
-   return ids.map((id) => state.entities[id]);
-});
+export const getAllOrders = createSelector(
+   orderState,
+   getRouterState,
+   (state, router) => {
+      const page = router.state.queryParams.page;
+      const ids = [...state.ids.slice((page - 1) * 10, page * 10)];
+      return ids.map((id) => state.entities[id]);
+   }
+);
 export const getOrder = createSelector(
    getOrdersEntities,
    getRouterState,

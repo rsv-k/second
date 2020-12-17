@@ -5,14 +5,12 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 export interface State extends EntityState<Order> {
    error: string;
-   currentPage: number;
 }
 
 export const adapter: EntityAdapter<Order> = createEntityAdapter<Order>();
 
 export const initialState: State = adapter.getInitialState({
    error: null,
-   currentPage: 1,
 });
 
 const orderReducer = createReducer(
@@ -44,10 +42,6 @@ const orderReducer = createReducer(
          state
       )
    ),
-   on(OrderActions.setPage, (state, { payload }) => ({
-      ...state,
-      currentPage: payload.page,
-   })),
    on(OrderActions.orderError, (state, { payload }) => ({
       ...state,
       error: payload,

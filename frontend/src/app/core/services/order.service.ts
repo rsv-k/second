@@ -1,4 +1,3 @@
-import { OrdersOptions } from './../models/ordersOptions.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -29,7 +28,7 @@ export class OrderService {
          .pipe(pluck('order'), map(this.commonService.changeId));
    }
 
-   getOrders(opt: OrdersOptions): Observable<Order[]> {
+   getOrders(opt): Observable<Order[]> {
       const options = {
          params: new HttpParams(),
       };

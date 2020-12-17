@@ -1,4 +1,3 @@
-import { OrdersOptions } from './../../core/models/ordersOptions.model';
 import { Order } from './../../core/models/order.model';
 import { createAction, props } from '@ngrx/store';
 
@@ -11,10 +10,7 @@ export const createOrderSuccess = createAction(
    props<{ payload: Order }>()
 );
 
-export const getOrdersStart = createAction(
-   '[ORDER] GET ORDERS START',
-   props<{ payload: OrdersOptions }>()
-);
+export const getOrdersStart = createAction('[ORDER] GET ORDERS START');
 export const getOrdersSuccess = createAction(
    '[ORDER] GET ORDERS SUCCESS',
    props<{ payload: Order[] }>()
@@ -61,11 +57,6 @@ export const cancelOrderSuccess = createAction(
 export const addOrder = createAction(
    '[ORDER] ADD ORDER',
    props<{ payload: Order }>()
-);
-
-export const setPage = createAction(
-   '[ORDER] SET ORDER PAGE',
-   props<{ payload: { page: number } }>()
 );
 
 export const orderError = createAction(

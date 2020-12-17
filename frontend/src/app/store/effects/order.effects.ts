@@ -33,16 +33,17 @@ export class OrderEffects {
    getOrders$ = createEffect(() =>
       this.actions$.pipe(
          ofType(OrderActions.getOrdersStart),
-         mergeMap((action) =>
-            this.orderService.getOrders(action.payload).pipe(
+         mergeMap(() => this.store.select(fromRoot.getRouterQueryParams)),
+         mergeMap((queryParams) => {
+            return this.orderService.getOrders(queryParams).pipe(
                map((orders: Order[]) =>
                   OrderActions.getOrdersSuccess({ payload: orders })
                ),
                catchError((error) =>
                   of(OrderActions.orderError({ payload: error.message }))
                )
-            )
-         )
+            );
+         })
       )
    );
 

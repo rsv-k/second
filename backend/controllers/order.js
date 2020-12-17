@@ -51,9 +51,12 @@ exports.getOrders = async (req, res, next) => {
    try {
       let page = +req.query.page - 1;
       const amount = 10;
-      let options = {
-         status: new RegExp('^' + req.query.status),
-      };
+      let options = {};
+      if (req.query.status) {
+         options = {
+            status: new RegExp('^' + req.query.status),
+         };
+      }
 
       if (req.query.number > 0) {
          options = {

@@ -1,4 +1,3 @@
-import { OrdersOptions } from './../../../../core/models/ordersOptions.model';
 import { OrdersStatusDialogComponent } from './../orders-status-dialog/orders-status-dialog.component';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -11,6 +10,7 @@ import { BaseComponent } from './../../../base.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdersSearchComponent } from '../orders-search/orders-search.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
    selector: 'app-orders-show',
@@ -29,23 +29,26 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
    selection = new SelectionModel<Order>(true, []);
 
-   private ordersOptions: OrdersOptions = {
+   private ordersOptions = {
       page: 1,
-      status: '',
-      id: '',
-      givenCurrency: '',
-      takenCurrency: '',
-      number: null,
+      // status: null,
+      // id: null,
+      // givenCurrency: null,
+      // takenCurrency: null,
+      // number: null,
    };
 
    constructor(
       private store: Store<fromRoot.AppState>,
-      private dialog: MatDialog
+      private dialog: MatDialog,
+      private route: ActivatedRoute,
+      private router: Router
    ) {
       super();
    }
 
    ngOnInit(): void {
+      this.attachQueryParams(this.ordersOptions);
       this.store
          .select(fromRoot.getAllOrders)
          .pipe(
@@ -120,7 +123,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          ...this.ordersOptions,
          page: this.ordersOptions.page + 1,
       };
-      this.getOrders();
+      this.attachQueryParams(this.ordersOptions);
    }
 
    prevPage(): void {
@@ -132,7 +135,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          ...this.ordersOptions,
          page: this.ordersOptions.page - 1,
       };
-      this.getOrders();
+      this.attachQueryParams(this.ordersOptions);
    }
 
    private selectionClear(): void {
@@ -144,14 +147,14 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    private getOrders(): void {
-      this.store.dispatch(
-         OrderActions.setPage({ payload: { page: this.ordersOptions.page } })
-      );
+      this.store.dispatch(OrderActions.getOrdersStart());
+   }
 
-      this.store.dispatch(
-         OrderActions.getOrdersStart({
-            payload: this.ordersOptions,
-         })
-      );
+   private attachQueryParams(queryParams): void {
+      this.router.navigate([], {
+         relativeTo: this.route,
+         queryParams,
+         queryParamsHandling: 'merge',
+      });
    }
 }
