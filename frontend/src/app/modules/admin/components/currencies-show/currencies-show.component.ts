@@ -1,5 +1,5 @@
 import { Currency } from './../../../../core/models/currency.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as CurrencyActions from '../../store/actions/currency.actions';
@@ -9,6 +9,7 @@ import * as fromAdminModule from '../../store/index';
    selector: 'app-currencies-show',
    templateUrl: './currencies-show.component.html',
    styleUrls: ['./currencies-show.component.scss'],
+   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CurrenciesShowComponent implements OnInit {
    currencies$: Observable<Currency[]>;
