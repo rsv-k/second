@@ -1,14 +1,14 @@
-<header class="admin-page-header">
+<header class="admin-page-header" *ngIf="url$ | async as url">
    <nav class="admin-page-header__nav">
       <h2 class="title">
-         {{ title }}
+         {{ pagesData[url].title }}
       </h2>
 
       <button
-         *ngIf="linkTo"
+         *ngIf="pagesData[url].linkTo"
          mat-button
          class="admin-page-header__button"
-         [routerLink]="['./', linkTo]"
+         [routerLink]="['./', pagesData[url].linkTo]"
       >
          <mat-icon>add</mat-icon>
          <span class="admin-page-header__text">Добавить</span>

@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { filter } from 'rxjs/operators';
-import { NavigationEnd, Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../../../store/index';
+import { map } from 'rxjs/operators';
 
 @Component({
    selector: 'app-admin-page-header',
    templateUrl: './admin-page-header.component.html',
    styleUrls: ['./admin-page-header.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminPageHeaderComponent implements OnInit {
-   title: string;
-   linkTo: string;
+   url$: Observable<string>;
 
-   private pagesData = {
+   pagesData = {
       'exchanges-show': {
          title: 'Направления обмена',
          linkTo: 'exchanges-create',
@@ -45,27 +47,11 @@ export class AdminPageHeaderComponent implements OnInit {
          title: 'Мерчанты',
       },
    };
-   constructor(private router: Router) {}
+   constructor(private store: Store<fromRoot.AppState>) {}
 
    ngOnInit(): void {
-      this.updatePageData();
-
-      this.router.events
-         .pipe(filter((e) => e instanceof NavigationEnd))
-         .subscribe(() => {
-            this.updatePageData();
-         });
-   }
-
-   private updatePageData(): void {
-      const arr = this.router.url.split('/');
-      const page = arr.length === 4 ? arr[2] : arr.pop();
-
-      for (const key in this.pagesData) {
-         if (page.startsWith(key)) {
-            this.title = this.pagesData[key].title;
-            this.linkTo = this.pagesData[key].linkTo;
-         }
-      }
+      this.url$ = this.store
+         .select(fromRoot.getCurrentUrl)
+         .pipe(map((url) => url.split('/').pop().split('?')[0]));
    }
 }

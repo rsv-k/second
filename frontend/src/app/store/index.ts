@@ -36,6 +36,10 @@ export const selectRouterParamId = createSelector(
    getRouterState,
    (router) => router && router.state.params.id
 );
+export const getCurrentUrl = createSelector(
+   getRouterState,
+   (router) => router && router.state.url
+);
 
 export const exchangeState = (state: AppState) => state.exchange;
 export const getExchangesEntities = createSelector(
