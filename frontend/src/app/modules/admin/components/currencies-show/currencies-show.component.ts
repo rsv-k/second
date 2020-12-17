@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Currency } from './../../../../core/models/currency.model';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -15,10 +14,7 @@ export class CurrenciesShowComponent implements OnInit {
    currencies$: Observable<Currency[]>;
    displayedColumns = ['name', 'reserve', 'card', 'edit', 'delete'];
 
-   constructor(
-      private store: Store<fromAdminModule.AppState>,
-      private router: Router
-   ) {}
+   constructor(private store: Store<fromAdminModule.AppState>) {}
 
    ngOnInit(): void {
       this.currencies$ = this.store.select(fromAdminModule.getAllCurrencies);
@@ -26,9 +22,5 @@ export class CurrenciesShowComponent implements OnInit {
 
    onDeleteCurrency(id: string): void {
       this.store.dispatch(CurrencyActions.deleteCurrencyStart({ payload: id }));
-   }
-
-   onEditCurrency(id: string): void {
-      this.router.navigate(['admin-dashboard/currencies-edit', id]);
    }
 }

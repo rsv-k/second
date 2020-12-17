@@ -52,6 +52,6 @@ export class AdminPageHeaderComponent implements OnInit {
    ngOnInit(): void {
       this.url$ = this.store
          .select(fromRoot.getCurrentUrl)
-         .pipe(map((url) => url.split('/').pop().split('?')[0]));
+         .pipe(map((url) => url.split('/')[2].split('?')[0]));
    }
 }

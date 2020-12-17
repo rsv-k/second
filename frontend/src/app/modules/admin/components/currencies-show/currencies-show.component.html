@@ -34,7 +34,7 @@
          <button
             mat-icon-button
             color="accent"
-            (click)="onEditCurrency(currency.id)"
+            [routerLink]="['/admin-dashboard/currencies-edit', currency.id]"
          >
             <mat-icon>edit</mat-icon>
          </button>
