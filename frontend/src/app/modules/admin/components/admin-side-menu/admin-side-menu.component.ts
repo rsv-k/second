@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
    selector: 'app-admin-side-menu',
    templateUrl: './admin-side-menu.component.html',
    styleUrls: ['./admin-side-menu.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminSideMenuComponent implements OnInit {
+export class AdminSideMenuComponent {
    links = [
       {
          linkTo: './orders-show',
@@ -33,8 +34,4 @@ export class AdminSideMenuComponent implements OnInit {
          text: 'Мерчанты',
       },
    ];
-
-   constructor() {}
-
-   ngOnInit(): void {}
 }
