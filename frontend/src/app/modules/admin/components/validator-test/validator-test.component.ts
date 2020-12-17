@@ -1,5 +1,10 @@
 import { Validator } from './../../../../core/models/validator.model';
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+   ChangeDetectionStrategy,
+   Component,
+   Inject,
+   OnInit,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -7,6 +12,7 @@ import { FormControl, Validators } from '@angular/forms';
    selector: 'app-validator-test',
    templateUrl: './validator-test.component.html',
    styleUrls: ['./validator-test.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidatorTestComponent implements OnInit {
    control: FormControl;

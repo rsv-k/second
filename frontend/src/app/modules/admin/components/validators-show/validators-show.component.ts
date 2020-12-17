@@ -1,5 +1,5 @@
 import { Validator } from './../../../../core/models/validator.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ValidatorsCreateComponent } from '../validators-create/validators-create.component';
@@ -12,6 +12,7 @@ import { ValidatorTestComponent } from '../validator-test/validator-test.compone
    selector: 'app-validators-show',
    templateUrl: './validators-show.component.html',
    styleUrls: ['./validators-show.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidatorsShowComponent implements OnInit {
    validators$: Observable<Validator[]>;

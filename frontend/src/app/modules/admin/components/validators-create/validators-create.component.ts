@@ -1,5 +1,10 @@
 import { Validator } from './../../../../core/models/validator.model';
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+   ChangeDetectionStrategy,
+   Component,
+   Inject,
+   OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -10,6 +15,7 @@ import * as ValidatorActions from '../../store/actions/validator.actions';
    selector: 'app-validators-create',
    templateUrl: './validators-create.component.html',
    styleUrls: ['./validators-create.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidatorsCreateComponent implements OnInit {
    mode = 'Сохранить';
