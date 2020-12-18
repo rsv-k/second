@@ -75,9 +75,7 @@ export const getAllOrders = createSelector(
    orderState,
    getRouterState,
    (state, router) => {
-      const page = router.state.queryParams.page;
-      const ids = [...state.ids.slice((page - 1) * 10, page * 10)];
-      return ids.map((id) => state.entities[id]);
+      return Object.keys(state.entities).map((id) => state.entities[id]);
    }
 );
 export const getOrder = createSelector(

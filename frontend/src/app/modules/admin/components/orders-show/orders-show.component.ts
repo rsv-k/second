@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';
@@ -29,14 +29,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
    selection = new SelectionModel<Order>(true, []);
 
-   private ordersOptions = {
-      page: 1,
-      // status: null,
-      // id: null,
-      // givenCurrency: null,
-      // takenCurrency: null,
-      // number: null,
-   };
+   private ordersOptions: any = {};
 
    constructor(
       private store: Store<fromRoot.AppState>,
@@ -48,13 +41,14 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    ngOnInit(): void {
+      this.ordersOptions = {
+         page: 1,
+      };
+
       this.attachQueryParams(this.ordersOptions);
       this.store
          .select(fromRoot.getAllOrders)
-         .pipe(
-            filter((orders) => !!orders.length),
-            takeUntil(this.destroyed)
-         )
+         .pipe(takeUntil(this.destroyed))
          .subscribe((orders) => {
             this.dataSource.data = orders;
          });
@@ -69,8 +63,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          this.ordersOptions = {
             ...this.ordersOptions,
             ...result,
+            page: 1,
          };
-         this.getOrders();
+
+         this.attachQueryParams(this.ordersOptions);
       });
    }
 
@@ -90,7 +86,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          this.store.dispatch(
             OrderActions.updateOrdersStart({ payload: { ids, status } })
          );
-         this.getOrders();
          this.selectionClear();
       });
    }
@@ -98,7 +93,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    onDeleteOrders(): void {
       const ids = this.getSelectedIds();
       this.store.dispatch(OrderActions.deleteOrdersStart({ payload: { ids } }));
-      this.getOrders();
       this.selectionClear();
    }
 
@@ -144,10 +138,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
 
    private getSelectedIds(): string[] {
       return this.selection.selected.map((order) => order.id);
-   }
-
-   private getOrders(): void {
-      this.store.dispatch(OrderActions.getOrdersStart());
    }
 
    private attachQueryParams(queryParams): void {

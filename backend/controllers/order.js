@@ -68,14 +68,14 @@ exports.getOrders = async (req, res, next) => {
       if (req.query.givenCurrency) {
          options = {
             ...options,
-            givenCurrency: req.query.givenCurrency,
+            givenCurrency: mongoose.Types.ObjectId(req.query.givenCurrency),
          };
       }
 
       if (req.query.takenCurrency) {
          options = {
             ...options,
-            takenCurrency: req.query.takenCurrency,
+            takenCurrency: mongoose.Types.ObjectId(req.query.takenCurrency),
          };
       }
 
@@ -87,6 +87,10 @@ exports.getOrders = async (req, res, next) => {
 
       if ((await Order.countDocuments()) < page * 10) {
          page--;
+      }
+
+      if (options._id || options.number) {
+         page = 0;
       }
 
       const orders = await Order.find(options)

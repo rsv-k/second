@@ -18,9 +18,11 @@ const orderReducer = createReducer(
    on(OrderActions.createOrderSuccess, (state, { payload }) =>
       adapter.addOne(payload, state)
    ),
-   on(OrderActions.getOrdersSuccess, (state, { payload }) =>
-      adapter.addMany(payload, state)
-   ),
+   on(OrderActions.getOrdersSuccess, (state, { payload }) => {
+      const newState = adapter.removeAll(state);
+
+      return adapter.addMany(payload, newState);
+   }),
    on(OrderActions.getOrderSuccess, (state, { payload }) =>
       adapter.setOne(payload, state)
    ),

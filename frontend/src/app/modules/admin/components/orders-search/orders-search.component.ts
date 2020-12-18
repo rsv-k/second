@@ -28,11 +28,11 @@ export class OrdersSearchComponent implements OnInit {
       this.currencies$ = this.store.select(fromAdminModule.getAllCurrencies);
 
       this.form = new FormGroup({
-         status: new FormControl(''),
-         id: new FormControl(''),
-         givenCurrency: new FormControl(''),
-         takenCurrency: new FormControl(''),
-         number: new FormControl(''),
+         status: new FormControl(null),
+         id: new FormControl(null),
+         givenCurrency: new FormControl(null),
+         takenCurrency: new FormControl(null),
+         number: new FormControl(null),
       });
    }
 
