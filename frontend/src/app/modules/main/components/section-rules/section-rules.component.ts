@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-section-rules',
-  templateUrl: './section-rules.component.html',
-  styleUrls: ['./section-rules.component.scss']
+   selector: 'app-section-rules',
+   templateUrl: './section-rules.component.html',
+   styleUrls: ['./section-rules.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionRulesComponent implements OnInit {
+   constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+   ngOnInit(): void {}
 }

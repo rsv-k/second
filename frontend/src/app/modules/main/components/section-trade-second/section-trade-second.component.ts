@@ -42,7 +42,6 @@ export class SectionTradeSecondComponent implements OnInit {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 2 }));
 
       this.exchange$ = this.store.select(fromRoot.getExchange).pipe(
-         first(),
          tap((exchange) => {
             this.takenCourse = exchange.takenCurrencyCourse;
             this.givenCourse = exchange.givenCurrencyCourse;

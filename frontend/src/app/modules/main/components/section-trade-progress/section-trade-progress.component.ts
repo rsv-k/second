@@ -1,5 +1,5 @@
 import { Progress } from './../../../../core/models/progress.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import * as fromApp from '../../../../store/index';
    selector: 'app-section-trade-progress',
    templateUrl: './section-trade-progress.component.html',
    styleUrls: ['./section-trade-progress.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionTradeProgressComponent implements OnInit {
    progress$: Observable<number>;

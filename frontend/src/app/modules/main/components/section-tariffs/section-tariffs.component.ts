@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import { Observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
    selector: 'app-section-tariffs',
    templateUrl: './section-tariffs.component.html',
    styleUrls: ['./section-tariffs.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionTariffsComponent implements OnInit {
    exchanges$: Observable<Exchange[]>;
