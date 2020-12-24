@@ -3,24 +3,24 @@ const app = express();
 const errorHandler = require('./middlewares/error');
 const path = require('path');
 
-const currencyRoutes = require('./routes/currency');
-const exchangeRoutes = require('./routes/exchange');
-const orderRoutes = require('./routes/order');
+const currencyRoutes = require('./routes/currencies');
+const exchangeRoutes = require('./routes/exchanges');
+const orderRoutes = require('./routes/orders');
 const serviceValidatorsRoutes = require('./routes/serviceValidators');
-const validatorRoutes = require('./routes/validator');
-const merchantRoutes = require('./routes/merchant');
+const validatorRoutes = require('./routes/validators');
+const merchantRoutes = require('./routes/merchants');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/images', express.static(path.join('images')));
 
-app.use('/api/currency', currencyRoutes);
-app.use('/api/exchange', exchangeRoutes);
-app.use('/api/order', orderRoutes);
-app.use('/api/merchant', serviceValidatorsRoutes);
-app.use('/api/validator', validatorRoutes);
-app.use('/api/merchant', merchantRoutes);
+app.use('/api/v1/currencies', currencyRoutes);
+app.use('/api/v1/exchanges', exchangeRoutes);
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/serviceValidators', serviceValidatorsRoutes);
+app.use('/api/v1/validators', validatorRoutes);
+app.use('/api/v1/merchants', merchantRoutes);
 
 app.use(errorHandler);
 
