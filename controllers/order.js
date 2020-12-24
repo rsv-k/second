@@ -5,48 +5,9 @@ const mongooseHelper = require('../utils/mongoose');
 const mongoose = require('mongoose');
 const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
 
-exports.createOrder = async (req, res, next) => {
-   try {
-      if (Object.keys(req.body).length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
-
-      const body = req.body;
-      body.givenCurrency = body.givenCurrencyId;
-      body.takenCurrency = body.takenCurrencyId;
-      delete body.givenCurrencyId;
-      delete body.takenCurrencyId;
-
-      const exchange = await Exchange.findOne({
-         givenCurrency: mongoose.Types.ObjectId(body.givenCurrency),
-         takenCurrency: mongoose.Types.ObjectId(body.takenCurrency),
-      });
-      if (!exchange || !exchange.isActive) {
-         const error = new Error('Active exchange not found');
-         error.statusCode = 404;
-         return next(error);
-      }
-
-      await webmoneyStatisticsHelper.increaseOrdersAmount();
-      const webmoneyStatistics = await webmoneyStatisticsHelper.getWebmoneyStatistics();
-      body.number = webmoneyStatistics.ordersAmount;
-
-      let order = new Order(body);
-      await order.save();
-      order = await Order.findById(order._id)
-         .populate('givenCurrency')
-         .populate('takenCurrency');
-
-      res.status(200).json({ msg: 'Order created successfully', order });
-   } catch (err) {
-      console.log(err);
-      const error = new Error('Internal server error');
-      next(error);
-   }
-};
-
+//@desc     Get all orders
+//@route    GET api/v1/orders
+//@access   Private
 exports.getOrders = async (req, res, next) => {
    try {
       let page = +req.query.page - 1;
@@ -107,6 +68,9 @@ exports.getOrders = async (req, res, next) => {
    }
 };
 
+//@desc     Get order
+//@route    GET api/v1/orders/:id
+//@access   Public
 exports.getOrder = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -133,6 +97,54 @@ exports.getOrder = async (req, res, next) => {
    }
 };
 
+//@desc     Create new order
+//@route    POST api/v1/orders
+//@access   Public
+exports.createOrder = async (req, res, next) => {
+   try {
+      if (Object.keys(req.body).length === 0) {
+         const error = new Error('Incomplete data');
+         error.statusCode = 422;
+         return next(error);
+      }
+
+      const body = req.body;
+      body.givenCurrency = body.givenCurrencyId;
+      body.takenCurrency = body.takenCurrencyId;
+      delete body.givenCurrencyId;
+      delete body.takenCurrencyId;
+
+      const exchange = await Exchange.findOne({
+         givenCurrency: mongoose.Types.ObjectId(body.givenCurrency),
+         takenCurrency: mongoose.Types.ObjectId(body.takenCurrency),
+      });
+      if (!exchange || !exchange.isActive) {
+         const error = new Error('Active exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      await webmoneyStatisticsHelper.increaseOrdersAmount();
+      const webmoneyStatistics = await webmoneyStatisticsHelper.getWebmoneyStatistics();
+      body.number = webmoneyStatistics.ordersAmount;
+
+      let order = new Order(body);
+      await order.save();
+      order = await Order.findById(order._id)
+         .populate('givenCurrency')
+         .populate('takenCurrency');
+
+      res.status(200).json({ msg: 'Order created successfully', order });
+   } catch (err) {
+      console.log(err);
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
+
+//@desc     Check if order is still active
+//@route    GET api/v1/orders/isOrderActive
+//@access   Public
 exports.isActiveOrder = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -167,6 +179,9 @@ exports.isActiveOrder = async (req, res, next) => {
    }
 };
 
+//@desc     Update order
+//@route    PUT api/v1/orders/:id
+//@access   Public
 exports.updateOrders = async (req, res, next) => {
    try {
       const ids = req.body.ids;
@@ -196,6 +211,9 @@ exports.updateOrders = async (req, res, next) => {
    }
 };
 
+//@desc     Cancel order
+//@route    PATCH api/v1/orders/:id
+//@access   Public
 exports.cancelOrder = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -214,6 +232,9 @@ exports.cancelOrder = async (req, res, next) => {
    }
 };
 
+//@desc     Delete order
+//@route    DELETE api/v1/orders/:id
+//@access   Private
 exports.deleteOrders = async (req, res, next) => {
    try {
       const ids = req.body;

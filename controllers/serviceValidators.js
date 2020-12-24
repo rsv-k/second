@@ -1,5 +1,8 @@
 const serviceValidatorsHelper = require('../utils/serviceValidators');
 
+//@desc     Validate order in webmoney system
+//@route    POST api/v1/serviceValidators/webmoney
+//@access   Public
 exports.webmoney = async (req, res, next) => {
    try {
       const operation = 4;

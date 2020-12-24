@@ -2,6 +2,9 @@ const Validator = require('../models/validator');
 const { validationResult } = require('express-validator');
 const mongooseHelper = require('../utils/mongoose');
 
+//@desc     Create new validator
+//@route    POST api/v1/validators
+//@access   Private
 exports.createValidator = async (req, res, next) => {
    try {
       const errors = validationResult(req);
@@ -23,6 +26,9 @@ exports.createValidator = async (req, res, next) => {
    }
 };
 
+//@desc     Get all validators
+//@route    GET api/v1/validators
+//@access   Private
 exports.getValidators = async (req, res, next) => {
    try {
       const validators = await Validator.find({});
@@ -41,6 +47,9 @@ exports.getValidators = async (req, res, next) => {
    }
 };
 
+//@desc     Delete validator
+//@route    DELETE api/v1/validators/:id
+//@access   Private
 exports.deleteValidator = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -68,6 +77,9 @@ exports.deleteValidator = async (req, res, next) => {
    }
 };
 
+//@desc     Update validator
+//@route    PUT api/v1/validators/:id
+//@access   Private
 exports.editValidator = async (req, res, next) => {
    try {
       const id = req.params.id;
