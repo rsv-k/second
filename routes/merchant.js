@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const merchantController = require('../controllers/merchant');
+const {
+   getMerchants,
+   createMerchant,
+   editMerchant,
+   deleteMerchant,
+} = require('../controllers/merchants');
 
-router.post('', merchantController.createMerchant);
-router.get('', merchantController.getMerchants);
-router.delete('/:id', merchantController.deleteMerchant);
-router.put('/:id', merchantController.editMerchant);
+router.get('', getMerchants);
+router.post('', createMerchant);
+router.put('/:id', editMerchant);
+router.delete('/:id', deleteMerchant);
 
 module.exports = router;
