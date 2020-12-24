@@ -2,6 +2,55 @@ const Currency = require('../models/currency');
 const fileHelper = require('../utils/file');
 const mongooseHelper = require('../utils/mongoose');
 
+//@desc     Get all currencies
+//@route    GET api/v1/currencies
+//@access   Private
+exports.getCurrencies = async (req, res, next) => {
+   try {
+      const currencies = await Currency.find();
+      if (currencies.length === 0) {
+         const error = new Error('Not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({
+         msg: 'currencies fetched successfully',
+         currencies,
+      });
+   } catch (err) {
+      next(error);
+   }
+};
+
+//@desc     Get currency
+//@route    GET api/v1/currencies/:id
+//@access   Private
+exports.getCurrency = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Currency not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const currency = await Currency.findById(id);
+      if (!currency) {
+         const error = new Error('Not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({ msg: 'Currency fetched successfully', currency });
+   } catch (err) {
+      next(error);
+   }
+};
+
+//@desc     Create new currency
+//@route    POST api/v1/currencies
+//@access   Private
 exports.createCurrency = async (req, res, next) => {
    try {
       const body = JSON.parse(req.body.data);
@@ -24,24 +73,9 @@ exports.createCurrency = async (req, res, next) => {
    }
 };
 
-exports.getCurrencies = async (req, res, next) => {
-   try {
-      const currencies = await Currency.find();
-      if (currencies.length === 0) {
-         const error = new Error('Not found');
-         error.statusCode = 404;
-         return next(error);
-      }
-
-      res.status(200).json({
-         msg: 'currencies fetched successfully',
-         currencies,
-      });
-   } catch (err) {
-      next(error);
-   }
-};
-
+//@desc     Delete currency
+//@route    DELETE api/v1/currencies/:id
+//@access   Private
 exports.deleteCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -67,28 +101,9 @@ exports.deleteCurrency = async (req, res, next) => {
    }
 };
 
-exports.getCurrency = async (req, res, next) => {
-   try {
-      const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Currency not found');
-         error.statusCode = 404;
-         return next(error);
-      }
-
-      const currency = await Currency.findById(id);
-      if (!currency) {
-         const error = new Error('Not found');
-         error.statusCode = 404;
-         return next(error);
-      }
-
-      res.status(200).json({ msg: 'Currency fetched successfully', currency });
-   } catch (err) {
-      next(error);
-   }
-};
-
+//@desc     Update currency
+//@route    PUT api/v1/currencies/:id
+//@access   Private
 exports.updateCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;

@@ -1,6 +1,9 @@
 const Exchange = require('../models/exchange');
 const mongooseHelper = require('../utils/mongoose');
 
+//@desc     Get all exchanges
+//@route    GET api/v1/exchanges
+//@access   Public
 exports.getExchanges = async (req, res, next) => {
    try {
       const exchanges = await Exchange.find({})
@@ -33,58 +36,9 @@ exports.getExchanges = async (req, res, next) => {
    }
 };
 
-exports.createExchange = async (req, res, next) => {
-   try {
-      const body = req.body;
-
-      if (Object.keys(body).length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
-
-      let exchange = new Exchange(body);
-      exchange = await exchange.save();
-
-      exchange = await Exchange.findById(exchange._id)
-         .populate('givenCurrency')
-         .populate('takenCurrency');
-
-      res.status(201).json({
-         msg: 'exchange created successfully',
-         exchange,
-      });
-   } catch (err) {
-      next(err);
-   }
-};
-
-exports.deleteExchange = async (req, res, next) => {
-   try {
-      const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Exchange not found');
-         error.statusCode = 404;
-         return next(error);
-      }
-
-      const exchange = await Exchange.findById(id);
-
-      if (!exchange) {
-         const error = new Error('Exchange not found');
-         error.statusCode = 404;
-         return next(error);
-      }
-
-      await exchange.remove();
-
-      res.status(200).json({ msg: 'Exchange deleted successfully', exchange });
-   } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
-   }
-};
-
+//@desc     Get exchange
+//@route    GET api/v1/exchanges/:id
+//@access   Public
 exports.getExchange = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -114,6 +68,67 @@ exports.getExchange = async (req, res, next) => {
    }
 };
 
+//@desc     Create new exchange
+//@route    POST api/v1/exchanges
+//@access   Private
+exports.createExchange = async (req, res, next) => {
+   try {
+      const body = req.body;
+
+      if (Object.keys(body).length === 0) {
+         const error = new Error('Incomplete data');
+         error.statusCode = 422;
+         return next(error);
+      }
+
+      let exchange = new Exchange(body);
+      exchange = await exchange.save();
+
+      exchange = await Exchange.findById(exchange._id)
+         .populate('givenCurrency')
+         .populate('takenCurrency');
+
+      res.status(201).json({
+         msg: 'exchange created successfully',
+         exchange,
+      });
+   } catch (err) {
+      next(err);
+   }
+};
+
+//@desc     Delete exchange
+//@route    DELETE api/v1/exchanges/:id
+//@access   Private
+exports.deleteExchange = async (req, res, next) => {
+   try {
+      const id = req.params.id;
+      if (!mongooseHelper.isValidId(id)) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      const exchange = await Exchange.findById(id);
+
+      if (!exchange) {
+         const error = new Error('Exchange not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      await exchange.remove();
+
+      res.status(200).json({ msg: 'Exchange deleted successfully', exchange });
+   } catch (err) {
+      const error = new Error('Internal server error');
+      next(error);
+   }
+};
+
+//@desc     Update exchange
+//@route    PUT api/v1/exchanges/:id
+//@access   Private
 exports.editExchange = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -148,7 +163,10 @@ exports.editExchange = async (req, res, next) => {
    }
 };
 
-exports.pathExchange = async (req, res, next) => {
+//@desc     Patch exchange
+//@route    PATCH api/v1/exchanges/:id
+//@access   Private
+exports.patchExchange = async (req, res, next) => {
    try {
       const id = req.params.id;
       const body = req.body;

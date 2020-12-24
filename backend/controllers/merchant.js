@@ -1,20 +1,9 @@
 const Merchant = require('../models/merchant');
 const mongooseHelper = require('../utils/mongoose');
 
-exports.createMerchant = async (req, res, next) => {
-   try {
-      let merchant = new Merchant(req.body);
-      merchant = await merchant.save();
-
-      res.status(201).json({
-         msg: 'merchant created successfully',
-         merchant,
-      });
-   } catch (err) {
-      next(err);
-   }
-};
-
+//@desc     Get all merchants
+//@route    GET api/v1/merchants
+//@access   Private
 exports.getMerchants = async (req, res, next) => {
    try {
       const merchants = await Merchant.find({});
@@ -33,6 +22,26 @@ exports.getMerchants = async (req, res, next) => {
    }
 };
 
+//@desc     Create merchant
+//@route    POST api/v1/merchants/:id
+//@access   Private
+exports.createMerchant = async (req, res, next) => {
+   try {
+      let merchant = new Merchant(req.body);
+      merchant = await merchant.save();
+
+      res.status(201).json({
+         msg: 'merchant created successfully',
+         merchant,
+      });
+   } catch (err) {
+      next(err);
+   }
+};
+
+//@desc     Delete merchant
+//@route    DELETE api/v1/merchants/:id
+//@access   Private
 exports.deleteMerchant = async (req, res, next) => {
    try {
       const id = req.params.id;
@@ -60,6 +69,9 @@ exports.deleteMerchant = async (req, res, next) => {
    }
 };
 
+//@desc     Update merchant
+//@route    PUT api/v1/merchants/:id
+//@access   Private
 exports.editMerchant = async (req, res, next) => {
    try {
       const id = req.params.id;
