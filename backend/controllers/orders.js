@@ -179,8 +179,8 @@ exports.isActiveOrder = async (req, res, next) => {
    }
 };
 
-//@desc     Update order
-//@route    PUT api/v1/orders/:id
+//@desc     Update orders
+//@route    PUT api/v1/orders/:ids
 //@access   Public
 exports.updateOrders = async (req, res, next) => {
    try {
@@ -232,8 +232,8 @@ exports.cancelOrder = async (req, res, next) => {
    }
 };
 
-//@desc     Delete order
-//@route    DELETE api/v1/orders/:id
+//@desc     Delete orders
+//@route    DELETE api/v1/orders/:ids
 //@access   Private
 exports.deleteOrders = async (req, res, next) => {
    try {
