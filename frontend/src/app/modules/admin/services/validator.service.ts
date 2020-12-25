@@ -5,7 +5,7 @@ import { map, pluck } from 'rxjs/operators';
 import { Validator } from '../../../core/models/validator.model';
 import { CommonService } from '../../../core/services/common.service';
 
-const ENDPOINT_URL = '/api/validator/';
+const ENDPOINT_URL = '/api/v1/validators/';
 
 interface Response {
    msg: string;

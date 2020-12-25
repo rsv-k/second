@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 import { Exchange } from '../models/exchange.model';
 
-const ENDPOINT_URL = '/api/exchange/';
+const ENDPOINT_URL = '/api/v1/exchanges/';
 
 interface Response {
    msg: string;

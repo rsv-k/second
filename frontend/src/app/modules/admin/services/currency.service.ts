@@ -5,7 +5,7 @@ import { Currency } from './../../../core/models/currency.model';
 import { Observable } from 'rxjs';
 import { CommonService } from '@core/services/common.service';
 
-const ENDPOINT_URL = 'currency/';
+const ENDPOINT_URL = '/api/v1/currencies/';
 
 interface Response {
    msg: string;
@@ -21,7 +21,7 @@ export class CurrencyService {
    ) {}
 
    getCurrencies(): Observable<Currency[]> {
-      return this.http.get<Response>('/api/' + ENDPOINT_URL).pipe(
+      return this.http.get<Response>(ENDPOINT_URL).pipe(
          pluck('currencies'),
          map((currencies) => currencies.map(this.commonService.changeId))
       );
@@ -29,7 +29,7 @@ export class CurrencyService {
 
    getCurrency(id: string): Observable<Currency> {
       return this.http
-         .get<Response>('/api/currency/' + id)
+         .get<Response>(ENDPOINT_URL + id)
          .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 
@@ -43,13 +43,13 @@ export class CurrencyService {
       formData.append('data', JSON.stringify(data));
 
       return this.http
-         .post<Response>('/api/' + ENDPOINT_URL, formData)
+         .post<Response>(ENDPOINT_URL, formData)
          .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 
    deleteCurrency(id: string): Observable<Currency> {
       return this.http
-         .delete<Response>('/api/' + ENDPOINT_URL + id)
+         .delete<Response>(ENDPOINT_URL + id)
          .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 
@@ -63,7 +63,7 @@ export class CurrencyService {
       formData.append('data', JSON.stringify(data));
 
       return this.http
-         .put<Response>('/api/' + ENDPOINT_URL + id, formData)
+         .put<Response>(ENDPOINT_URL + id, formData)
          .pipe(pluck('currency'), map(this.commonService.changeId));
    }
 }

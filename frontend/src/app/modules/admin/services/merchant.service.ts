@@ -5,7 +5,7 @@ import { map, pluck } from 'rxjs/operators';
 import { Merchant } from '../../../core/models/merchant.model';
 import { CommonService } from '../../../core/services/common.service';
 
-const ENDPOINT_URL = '/api/merchant/';
+const ENDPOINT_URL = '/api/v1/merchants/';
 
 interface Response {
    msg: string;

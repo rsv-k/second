@@ -54,7 +54,7 @@ export class CurrenciesCreateComponent implements OnInit {
          icon: this.file,
       };
 
-      if (this.currencyToEdit) {
+      if (!this.currencyToEdit) {
          this.store.dispatch(
             CurrencyActions.addCurrencyStart({ payload: currency })
          );
