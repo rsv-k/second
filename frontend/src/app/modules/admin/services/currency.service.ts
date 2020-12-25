@@ -8,9 +8,8 @@ import { CommonService } from '@core/services/common.service';
 const ENDPOINT_URL = '/api/v1/currencies/';
 
 interface Response {
-   msg: string;
-   currency?: any;
-   currencies?: any[];
+   status: boolean;
+   data: any | any[];
 }
 
 @Injectable()
@@ -22,7 +21,7 @@ export class CurrencyService {
 
    getCurrencies(): Observable<Currency[]> {
       return this.http.get<Response>(ENDPOINT_URL).pipe(
-         pluck('currencies'),
+         pluck('data'),
          map((currencies) => currencies.map(this.commonService.changeId))
       );
    }
@@ -30,7 +29,7 @@ export class CurrencyService {
    getCurrency(id: string): Observable<Currency> {
       return this.http
          .get<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('currency'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    createCurrency(currency: Currency): Observable<Currency> {
@@ -44,26 +43,29 @@ export class CurrencyService {
 
       return this.http
          .post<Response>(ENDPOINT_URL, formData)
-         .pipe(pluck('currency'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    deleteCurrency(id: string): Observable<Currency> {
       return this.http
          .delete<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('currency'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
-   updateCurrency(id: string, currency: any): Observable<Currency> {
+   updateCurrency(
+      id: string,
+      body: { [key: string]: string }
+   ): Observable<Currency> {
       const data = {
-         ...currency,
+         ...body,
       };
       delete data.icon;
       const formData = new FormData();
-      formData.append('icon', currency.icon);
+      formData.append('icon', body.icon);
       formData.append('data', JSON.stringify(data));
 
       return this.http
          .put<Response>(ENDPOINT_URL + id, formData)
-         .pipe(pluck('currency'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 }
