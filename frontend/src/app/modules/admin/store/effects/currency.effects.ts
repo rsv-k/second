@@ -2,8 +2,9 @@ import { CurrencyService } from './../../services/currency.service';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as CurrencyActions from '../actions/currency.actions';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CurrencyEffects {
@@ -23,6 +24,18 @@ export class CurrencyEffects {
             )
          )
       )
+   );
+
+   currencyNavigate$ = createEffect(
+      () =>
+         this.actions$.pipe(
+            ofType(
+               CurrencyActions.addCurrencySuccess,
+               CurrencyActions.currencyUpdateSuccess
+            ),
+            tap(() => this.router.navigate(['admin-dashboard/currencies-show']))
+         ),
+      { dispatch: false }
    );
 
    createCurrency$ = createEffect(() =>
@@ -105,6 +118,7 @@ export class CurrencyEffects {
 
    constructor(
       private actions$: Actions,
-      private currencyService: CurrencyService
+      private currencyService: CurrencyService,
+      private router: Router
    ) {}
 }

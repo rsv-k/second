@@ -5,7 +5,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as CurrencyActions from '../../store/actions/currency.actions';
 import * as ValidatorActions from '../../store/actions/validator.actions';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as fromAdminModule from '../../store/index';
 import { filter, first } from 'rxjs/operators';
@@ -21,10 +20,7 @@ export class CurrenciesCreateComponent implements OnInit {
    validators$: Observable<Validator[]>;
 
    private currencyToEdit: Currency;
-   constructor(
-      private store: Store<fromAdminModule.AppState>,
-      private router: Router
-   ) {}
+   constructor(private store: Store<fromAdminModule.AppState>) {}
 
    ngOnInit(): void {
       this.initiForm();
@@ -67,7 +63,6 @@ export class CurrenciesCreateComponent implements OnInit {
             );
          }
       }
-      this.router.navigate(['admin-dashboard/currencies-show']);
    }
 
    onChangeFile(files: FileList): void {
