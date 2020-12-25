@@ -1,7 +1,6 @@
 const Order = require('../models/order');
 const Exchange = require('../models/exchange');
 const schedule = require('node-schedule');
-const mongooseHelper = require('../utils/mongoose');
 const mongoose = require('mongoose');
 const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
 
@@ -40,7 +39,7 @@ exports.getOrders = async (req, res, next) => {
          };
       }
 
-      if (req.query.id && mongooseHelper.isValidId(req.query.id)) {
+      if (req.query.id) {
          options = {
             _id: req.query.id,
          };
@@ -74,11 +73,6 @@ exports.getOrders = async (req, res, next) => {
 exports.getOrder = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Order not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       const order = await Order.findById(id)
          .populate('givenCurrency')
@@ -148,11 +142,6 @@ exports.createOrder = async (req, res, next) => {
 exports.isActiveOrder = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Order not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       const minutes = 15 * 60 * 1000;
 

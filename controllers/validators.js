@@ -1,5 +1,4 @@
 const Validator = require('../models/validator');
-const mongooseHelper = require('../utils/mongoose');
 
 //@desc     Create new validator
 //@route    POST api/v1/validators
@@ -45,11 +44,6 @@ exports.getValidators = async (req, res, next) => {
 exports.deleteValidator = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Validator not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       const validator = await Validator.findById(id);
       if (!validator) {
@@ -75,11 +69,6 @@ exports.deleteValidator = async (req, res, next) => {
 exports.editValidator = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Validator not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       let validator = await Validator.findById(id);
       if (!validator) {
