@@ -6,17 +6,10 @@ const {
    editValidator,
    deleteValidator,
 } = require('../controllers/validators');
-const validator = require('../validators/validator');
-const validationResultMiddleware = require('../middlewares/validationResult');
 
 router.get('', getValidators);
-router.post('', validator.createValidator, createValidator);
-router.put(
-   '/:id',
-   validator.createValidator,
-   validationResultMiddleware,
-   editValidator
-);
+router.post('', createValidator);
+router.put('/:id', editValidator);
 router.delete('/:id', deleteValidator);
 
 module.exports = router;
