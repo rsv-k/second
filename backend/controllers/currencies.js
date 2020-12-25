@@ -1,6 +1,5 @@
 const Currency = require('../models/currency');
 const fileHelper = require('../utils/file');
-const mongooseHelper = require('../utils/mongoose');
 
 //@desc     Get all currencies
 //@route    GET api/v1/currencies
@@ -29,11 +28,6 @@ exports.getCurrencies = async (req, res, next) => {
 exports.getCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Currency not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       const currency = await Currency.findById(id);
       if (!currency) {
@@ -79,11 +73,6 @@ exports.createCurrency = async (req, res, next) => {
 exports.deleteCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       const currency = await Currency.findById(id);
       if (!currency) {
@@ -108,11 +97,6 @@ exports.updateCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;
       const body = JSON.parse(req.body.data);
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Currency not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       if (Object.keys(body).length === 0) {
          const error = new Error('Incomplete data');

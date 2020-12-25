@@ -1,5 +1,4 @@
 const Merchant = require('../models/merchant');
-const mongooseHelper = require('../utils/mongoose');
 
 //@desc     Get all merchants
 //@route    GET api/v1/merchants
@@ -45,11 +44,6 @@ exports.createMerchant = async (req, res, next) => {
 exports.deleteMerchant = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Merchant not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       const merchant = await Merchant.findById(id);
       if (!merchant) {
@@ -75,11 +69,6 @@ exports.deleteMerchant = async (req, res, next) => {
 exports.editMerchant = async (req, res, next) => {
    try {
       const id = req.params.id;
-      if (!mongooseHelper.isValidId(id)) {
-         const error = new Error('Merchant not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       let merchant = await Merchant.findById(id);
       if (!merchant) {
