@@ -7,18 +7,13 @@ const fileHelper = require('../utils/file');
 exports.getCurrencies = async (req, res, next) => {
    try {
       const currencies = await Currency.find();
-      if (currencies.length === 0) {
-         const error = new Error('Not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       res.status(200).json({
-         msg: 'currencies fetched successfully',
-         currencies,
+         status: true,
+         data: currencies,
       });
    } catch (err) {
-      next(error);
+      next(err);
    }
 };
 
@@ -36,9 +31,9 @@ exports.getCurrency = async (req, res, next) => {
          return next(error);
       }
 
-      res.status(200).json({ msg: 'Currency fetched successfully', currency });
+      res.status(200).json({ status: true, data: currency });
    } catch (err) {
-      next(error);
+      next(err);
    }
 };
 
@@ -48,11 +43,6 @@ exports.getCurrency = async (req, res, next) => {
 exports.createCurrency = async (req, res, next) => {
    try {
       const body = JSON.parse(req.body.data);
-      if (Object.keys(body).length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
 
       const currency = new Currency({
          ...body,
@@ -61,9 +51,9 @@ exports.createCurrency = async (req, res, next) => {
 
       await currency.save();
 
-      res.status(201).json({ msg: 'currency created successfully', currency });
+      res.status(201).json({ status: true, data: currency });
    } catch (err) {
-      next(error);
+      next(err);
    }
 };
 
@@ -74,19 +64,18 @@ exports.deleteCurrency = async (req, res, next) => {
    try {
       const id = req.params.id;
 
-      const currency = await Currency.findById(id);
+      const currency = await Currency.findByIdAndDelete(id);
       if (!currency) {
          const error = new Error('Not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      await currency.remove();
       fileHelper.deleteFile(currency.icon);
 
-      res.status(200).json({ msg: 'Currency successfully deleted', currency });
+      res.status(200).json({ status: true, data: currency });
    } catch (err) {
-      next(error);
+      next(err);
    }
 };
 
@@ -98,11 +87,6 @@ exports.updateCurrency = async (req, res, next) => {
       const id = req.params.id;
       const body = JSON.parse(req.body.data);
 
-      if (Object.keys(body).length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
       let currency = await Currency.findById(id);
 
       if (!currency) {
@@ -117,7 +101,7 @@ exports.updateCurrency = async (req, res, next) => {
       }
       currency = await Currency.findByIdAndUpdate(id, body, { new: true });
 
-      res.status(202).json({ msg: 'Currency updated successfully', currency });
+      res.status(202).json({ status: true, data: currency });
    } catch (err) {
       next(err);
    }
