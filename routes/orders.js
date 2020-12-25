@@ -9,7 +9,7 @@ const {
    cancelOrder,
    isActiveOrder,
 } = require('../controllers/orders');
-const rateLimitMiddleware = require('../middlewares/rate-limit');
+const rateLimitMiddleware = require('../middleware/rate-limit');
 
 router.get('', getOrders);
 router.get('/:id', getOrder);

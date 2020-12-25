@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const colors = require('colors');
 const connectDB = require('./config/db');
+const errorHandler = require('./middleware/error');
 
 const PORT = process.env.PORT || 3000;
 const entryPoint = require('./entryPoint');
@@ -18,7 +19,12 @@ if (process.env.NODE_ENV === 'development') {
    app.use(morgan('dev'));
 }
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(entryPoint);
+
+app.use(errorHandler);
 
 const server = app.listen(
    PORT,
