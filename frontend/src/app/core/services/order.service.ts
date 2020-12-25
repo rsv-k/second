@@ -8,11 +8,8 @@ import { CommonService } from './common.service';
 const END_POINT = '/api/v1/orders/';
 
 interface Response {
-   msg: string;
-   order?: any;
-   orders?: any[];
-   ids?: string[];
-   isActive: boolean;
+   status: boolean;
+   data: any | any[];
 }
 
 @Injectable({
@@ -27,7 +24,7 @@ export class OrderService {
    createOrder(order: Order): Observable<Order> {
       return this.http
          .post<Response>(END_POINT, order)
-         .pipe(pluck('order'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    getOrders(opt): Observable<Order[]> {
@@ -40,7 +37,7 @@ export class OrderService {
          }
       }
       return this.http.get<Response>(END_POINT, options).pipe(
-         pluck('orders'),
+         pluck('data'),
          map((orders) => orders.map(this.commonService.changeId))
       );
    }
@@ -48,19 +45,19 @@ export class OrderService {
    getOrder(id: string): Observable<Order> {
       return this.http
          .get<Response>(END_POINT + id)
-         .pipe(pluck('order'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    isActiveOrder(id: string): Observable<boolean> {
       return this.http
          .get<Response>(END_POINT + 'isActiveOrder/' + id)
-         .pipe(pluck('isActive'));
+         .pipe(pluck('data'));
    }
 
    deleteOrder(ids: string[]): Observable<string[]> {
       return this.http
          .post<Response>(END_POINT + 'deleteManyById', ids)
-         .pipe(pluck('ids'));
+         .pipe(pluck('data'));
    }
 
    cancelOrder(id: string): Observable<boolean> {
@@ -79,7 +76,7 @@ export class OrderService {
             status,
          })
          .pipe(
-            pluck('orders'),
+            pluck('data'),
             map((orders) => orders.map(this.commonService.changeId))
          );
    }

@@ -60,10 +60,9 @@ exports.getOrders = async (req, res, next) => {
          .populate('givenCurrency')
          .populate('takenCurrency');
 
-      res.status(200).json({ msg: 'Orders fetched successfully', orders });
+      res.status(200).json({ status: true, data: orders });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -84,10 +83,9 @@ exports.getOrder = async (req, res, next) => {
          return next(error);
       }
 
-      res.status(200).json({ msg: 'Order successfully fetched', order });
+      res.status(200).json({ status: true, data: order });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -96,17 +94,7 @@ exports.getOrder = async (req, res, next) => {
 //@access   Public
 exports.createOrder = async (req, res, next) => {
    try {
-      if (Object.keys(req.body).length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
-
       const body = req.body;
-      body.givenCurrency = body.givenCurrencyId;
-      body.takenCurrency = body.takenCurrencyId;
-      delete body.givenCurrencyId;
-      delete body.takenCurrencyId;
 
       const exchange = await Exchange.findOne({
          givenCurrency: mongoose.Types.ObjectId(body.givenCurrency),
@@ -128,11 +116,9 @@ exports.createOrder = async (req, res, next) => {
          .populate('givenCurrency')
          .populate('takenCurrency');
 
-      res.status(200).json({ msg: 'Order created successfully', order });
+      res.status(200).json({ status: true, data: order });
    } catch (err) {
-      console.log(err);
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -159,12 +145,11 @@ exports.isActiveOrder = async (req, res, next) => {
       }
 
       res.status(200).json({
-         msg: 'Order successfully fetched',
-         isActive: true,
+         status: true,
+         data: true,
       });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -193,10 +178,9 @@ exports.updateOrders = async (req, res, next) => {
          .populate('givenCurrency')
          .populate('takenCurrency');
 
-      res.status(200).json({ msg: 'orders updated successfully', orders });
+      res.status(200).json({ status: true, data: orders });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -215,7 +199,13 @@ exports.cancelOrder = async (req, res, next) => {
          { multi: true }
       );
 
-      res.status(200).json({ msg: 'orders updated successfully' });
+      if (!order) {
+         const error = new Error('Order not found');
+         error.statusCode = 404;
+         return next(error);
+      }
+
+      res.status(200).json({ status: true });
    } catch (err) {
       next(err);
    }
@@ -227,18 +217,12 @@ exports.cancelOrder = async (req, res, next) => {
 exports.deleteOrders = async (req, res, next) => {
    try {
       const ids = req.body;
-      if (ids.length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
 
       await Order.deleteMany({ _id: { $in: ids } });
 
-      res.status(200).json({ msg: 'orders deleted successfully', ids });
+      res.status(200).json({ status: true, data: ids });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 

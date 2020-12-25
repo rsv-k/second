@@ -9,7 +9,7 @@ import {
    Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { catchError, first, map, tap } from 'rxjs/operators';
+import { catchError, filter, first, map, tap } from 'rxjs/operators';
 import * as fromRoot from '../../../../store/index';
 import * as ProgressActions from '../../../../store/actions/progress.actions';
 import * as OrderActions from '../../../../store/actions/order.actions';
@@ -42,6 +42,7 @@ export class SectionTradeSecondComponent implements OnInit {
       this.store.dispatch(ProgressActions.setCurrentProcess({ payload: 2 }));
 
       this.exchange$ = this.store.select(fromRoot.getExchange).pipe(
+         filter((exchange) => !!exchange),
          tap((exchange) => {
             this.takenCourse = exchange.takenCurrencyCourse;
             this.givenCourse = exchange.givenCurrencyCourse;
@@ -83,8 +84,8 @@ export class SectionTradeSecondComponent implements OnInit {
       const order: Order = {
          ...this.form.value,
          phone: this.form.value.phone,
-         givenCurrencyId: exchange.givenCurrency.id,
-         takenCurrencyId: exchange.takenCurrency.id,
+         givenCurrency: exchange.givenCurrency.id,
+         takenCurrency: exchange.takenCurrency.id,
          givenCurrencyCourse: exchange.givenCurrencyCourse,
          takenCurrencyCourse: exchange.takenCurrencyCourse,
          merchant: exchange.merchant,
