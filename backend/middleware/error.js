@@ -1,6 +1,7 @@
 const fileHelper = require('../utils/file');
 
 module.exports = (error, req, res, next) => {
+   console.log(error.message);
    const statusCode = error.statusCode || 500;
    const message = error.message || 'Internal server error';
 
