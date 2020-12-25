@@ -5,16 +5,11 @@ const Merchant = require('../models/merchant');
 //@access   Private
 exports.getMerchants = async (req, res, next) => {
    try {
-      const merchants = await Merchant.find({});
-      if (merchants.length === 0) {
-         const error = new Error('Merchants not found');
-         error.statusCode = 404;
-         return next(error);
-      }
+      const merchants = await Merchant.find();
 
       res.status(200).json({
-         msg: 'merchants fetched successfully',
-         merchants,
+         status: true,
+         data: merchants,
       });
    } catch (err) {
       next(err);
@@ -30,8 +25,8 @@ exports.createMerchant = async (req, res, next) => {
       merchant = await merchant.save();
 
       res.status(201).json({
-         msg: 'merchant created successfully',
-         merchant,
+         status: true,
+         data: merchant,
       });
    } catch (err) {
       next(err);
@@ -45,18 +40,16 @@ exports.deleteMerchant = async (req, res, next) => {
    try {
       const id = req.params.id;
 
-      const merchant = await Merchant.findById(id);
+      const merchant = await Merchant.findByIdAndDelete(id);
       if (!merchant) {
          const error = new Error('Merchant not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      await merchant.remove();
-
       res.status(200).json({
-         msg: 'merchant successfully deleted',
-         merchant,
+         status: true,
+         data: merchant,
       });
    } catch (err) {
       next(err);
@@ -70,25 +63,18 @@ exports.editMerchant = async (req, res, next) => {
    try {
       const id = req.params.id;
 
-      let merchant = await Merchant.findById(id);
+      let merchant = await Merchant.findByIdAndUpdate(id, req.body, {
+         new: true,
+      });
       if (!merchant) {
          const error = new Error('Merchant not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      merchant = await Merchant.findByIdAndUpdate(
-         id,
-         {
-            name: req.body.name,
-            regex: req.body.regex,
-         },
-         { new: true }
-      );
-
       res.status(202).json({
-         msg: 'merchant successfully updated',
-         merchant,
+         status: true,
+         data: merchant,
       });
    } catch (err) {
       next(err);
