@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const errorHandler = require('./middlewares/error');
+const errorHandler = require('./middleware/error');
 const path = require('path');
 
 const currencyRoutes = require('./routes/currencies');

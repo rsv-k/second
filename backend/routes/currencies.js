@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const multerMiddleware = require('../middlewares/multer');
+const multerMiddleware = require('../middleware/multer');
 
 const {
    getCurrencies,
