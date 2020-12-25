@@ -8,9 +8,8 @@ import { CommonService } from '../../../core/services/common.service';
 const ENDPOINT_URL = '/api/v1/validators/';
 
 interface Response {
-   msg: string;
-   validator?: any;
-   validators?: any[];
+   status: boolean;
+   data: any | any[];
 }
 
 @Injectable()
@@ -23,12 +22,12 @@ export class ValidatorService {
    createValidator(validator: Validator): Observable<Validator> {
       return this.http
          .post<Response>(ENDPOINT_URL, validator)
-         .pipe(pluck('validator'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    getValidators(): Observable<Validator[]> {
       return this.http.get<Response>(ENDPOINT_URL).pipe(
-         pluck('validators'),
+         pluck('data'),
          map((validators) => validators.map(this.commonService.changeId))
       );
    }
@@ -36,12 +35,12 @@ export class ValidatorService {
    deleteValidator(id: string): Observable<Validator> {
       return this.http
          .delete<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('validator'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    editValidator(id: string, validator: Validator): Observable<Validator> {
       return this.http
          .put<Response>(ENDPOINT_URL + id, validator)
-         .pipe(pluck('validator'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 }
