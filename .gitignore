@@ -47,3 +47,4 @@ Thumbs.db
 backend/config/config.env
 .env
 wmsigner
+*.log
