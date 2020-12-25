@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(entryPoint);
 
-app.listen(
+const server = app.listen(
    PORT,
    console.log(
       `server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow
@@ -30,3 +30,10 @@ app.listen(
 
 // Connect to database
 connectDB();
+
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err, promise) => {
+   console.log(`Error: ${err.message}`.red);
+   // Close server & exit process
+   server.close(() => process.exit(1));
+});
