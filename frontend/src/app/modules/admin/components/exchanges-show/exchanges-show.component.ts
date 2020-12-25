@@ -39,7 +39,7 @@ export class ExchangesShowComponent implements OnInit {
       };
 
       this.store.dispatch(
-         ExchangeActions.patchExchangeStart({ payload: { id, body } })
+         ExchangeActions.editExchangeStart({ payload: { id, body } })
       );
    }
 }

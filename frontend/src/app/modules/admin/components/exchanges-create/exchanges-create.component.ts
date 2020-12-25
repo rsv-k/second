@@ -124,7 +124,7 @@ export class ExchangesCreateComponent implements OnInit {
       } else {
          this.store.dispatch(
             ExchangeActions.editExchangeStart({
-               payload: exchange,
+               payload: { body: exchange },
             })
          );
       }

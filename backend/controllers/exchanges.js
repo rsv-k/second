@@ -19,19 +19,13 @@ exports.getExchanges = async (req, res, next) => {
             },
          })
          .populate('merchant');
-      if (exchanges.length === 0) {
-         const error = new Error('Exchanges not found');
-         error.statusCode = 404;
-         return next(error);
-      }
 
       res.status(200).json({
-         msg: 'exchanges fetched successfully',
-         exchanges,
+         status: true,
+         data: exchanges,
       });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -53,12 +47,11 @@ exports.getExchange = async (req, res, next) => {
       }
 
       res.status(200).json({
-         msg: 'Exchange successfully fetched',
-         exchange,
+         status: true,
+         data: exchange,
       });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -69,12 +62,6 @@ exports.createExchange = async (req, res, next) => {
    try {
       const body = req.body;
 
-      if (Object.keys(body).length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
-
       let exchange = new Exchange(body);
       exchange = await exchange.save();
 
@@ -83,8 +70,8 @@ exports.createExchange = async (req, res, next) => {
          .populate('takenCurrency');
 
       res.status(201).json({
-         msg: 'exchange created successfully',
-         exchange,
+         status: true,
+         data: exchange,
       });
    } catch (err) {
       next(err);
@@ -98,7 +85,7 @@ exports.deleteExchange = async (req, res, next) => {
    try {
       const id = req.params.id;
 
-      const exchange = await Exchange.findById(id);
+      const exchange = await Exchange.findByIdAndDelete(id);
 
       if (!exchange) {
          const error = new Error('Exchange not found');
@@ -106,12 +93,9 @@ exports.deleteExchange = async (req, res, next) => {
          return next(error);
       }
 
-      await exchange.remove();
-
-      res.status(200).json({ msg: 'Exchange deleted successfully', exchange });
+      res.status(200).json({ status: true, data: exchange });
    } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
+      next(err);
    }
 };
 
@@ -123,50 +107,16 @@ exports.editExchange = async (req, res, next) => {
       const id = req.params.id;
       const body = req.body;
 
-      if (Object.keys(body).length === 0) {
-         const error = new Error('Incomplete data');
-         error.statusCode = 422;
-         return next(error);
-      }
-
-      let exchange = await Exchange.findById(id);
+      let exchange = await Exchange.findByIdAndUpdate(id, body, { new: true })
+         .populate('takenCurrency')
+         .populate('givenCurrency');
       if (!exchange) {
          const error = new Error('Exchange not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      exchange = await Exchange.findByIdAndUpdate(id, body, { new: true })
-         .populate('takenCurrency')
-         .populate('givenCurrency');
-
-      res.status(200).json({ msg: 'Exchange updated successfully', exchange });
-   } catch (err) {
-      const error = new Error('Internal server error');
-      next(error);
-   }
-};
-
-//@desc     Patch exchange
-//@route    PATCH api/v1/exchanges/:id
-//@access   Private
-exports.patchExchange = async (req, res, next) => {
-   try {
-      const id = req.params.id;
-      const body = req.body;
-
-      let exchange = await Exchange.findById(id);
-      if (!exchange) {
-         const error = new Error('Exchange not found');
-         error.statusCode = 404;
-         return next(error);
-      }
-
-      exchange = await Exchange.findByIdAndUpdate(id, body, { new: true })
-         .populate('takenCurrency')
-         .populate('givenCurrency');
-
-      res.status(200).json({ msg: 'Exchange updated successfully', exchange });
+      res.status(200).json({ status: true, data: exchange });
    } catch (err) {
       next(err);
    }

@@ -8,9 +8,8 @@ import { Exchange } from '../models/exchange.model';
 const ENDPOINT_URL = '/api/v1/exchanges/';
 
 interface Response {
-   msg: string;
-   exchange?: any;
-   exchanges?: any[];
+   status: boolean;
+   data: any | any[];
 }
 
 @Injectable({
@@ -24,7 +23,7 @@ export class ExchangeService {
 
    createExchange(exchange: Exchange): Observable<Exchange> {
       return this.http.post<Response>(ENDPOINT_URL, exchange).pipe(
-         pluck('exchange'),
+         pluck('data'),
          map(this.commonService.changeId),
          map((ex) => {
             ex.givenCurrency.id = ex.givenCurrency._id;
@@ -39,7 +38,7 @@ export class ExchangeService {
 
    getExchanges(): Observable<Exchange[]> {
       return this.http.get<Response>(ENDPOINT_URL).pipe(
-         pluck('exchanges'),
+         pluck('data'),
          map((exchanges) => exchanges.map(this.commonService.changeId)),
          map((exchanges) => {
             return exchanges.map((ex) => {
@@ -57,24 +56,18 @@ export class ExchangeService {
    deleteExchange(id: string): Observable<Exchange> {
       return this.http
          .delete<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('exchange'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    getExchange(id: string): Observable<Exchange> {
       return this.http
          .get<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('exchange'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    updateExchange(id: string, exchange: any): Observable<Exchange> {
       return this.http
          .put<Response>(ENDPOINT_URL + id, exchange)
-         .pipe(pluck('exchange'), map(this.commonService.changeId));
-   }
-
-   patchExchange(id: string, body: any): Observable<Exchange> {
-      return this.http
-         .put<Response>(ENDPOINT_URL + id, body)
-         .pipe(pluck('exchange'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 }

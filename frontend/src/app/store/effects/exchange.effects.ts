@@ -102,30 +102,11 @@ export class ExchangeEffects {
          ofType(ExchangeActions.editExchangeStart),
          withLatestFrom(this.store.select(fromRoot.selectRouterParamId)),
          mergeMap(([action, id]) =>
-            this.exchangeService.updateExchange(id, action.payload).pipe(
-               map((exchange: Exchange) =>
-                  ExchangeActions.editExchangeSuccess({ payload: exchange })
-               ),
-               catchError((error) =>
-                  of(
-                     ExchangeActions.exchangeError({
-                        payload: error.message,
-                     })
-                  )
-               )
-            )
-         )
-      )
-   );
-   patchExchange$ = createEffect(() =>
-      this.actions$.pipe(
-         ofType(ExchangeActions.patchExchangeStart),
-         mergeMap((action) =>
             this.exchangeService
-               .patchExchange(action.payload.id, action.payload.body)
+               .updateExchange(id || action.payload.id, action.payload.body)
                .pipe(
                   map((exchange: Exchange) =>
-                     ExchangeActions.patchExchangeSuccess({ payload: exchange })
+                     ExchangeActions.editExchangeSuccess({ payload: exchange })
                   ),
                   catchError((error) =>
                      of(
