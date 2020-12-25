@@ -8,9 +8,8 @@ import { CommonService } from '../../../core/services/common.service';
 const ENDPOINT_URL = '/api/v1/merchants/';
 
 interface Response {
-   msg: string;
-   merchant?: any;
-   merchants?: any[];
+   status: boolean;
+   data: any | any[];
 }
 
 @Injectable()
@@ -23,12 +22,12 @@ export class MerchantService {
    createMerchant(merchant: Merchant): Observable<Merchant> {
       return this.http
          .post<Response>(ENDPOINT_URL, merchant)
-         .pipe(pluck('merchant'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    getMerchants(): Observable<Merchant[]> {
       return this.http.get<Response>(ENDPOINT_URL).pipe(
-         pluck('merchants'),
+         pluck('data'),
          map((merchants) => merchants.map(this.commonService.changeId))
       );
    }
@@ -36,12 +35,12 @@ export class MerchantService {
    deleteMerchant(id: string): Observable<Merchant> {
       return this.http
          .delete<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('merchant'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
    editMerchant(id: string, merchant: Merchant): Observable<Merchant> {
       return this.http
          .put<Response>(ENDPOINT_URL + id, merchant)
-         .pipe(pluck('merchant'), map(this.commonService.changeId));
+         .pipe(pluck('data'), map(this.commonService.changeId));
    }
 }
