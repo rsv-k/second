@@ -9,8 +9,8 @@ exports.createValidator = async (req, res, next) => {
       validator = await validator.save();
 
       res.status(201).json({
-         msg: 'validator created successfully',
-         validator,
+         status: true,
+         data: validator,
       });
    } catch (err) {
       next(err);
@@ -22,16 +22,11 @@ exports.createValidator = async (req, res, next) => {
 //@access   Private
 exports.getValidators = async (req, res, next) => {
    try {
-      const validators = await Validator.find({});
-      if (validators.length === 0) {
-         const error = new Error('Validators not found');
-         error.statusCode = 404;
-         return next(error);
-      }
+      const validators = await Validator.find();
 
       res.status(200).json({
-         msg: 'validators fetched successfully',
-         validators,
+         status: true,
+         data: validators,
       });
    } catch (err) {
       next(err);
@@ -45,18 +40,16 @@ exports.deleteValidator = async (req, res, next) => {
    try {
       const id = req.params.id;
 
-      const validator = await Validator.findById(id);
+      const validator = await Validator.findByIdAndDelete(id);
       if (!validator) {
          const error = new Error('Validator not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      await validator.remove();
-
       res.status(200).json({
-         msg: 'validator successfully deleted',
-         validator,
+         status: true,
+         data: validator,
       });
    } catch (err) {
       next(err);
@@ -70,25 +63,18 @@ exports.editValidator = async (req, res, next) => {
    try {
       const id = req.params.id;
 
-      let validator = await Validator.findById(id);
+      let validator = await Validator.findByIdAndUpdate(id, req.body, {
+         new: true,
+      });
       if (!validator) {
          const error = new Error('Validator not found');
          error.statusCode = 404;
          return next(error);
       }
 
-      validator = await Validator.findByIdAndUpdate(
-         id,
-         {
-            name: req.body.name,
-            regex: req.body.regex,
-         },
-         { new: true }
-      );
-
       res.status(202).json({
-         msg: 'validator successfully updated',
-         validator,
+         status: true,
+         data: validator,
       });
    } catch (err) {
       next(err);
