@@ -1,14 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const serviceValidators = require('../controllers/serviceValidators');
-const orderValidator = require('../validators/order');
-const validationResultMiddleware = require('../middlewares/validationResult');
+const { webmoney } = require('../controllers/serviceValidators');
 
-router.post(
-   '/webmoney',
-   orderValidator.checkBodyCorrection,
-   validationResultMiddleware,
-   serviceValidators.webmoney
-);
+router.post('/webmoney', webmoney);
 
 module.exports = router;
