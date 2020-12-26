@@ -1,7 +1,6 @@
 const Order = require('../models/order');
 const Exchange = require('../models/exchange');
 const schedule = require('node-schedule');
-const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
 const asyncHandler = require('../middleware/async');
 
 //@desc     Get all orders
@@ -71,10 +70,6 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
       error.statusCode = 404;
       return next(error);
    }
-
-   await webmoneyStatisticsHelper.increaseOrdersAmount();
-   const webmoneyStatistics = await webmoneyStatisticsHelper.getWebmoneyStatistics();
-   body.number = webmoneyStatistics.ordersAmount;
 
    let order = new Order(body);
    await order.save();
