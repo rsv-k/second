@@ -8,9 +8,10 @@ const asyncHandler = require('../middleware/async');
 //@route    GET api/v1/orders
 //@access   Private
 exports.getOrders = asyncHandler(async (req, res, next) => {
-   let page = +req.query.page - 1;
+   let page = parseInt(req.query.page, 10) || 1;
+   let limit = parseInt(req.query.limit, 10) || 10;
    delete req.query.page;
-   const amount = 10;
+   delete req.query.limit;
 
    let options = {
       ...req.query,
@@ -28,8 +29,8 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
 
    const orders = await Order.find(options)
       .sort({ _id: -1 })
-      .skip(page * 10)
-      .limit(amount)
+      .skip((page - 1) * 10)
+      .limit(limit)
       .populate('givenCurrency')
       .populate('takenCurrency');
 

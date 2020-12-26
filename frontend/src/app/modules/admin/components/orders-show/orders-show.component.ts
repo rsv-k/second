@@ -43,6 +43,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    ngOnInit(): void {
       this.ordersOptions = {
          page: 1,
+         limit: 10,
       };
 
       this.attachQueryParams(this.ordersOptions);
