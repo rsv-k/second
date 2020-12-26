@@ -9,47 +9,21 @@ const asyncHandler = require('../middleware/async');
 //@access   Private
 exports.getOrders = asyncHandler(async (req, res, next) => {
    let page = +req.query.page - 1;
+   delete req.query.page;
    const amount = 10;
-   let options = {};
-   if (req.query.status) {
-      options = {
-         status: new RegExp('^' + req.query.status),
-      };
-   }
 
-   if (req.query.number > 0) {
+   let options = {
+      ...req.query,
+   };
+
+   if (req.query.number) {
       options = {
-         ...options,
          number: req.query.number,
-      };
-   }
-
-   if (req.query.givenCurrency) {
-      options = {
-         ...options,
-         givenCurrency: req.query.givenCurrency,
-      };
-   }
-
-   if (req.query.takenCurrency) {
-      options = {
-         ...options,
-         takenCurrency: req.query.takenCurrency,
-      };
-   }
-
-   if (req.query.id) {
-      options = {
-         _id: req.query.id,
       };
    }
 
    if ((await Order.countDocuments()) < page * 10) {
       page--;
-   }
-
-   if (options._id || options.number) {
-      page = 0;
    }
 
    const orders = await Order.find(options)
