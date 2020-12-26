@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../../../store/index';
 import * as OrderActions from '../../../../store/actions/order.actions';
-import { takeUntil } from 'rxjs/operators';
+import { skip, takeUntil } from 'rxjs/operators';
 import { Order } from '@models/order.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { BaseComponent } from './../../../base.component';
@@ -53,6 +53,10 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          .subscribe((orders) => {
             this.dataSource.data = orders;
          });
+
+      this.route.queryParams.pipe(skip(1)).subscribe((queryParams) => {
+         this.getOrders();
+      });
    }
 
    openSearchDialog(): void {
@@ -147,5 +151,9 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          queryParams,
          queryParamsHandling: 'merge',
       });
+   }
+
+   private getOrders(): void {
+      this.store.dispatch(OrderActions.getOrdersStart());
    }
 }
