@@ -9,7 +9,7 @@ import * as fromAdminModule from '../../store/index';
    selector: 'app-currencies-show',
    templateUrl: './currencies-show.component.html',
    styleUrls: ['./currencies-show.component.scss'],
-   changeDetection: ChangeDetectionStrategy.Default,
+   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrenciesShowComponent implements OnInit {
    currencies$: Observable<Currency[]>;
