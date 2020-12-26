@@ -32,12 +32,14 @@ exports.getValidators = asyncHandler(async (req, res, next) => {
 exports.deleteValidator = asyncHandler(async (req, res, next) => {
    const id = req.params.id;
 
-   const validator = await Validator.findByIdAndDelete(id);
+   const validator = await Validator.findById(id);
    if (!validator) {
       const error = new Error('Validator not found');
       error.statusCode = 404;
       return next(error);
    }
+
+   await validator.remove();
 
    res.status(200).json({
       status: true,
