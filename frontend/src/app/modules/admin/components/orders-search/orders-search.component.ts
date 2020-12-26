@@ -38,7 +38,7 @@ export class OrdersSearchComponent implements OnInit {
 
    onSelection(currency: Currency, property: string): void {
       if (!currency) {
-         return this.form.get(property).setValue('');
+         return this.form.get(property).setValue(null);
       }
 
       this.form.get(property).setValue(currency.id);
