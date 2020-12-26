@@ -52,13 +52,14 @@ exports.createCurrency = asyncHandler(async (req, res, next) => {
 exports.deleteCurrency = asyncHandler(async (req, res, next) => {
    const id = req.params.id;
 
-   const currency = await Currency.findByIdAndDelete(id);
+   const currency = await Currency.findById(id);
    if (!currency) {
       const error = new Error('Not found');
       error.statusCode = 404;
       return next(error);
    }
 
+   await currency.remove();
    fileHelper.deleteFile(currency.icon);
 
    res.status(200).json({ status: true, data: currency });
