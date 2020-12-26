@@ -1,7 +1,6 @@
 const Order = require('../models/order');
 const Exchange = require('../models/exchange');
 const schedule = require('node-schedule');
-const mongoose = require('mongoose');
 const webmoneyStatisticsHelper = require('../utils/webmoneyStatistics');
 const asyncHandler = require('../middleware/async');
 
@@ -28,14 +27,14 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
    if (req.query.givenCurrency) {
       options = {
          ...options,
-         givenCurrency: mongoose.Types.ObjectId(req.query.givenCurrency),
+         givenCurrency: req.query.givenCurrency,
       };
    }
 
    if (req.query.takenCurrency) {
       options = {
          ...options,
-         takenCurrency: mongoose.Types.ObjectId(req.query.takenCurrency),
+         takenCurrency: req.query.takenCurrency,
       };
    }
 
@@ -89,8 +88,8 @@ exports.createOrder = asyncHandler(async (req, res, next) => {
    const body = req.body;
 
    const exchange = await Exchange.findOne({
-      givenCurrency: mongoose.Types.ObjectId(body.givenCurrency),
-      takenCurrency: mongoose.Types.ObjectId(body.takenCurrency),
+      givenCurrency: body.givenCurrency,
+      takenCurrency: body.takenCurrency,
    });
    if (!exchange || !exchange.isActive) {
       const error = new Error('Active exchange not found');
