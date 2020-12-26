@@ -4,6 +4,7 @@
          mat-button
          class="side-menu__button"
          routerLink="{{ link.linkTo }}"
+         [queryParams]="link.queryParams"
          routerLinkActive="mat-accent"
       >
          <mat-icon>{{ link.icon }}</mat-icon>

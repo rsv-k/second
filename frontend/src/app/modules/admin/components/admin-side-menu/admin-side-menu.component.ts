@@ -12,6 +12,10 @@ export class AdminSideMenuComponent {
          linkTo: './orders-show',
          icon: 'loop',
          text: 'Заявки на обмен',
+         queryParams: {
+            page: 1,
+            limit: 10,
+         },
       },
       {
          linkTo: './exchanges-show',
