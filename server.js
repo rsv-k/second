@@ -30,7 +30,8 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/images', express.static(path.join('images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/', express.static(path.join(__dirname, 'frontend')));
 
 app.use('/api/v1/currencies', currencyRoutes);
 app.use('/api/v1/exchanges', exchangeRoutes);
@@ -38,6 +39,9 @@ app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/serviceValidators', serviceValidatorsRoutes);
 app.use('/api/v1/validators', validatorRoutes);
 app.use('/api/v1/merchants', merchantRoutes);
+app.use((req, res, next) => {
+   res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
+});
 
 app.use(errorHandler);
 
