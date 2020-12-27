@@ -33,8 +33,18 @@ exports.getExchange = asyncHandler(async (req, res, next) => {
    const id = req.params.id;
 
    const exchange = await Exchange.findById(id)
-      .populate('takenCurrency')
-      .populate('givenCurrency')
+      .populate({
+         path: 'givenCurrency',
+         populate: {
+            path: 'validator',
+         },
+      })
+      .populate({
+         path: 'takenCurrency',
+         populate: {
+            path: 'validator',
+         },
+      })
       .populate('merchant');
    if (!exchange) {
       const error = new Error('Exchange not found');

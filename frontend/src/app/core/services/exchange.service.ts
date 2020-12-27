@@ -60,9 +60,18 @@ export class ExchangeService {
    }
 
    getExchange(id: string): Observable<Exchange> {
-      return this.http
-         .get<Response>(ENDPOINT_URL + id)
-         .pipe(pluck('data'), map(this.commonService.changeId));
+      return this.http.get<Response>(ENDPOINT_URL + id).pipe(
+         pluck('data'),
+         map(this.commonService.changeId),
+         map((ex) => {
+            ex.givenCurrency.id = ex.givenCurrency._id;
+            delete ex.givenCurrency._id;
+            ex.takenCurrency.id = ex.takenCurrency._id;
+            delete ex.takenCurrency._id;
+            console.log(ex);
+            return ex;
+         })
+      );
    }
 
    updateExchange(id: string, exchange: any): Observable<Exchange> {
