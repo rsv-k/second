@@ -11,6 +11,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { OrdersSearchComponent } from '../orders-search/orders-search.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
    selector: 'app-orders-show',
@@ -19,6 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class OrdersShowComponent extends BaseComponent implements OnInit {
    dataSource = new MatTableDataSource<Order>();
+   pagination$: Observable<{ next: boolean; prev: boolean }>;
    columnsToDisplay = [
       'select',
       'date',
@@ -53,6 +55,7 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
          .subscribe((orders) => {
             this.dataSource.data = orders;
          });
+      this.pagination$ = this.store.select(fromRoot.getOrdersPagination);
 
       this.route.queryParams.pipe(skip(1)).subscribe((queryParams) => {
          this.getOrders();
@@ -114,10 +117,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    nextPage(): void {
-      if (this.dataSource.data.length < 10) {
-         return;
-      }
-
       this.ordersOptions = {
          ...this.ordersOptions,
          page: this.ordersOptions.page + 1,
@@ -126,10 +125,6 @@ export class OrdersShowComponent extends BaseComponent implements OnInit {
    }
 
    prevPage(): void {
-      if (this.ordersOptions.page === 1) {
-         return;
-      }
-
       this.ordersOptions = {
          ...this.ordersOptions,
          page: this.ordersOptions.page - 1,

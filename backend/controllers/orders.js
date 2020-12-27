@@ -22,8 +22,17 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
       };
    }
 
-   if ((await Order.countDocuments()) < page * 10) {
-      page--;
+   const totalAmount = await Order.countDocuments();
+
+   pagination = {
+      next: true,
+      prev: true,
+   };
+   if (totalAmount - page * 10 <= 0) {
+      pagination.next = false;
+   }
+   if (page === 1) {
+      pagination.prev = false;
    }
 
    const orders = await Order.find(options)
@@ -33,7 +42,11 @@ exports.getOrders = asyncHandler(async (req, res, next) => {
       .populate('givenCurrency')
       .populate('takenCurrency');
 
-   res.status(200).json({ status: true, data: orders });
+   res.status(200).json({
+      status: true,
+      data: orders,
+      pagination,
+   });
 });
 
 //@desc     Get order

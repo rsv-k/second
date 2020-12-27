@@ -133,8 +133,21 @@
       ></tr>
    </table>
 
-   <div class="pagination">
-      <button mat-raised-button (click)="prevPage()">Назад</button>
-      <button mat-raised-button (click)="nextPage()">Вперед</button>
+   <div class="pagination" *ngIf="pagination$ | async as pagination">
+      <button
+         [class.hidden]="!pagination.prev"
+         mat-raised-button
+         (click)="prevPage()"
+      >
+         Назад
+      </button>
+      <p [style.opacity]="0"></p>
+      <button
+         [class.hidden]="!pagination.next"
+         mat-raised-button
+         (click)="nextPage()"
+      >
+         Вперед
+      </button>
    </div>
 </section>

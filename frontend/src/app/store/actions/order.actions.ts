@@ -13,7 +13,7 @@ export const createOrderSuccess = createAction(
 export const getOrdersStart = createAction('[ORDER] GET ORDERS START');
 export const getOrdersSuccess = createAction(
    '[ORDER] GET ORDERS SUCCESS',
-   props<{ payload: Order[] }>()
+   props<{ payload: { orders: Order[]; next: boolean; prev: boolean } }>()
 );
 
 export const getOrderStart = createAction(

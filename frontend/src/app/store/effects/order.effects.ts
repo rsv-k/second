@@ -36,9 +36,7 @@ export class OrderEffects {
          withLatestFrom(this.store.select(fromRoot.getRouterQueryParams)),
          mergeMap(([action, queryParams]) => {
             return this.orderService.getOrders(queryParams).pipe(
-               map((orders: Order[]) =>
-                  OrderActions.getOrdersSuccess({ payload: orders })
-               ),
+               map((payload) => OrderActions.getOrdersSuccess({ payload })),
                catchError((error) =>
                   of(OrderActions.orderError({ payload: error.message }))
                )

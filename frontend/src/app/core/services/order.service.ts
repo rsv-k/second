@@ -10,6 +10,10 @@ const END_POINT = '/api/v1/orders/';
 interface Response {
    status: boolean;
    data: any | any[];
+   pagination?: {
+      prev: boolean;
+      next: boolean;
+   };
 }
 
 @Injectable({
@@ -27,7 +31,9 @@ export class OrderService {
          .pipe(pluck('data'), map(this.commonService.changeId));
    }
 
-   getOrders(opt): Observable<Order[]> {
+   getOrders(
+      opt
+   ): Observable<{ orders: Order[]; next: boolean; prev: boolean }> {
       const options = {
          params: new HttpParams(),
       };
@@ -37,8 +43,14 @@ export class OrderService {
          }
       }
       return this.http.get<Response>(END_POINT, options).pipe(
-         pluck('data'),
-         map((orders) => orders.map(this.commonService.changeId))
+         map((payload) => {
+            const orders = payload.data.map(this.commonService.changeId);
+            return {
+               orders,
+               prev: payload.pagination.prev,
+               next: payload.pagination.next,
+            };
+         })
       );
    }
 

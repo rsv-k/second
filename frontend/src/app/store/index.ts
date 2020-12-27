@@ -87,3 +87,8 @@ export const getOrderError = createSelector(
    orderState,
    fromOrder.getOrderError
 );
+
+export const getOrdersPagination = createSelector(
+   orderState,
+   fromOrder.getPagination
+);
