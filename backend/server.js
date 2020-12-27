@@ -21,6 +21,7 @@ const orderRoutes = require('./routes/orders');
 const serviceValidatorsRoutes = require('./routes/serviceValidators');
 const validatorRoutes = require('./routes/validators');
 const merchantRoutes = require('./routes/merchants');
+const authRoutes = require('./routes/auth');
 
 // Dev logger
 if (process.env.NODE_ENV === 'development') {
@@ -38,6 +39,7 @@ app.use('/api/v1/orders', orderRoutes);
 app.use('/api/v1/serviceValidators', serviceValidatorsRoutes);
 app.use('/api/v1/validators', validatorRoutes);
 app.use('/api/v1/merchants', merchantRoutes);
+app.use('/api/v1/auth', authRoutes);
 
 app.use(errorHandler);
 
