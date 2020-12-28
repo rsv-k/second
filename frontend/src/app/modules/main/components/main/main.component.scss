@@ -1,27 +1,22 @@
 @import '../../../../variables.scss';
 
-:host {
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   height: 100vh;
-}
-
-.main,
-.footer {
-   padding: 4rem 23rem;
+.header,
+.footer,
+.main {
+   width: 120rem;
+   display: block;
+   margin: 0 auto;
 }
 
 .main {
-   flex-grow: 1;
    display: flex;
    flex-direction: column;
    justify-content: space-between;
-   padding: 4rem 23rem 0 23rem;
    min-height: calc(100vh - 10rem);
 }
 
-.footer {
+.full-width--footer {
+   padding: 4rem 0;
    background: $color-white;
    color: $color-black;
 }
