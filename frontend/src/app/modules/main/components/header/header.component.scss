@@ -1,7 +1,8 @@
 .header {
    display: flex;
    justify-content: space-between;
-   align-items: flex-start;
+   align-items: center;
+   height: 10rem;
 
    &__siteName {
       text-transform: uppercase;
