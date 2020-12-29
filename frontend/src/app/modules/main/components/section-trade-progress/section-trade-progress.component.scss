@@ -1,7 +1,7 @@
 @import '../../../../variables.scss';
 
 .progress {
-   width: 100px;
+   width: 10rem;
    &__block {
       &:not(:last-child) {
          margin-bottom: 4rem;
@@ -10,20 +10,16 @@
    }
 
    &__level {
-      display: inline-block;
-      padding: 2.6rem 2.8rem;
+      padding: 3.7rem 3rem;
       user-select: none;
       border: 2px solid rgba($color-white, 0.2);
       border-radius: 50%;
       font-size: 3rem;
    }
 
-   &__container {
-      text-align: center;
-   }
-
    &__text {
-      word-spacing: 9999px;
+      display: flex;
+      flex-wrap: wrap;
    }
 }
 
