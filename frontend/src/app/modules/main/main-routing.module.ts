@@ -12,6 +12,7 @@ import { MoneybackPolicyComponent } from './components/moneyback-policy/moneybac
 import { ExchangeResolver } from '@core/resolvers/exchange-resolver.service';
 import { OrderResolver } from '@core/resolvers/order-resolver.service';
 import { ActiveOrderGuard } from '@core/guards/active-order.guard';
+import { ActiveExchangeGuard } from '@core/guards/active-exchange.guard';
 
 const routes: Routes = [
    {
@@ -38,6 +39,7 @@ const routes: Routes = [
                {
                   path: ':id',
                   component: SectionTradeSecondComponent,
+                  canActivate: [ActiveExchangeGuard],
                   resolve: {
                      exchange: ExchangeResolver,
                   },

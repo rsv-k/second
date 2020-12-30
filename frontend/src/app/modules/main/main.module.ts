@@ -18,7 +18,22 @@ import { MoneybackPolicyComponent } from './components/moneyback-policy/moneybac
 import { SectionThirdMessageComponent } from './components/section-third-message/section-third-message.component';
 
 @NgModule({
-   declarations: [MainComponent, HeaderComponent, FooterComponent, NavComponent, SectionTradeComponent, SectionTradeProgressComponent, SectionTradeFirstComponent, SectionAboutComponent, SectionTradeSecondComponent, SectionRulesComponent, SectionTariffsComponent, SectionTradeThirdComponent, MoneybackPolicyComponent, SectionThirdMessageComponent],
+   declarations: [
+      MainComponent,
+      HeaderComponent,
+      FooterComponent,
+      NavComponent,
+      SectionTradeComponent,
+      SectionTradeProgressComponent,
+      SectionTradeFirstComponent,
+      SectionAboutComponent,
+      SectionTradeSecondComponent,
+      SectionRulesComponent,
+      SectionTariffsComponent,
+      SectionTradeThirdComponent,
+      MoneybackPolicyComponent,
+      SectionThirdMessageComponent,
+   ],
    imports: [MainRoutingModule, SharedModule],
 })
 export class MainModule {}

@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class CommonService {
    constructor() {}
 
-   changeId(obj) {
+   changeId(obj: any): any {
       obj.id = obj._id;
       delete obj._id;
       return obj;

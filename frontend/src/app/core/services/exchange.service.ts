@@ -68,7 +68,6 @@ export class ExchangeService {
             delete ex.givenCurrency._id;
             ex.takenCurrency.id = ex.takenCurrency._id;
             delete ex.takenCurrency._id;
-            console.log(ex);
             return ex;
          })
       );
@@ -78,5 +77,11 @@ export class ExchangeService {
       return this.http
          .put<Response>(ENDPOINT_URL + id, exchange)
          .pipe(pluck('data'), map(this.commonService.changeId));
+   }
+
+   isActiveExchange(id: string): Observable<boolean> {
+      return this.http
+         .get<Response>(ENDPOINT_URL + 'isActive/' + id)
+         .pipe(pluck('data'));
    }
 }

@@ -112,3 +112,20 @@ exports.editExchange = asyncHandler(async (req, res, next) => {
 
    res.status(200).json({ status: true, data: exchange });
 });
+
+//@desc     Check if exchange is active
+//@route    PUT api/v1/exchanges/isActive
+//@access   Public
+exports.isActiveExchange = asyncHandler(async (req, res, next) => {
+   const id = req.params.id;
+
+   const exchange = await Exchange.findById(id);
+
+   if (!exchange) {
+      const error = new Error('Exchange not found');
+      error.statusCode = 404;
+      return next(error);
+   }
+
+   res.status(200).json({ status: true, data: exchange.isActive });
+});
