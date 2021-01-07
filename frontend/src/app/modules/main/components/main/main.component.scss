@@ -1,23 +1,52 @@
 @import '_variables.scss';
 
-.header,
-.footer,
-.main {
-   max-width: 120rem;
-   display: block;
-   margin: 0 auto;
-   padding: 0 2rem;
+:host {
+   display: grid;
+   grid-template-columns:
+      [full-start] 1fr repeat(
+         10,
+         [col-start] minmax(min-content, 10rem) [col-end]
+      )
+      1fr [full-end];
+   grid-template-rows: 7rem max-content min-content min-content;
+   grid-row-gap: 5rem;
+
+   &::before {
+      content: '';
+      background-color: #fff;
+      grid-row: 4 / 5;
+      grid-column: col-start 10 / full-end;
+   }
+   &::after {
+      content: '';
+      background-color: #fff;
+      grid-row: 4 / 5;
+      grid-column: full-start / col-start 1;
+   }
+}
+
+.header {
+   grid-column: col-start 1 / col-end 10;
+   grid-row: 1 / 2;
+   align-self: center;
 }
 
 .main {
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   min-height: calc(100vh - 10rem);
+   grid-column: col-start 1 / col-end 10;
+   grid-row: 2 / 3;
 }
 
-.full-width--footer {
+.nav {
+   grid-column: col-start 1 / col-end 10;
+   grid-row: 3 / 4;
+}
+
+.footer {
    padding: 4rem 0;
    background: $color-white;
    color: $color-black;
+   display: block;
+
+   grid-column: col-start 1 / col-end 10;
+   grid-row: 4 / 5;
 }

@@ -2,16 +2,14 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
-   height: 10rem;
+
+   & > * {
+      margin: 0;
+   }
 
    &__siteName {
       text-transform: uppercase;
       cursor: pointer;
-   }
-
-   &__span-text {
-      display: block;
-      margin-bottom: 1.5rem;
    }
 
    &__icon {
